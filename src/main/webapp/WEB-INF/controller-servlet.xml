@@ -18,6 +18,7 @@
     <context:component-scan base-package="com.controllers"/>
     <context:component-scan base-package="com.beansconfig"/>
     <context:component-scan base-package="com.dao"/>
+    <context:component-scan base-package="com.services"/>
 	
 	<!-- basically file handling (no need to put .jsp) -->
 	<bean id="viewResolver"

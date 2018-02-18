@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${account.brand_name}
+${account.email}
 </body>
 </html>
