@@ -21,7 +21,7 @@ public class SampleController {
 	@Autowired
 	private AccountDao accountDao;
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="/sdfsdfsdf")
 	public ModelAndView sampleUrlMapping(){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("SampleJSP");

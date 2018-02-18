@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	WELCOME TO MY CUSTOM SPRING TEMPLATE
+${account.brand_name}
 </body>
 </html>
