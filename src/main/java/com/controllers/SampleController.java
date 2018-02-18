@@ -11,23 +11,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.beans.SampleEntity;
-import com.dao.SampleDao;
-import com.services.SampleService;
+import com.beans.Account;
+import com.beans.BrandManufacturer;
+import com.dao.AccountDao;
 
 @Controller
 public class SampleController {
 	
 	@Autowired
-	private SampleDao sd;
+	private AccountDao accountDao;
 	
 	@RequestMapping(value="/")
 	public ModelAndView sampleUrlMapping(){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("SampleJSP");
 		
-		SampleService s = new SampleService();
-		sd.add(s.doSomething());
+		//testing db (working)
+		/*Account account = new Account();
+		account.setEmail("timyooo@gmail.com");
+		account.setPassword("1234");
+		account.setAccount_type(Account.BRAND_MANUFACTURER);
+		
+		BrandManufacturer brandManufacturer = new BrandManufacturer();
+		brandManufacturer.setBrand_name("Nike");
+		
+		accountDao.addBrandManufacturer(account, brandManufacturer);*/
 		
 		return mv;
 	}
@@ -57,7 +65,7 @@ public class SampleController {
 	}
 	
 	@RequestMapping(value="/sampleParams/hi", method=RequestMethod.POST)
-	public ModelAndView sampleModelAttribute(@ModelAttribute("entity") SampleEntity entity){
+	public ModelAndView sampleModelAttribute(@ModelAttribute("entity") Account entity){
 		//maps the parameters' name to the same attribute name in the SampleEntity
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("SampleJSP");
