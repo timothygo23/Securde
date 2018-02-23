@@ -14,15 +14,14 @@ public class HomeController {
 	
 	@Autowired
 	private AccountDao accountDao;
-	
 	@Autowired
 	private LoggingService loggingService;
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value={"/", "/home"}, method=RequestMethod.GET)
 	public ModelAndView homePage() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
-		mv.addObject("account", loggingService.logIn("timyooo@gmail.com", "1234"));	
+		mv.setViewName("index");
+		
 		return mv;
 	}
 }
