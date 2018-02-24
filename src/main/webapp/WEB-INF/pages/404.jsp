@@ -80,34 +80,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--//login-->
 	
 		<!--brand-->
-		<div class="container">
-			<div class="brand">
-			
-				<div class="col-md-3 brand-grid">
-					<img src="${pageContext.request.contextPath}/resources/images/ic.png" class="img-responsive" alt="">
-				</div>
-				
-				<div class="col-md-3 brand-grid">
-					<img src="${pageContext.request.contextPath}/resources/images/ic1.png" class="img-responsive" alt="">
-				</div>
-				
-				<div class="col-md-3 brand-grid">
-					<img src="${pageContext.request.contextPath}/resources/images/ic2.png" class="img-responsive" alt="">
-				</div>
-				
-				<div class="col-md-3 brand-grid">
-					<img src="${pageContext.request.contextPath}/resources/images/ic3.png" class="img-responsive" alt="">
-				</div>
-				
-				<div class="clearfix"></div>
-				
-			</div>
-		</div>
-		<!--//brand-->
+		<%@include file="../html/brands.html" %>
 			
 		<!--//content-->
 		
-		<!--//footer-->
+		<!--footer-->
 		<%@include file="../html/footer.html" %>
 		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

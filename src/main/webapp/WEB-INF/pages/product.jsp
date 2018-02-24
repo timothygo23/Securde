@@ -165,7 +165,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!----->		
 	<!--//content-->
 	
-	<!--//footer-->
+	<!--footer-->
 	<%@include file="../html/footer.html" %>
 	
 <script src="${pageContext.request.contextPath}/resources/js/imagezoom.js"></script>
