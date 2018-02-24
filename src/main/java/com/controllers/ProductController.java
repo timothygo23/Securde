@@ -9,7 +9,7 @@ public class ProductController {
 	@RequestMapping(value="/product", method=RequestMethod.GET)
 	public ModelAndView productPage() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("single");
+		mv.setViewName("product");
 		
 		return mv;
 	}

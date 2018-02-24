@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProductListController {
+public class CatalogController {
 
-	@RequestMapping(value="/allproducts", method=RequestMethod.GET)
-	public ModelAndView contactPage() {
+	@RequestMapping(value="/catalog", method=RequestMethod.GET)
+	public ModelAndView catalogPage() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("product");
+		mv.setViewName("catalog");
 		
 		return mv;
 	}
