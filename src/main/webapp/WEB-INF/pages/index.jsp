@@ -85,21 +85,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="content-top">
 					<div class="col-md-6 col-md">
 						<div class="col-1">
-						 <a href="single" class="b-link-stroke b-animate-go  thickbox">
+						 <a href="product" class="b-link-stroke b-animate-go  thickbox">
 		   <img src="${pageContext.request.contextPath}/resources/images/pi.jpg" class="img-responsive" alt=""/><div class="b-wrapper1 long-img"><p class="b-animate b-from-right    b-delay03 ">Lorem ipsum</p><label class="b-animate b-from-right    b-delay03 "></label><h3 class="b-animate b-from-left    b-delay03 ">Trendy</h3></div></a>
 
-							<!---<a href="single"><img src="${pageContext.request.contextPath}/resources/images/pi.jpg" class="img-responsive" alt=""></a>-->
+							<!---<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi.jpg" class="img-responsive" alt=""></a>-->
 						</div>
 						<div class="col-2">
 							<span>Hot Deal</span>
-							<h2><a href="single">Luxurious &amp; Trendy</a></h2>
+							<h2><a href="product">Luxurious &amp; Trendy</a></h2>
 							<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years</p>
-							<a href="single" class="buy-now">Buy Now</a>
+							<a href="product" class="buy-now">Buy Now</a>
 						</div>
 					</div>
 					<div class="col-md-6 col-md1">
 						<div class="col-3">
-							<a href="single"><img src="${pageContext.request.contextPath}/resources/images/pi1.jpg" class="img-responsive" alt="">
+							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi1.jpg" class="img-responsive" alt="">
 							<div class="col-pic">
 								<p>Lorem Ipsum</p>
 								<label></label>
@@ -107,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div></a>
 						</div>
 						<div class="col-3">
-							<a href="single"><img src="${pageContext.request.contextPath}/resources/images/pi2.jpg" class="img-responsive" alt="">
+							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi2.jpg" class="img-responsive" alt="">
 							<div class="col-pic">
 								<p>Lorem Ipsum</p>
 								<label></label>
@@ -115,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div></a>
 						</div>
 						<div class="col-3">
-							<a href="single"><img src="${pageContext.request.contextPath}/resources/images/pi3.jpg" class="img-responsive" alt="">
+							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi3.jpg" class="img-responsive" alt="">
 							<div class="col-pic">
 								<p>Lorem Ipsum</p>
 								<label></label>
@@ -136,14 +136,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Women</span>
-							<h6><a href="single">Sed ut perspiciati</a></h6>
+							<h6><a href="product">Sed ut perspiciati</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -168,14 +168,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc1.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc1.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Women</span>
-							<h6><a href="single">At vero eos</a></h6>
+							<h6><a href="product">At vero eos</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -200,14 +200,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc2.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc2.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Men</span>
-							<h6><a href="single">Sed ut perspiciati</a></h6>
+							<h6><a href="product">Sed ut perspiciati</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -232,14 +232,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc3.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc3.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Women</span>
-							<h6><a href="single">On the other</a></h6>
+							<h6><a href="product">On the other</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -267,14 +267,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc4.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc4.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Men</span>
-							<h6><a href="single">On the other</a></h6>
+							<h6><a href="product">On the other</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -299,14 +299,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc5.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc5.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Men</span>
-							<h6><a href="single">Sed ut perspiciati</a></h6>
+							<h6><a href="product">Sed ut perspiciati</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -331,14 +331,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc6.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc6.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Women</span>
-							<h6><a href="single">At vero eos</a></h6>
+							<h6><a href="product">At vero eos</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -363,14 +363,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<img src="${pageContext.request.contextPath}/resources/images/pc7.jpg" class="img-responsive" alt="">
 						<div class="zoom-icon ">
 						<a class="picture" href="${pageContext.request.contextPath}/resources/images/pc7.jpg" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
-						<a href="single"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+						<a href="product"><i class="glyphicon glyphicon-menu-right icon"></i></a>
 						</div>
 						</div>
 						<div class="mid-1">
 						<div class="women">
 						<div class="women-top">
 							<span>Men</span>
-							<h6><a href="single">Sed ut perspiciati</a></h6>
+							<h6><a href="product">Sed ut perspiciati</a></h6>
 							</div>
 							<div class="img item_add">
 								<a href="#"><img src="${pageContext.request.contextPath}/resources/images/ca.png" alt=""></a>
@@ -479,14 +479,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- slide -->
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <!--light-box-files -->
-		<script src="${pageContext.request.contextPath}/resources/js/jquery.chocolat.js"></script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chocolat.css" type="text/css" media="screen" charset="utf-8">
-		<!--light-box-files -->
-		<script type="text/javascript" charset="utf-8">
-		$(function() {
-			$('a.picture').Chocolat();
-		});
-		</script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.chocolat.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chocolat.css" type="text/css" media="screen" charset="utf-8">
+<!--light-box-files -->
+<script type="text/javascript" charset="utf-8">
+$(function() {
+	$('a.picture').Chocolat();
+});
+</script>
 
 
 </body>
