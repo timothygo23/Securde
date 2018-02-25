@@ -63,22 +63,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="container">
 				<h1>Login</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Login</h2>
+				<h2><a href="index">Home</a><label>/</label>Login</h2>
 			</div>
 		</div>
 	
 		<!--login-->
 		<div class="container">
 			<div class="login">
-				<form>
+				<form action="${pageContext.request.contextPath}/authentication" method="post">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<input type="text" placeholder="Email" required="">
+							<input type="text" name="email" placeholder="Email" required="">
 							<i  class="glyphicon glyphicon-envelope"></i>
 						</div>
 						
 						<div class="login-mail">
-							<input type="password" placeholder="Password" required="">
+							<input type="password" name="password" placeholder="Password" required="">
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
@@ -93,7 +93,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
 						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
 						 
-						 <a href="register.html" class=" hvr-skew-backward">Register</a>		
+						 <a href="register" class=" hvr-skew-backward">Register</a>		
 					</div>
 				
 					<div class="clearfix"> </div>

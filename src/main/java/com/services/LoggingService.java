@@ -25,8 +25,11 @@ public class LoggingService {
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
 			TypedQuery<Account> query = session.createNativeQuery("select * from account "
-														+ "where email = '" + email + "' and "
-															+ "password = '" + password + "'", Account.class);
+														+ "where email =:email and "
+															+ "password =:password", Account.class);
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+			
 			List<Account> accounts = query.getResultList();
 			if(!accounts.isEmpty())
 				account = query.getResultList().get(0);
