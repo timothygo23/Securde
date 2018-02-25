@@ -58,8 +58,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<body>
 		
 		<!--header-->
-		<%@include file="../html/navigationBar.html" %>
-	
+		<c:choose>
+			<c:when test="${account eq null}">
+				<%@include file="../html/navigationBar.html"%>
+			</c:when>
+			
+			<c:otherwise>
+				<%@include file="../html/navigationBar_customer.html"%>
+			</c:otherwise>
+		</c:choose>
+		
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
