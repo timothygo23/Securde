@@ -37,6 +37,11 @@ public class Account {
 		this.account_type = account_type;
 	}
 
+	public Account(String email, String password, int account_type) {
+		this.email = email;
+		this.password = password;
+		this.account_type = account_type;
+	}
 	public int getAccount_id() {
 		return account_id;
 	}

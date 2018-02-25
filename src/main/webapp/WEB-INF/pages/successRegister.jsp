@@ -10,9 +10,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	<head>
 	
-		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | Register :: w3layouts</title>
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | 404 :: w3layouts</title>
 	
+		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		
 		<!-- Custom Theme files -->
 		<!--theme-style-->
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" media="all" />	
@@ -26,7 +27,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<link href="${pageContext.request.contextPath}/resources/css/style4.css" rel="stylesheet" type="text/css" media="all" />	
 		<!--//theme-style-->
 		<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	
+		
 		<!--- start-rate---->
 		<script src="${pageContext.request.contextPath}/resources/js/jstarbox.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
@@ -52,89 +53,48 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		</script>
 		<!---//End-rate---->
+		
 	</head>
 	
 	<body>
 	
 		<!--header-->
-		<%@include file="../html/navigationBar.html" %>
-	
+		<c:choose>
+			<c:when test="${account eq null}">
+				<%@include file="../html/navigationBar.html"%>
+			</c:when>
+			
+			<c:otherwise>
+				<%@include file="../html/navigationBar_customer.html"%>
+			</c:otherwise>
+		</c:choose>
+		
 		<!--banner-->
-		<div class="banner-top">
+<!--		<div class="banner-top">
 			<div class="container">
-				<h1>Register</h1>
+				<h1>404</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Register</h2>
+				<h2><a href="index.html">Home</a><label>/</label>404</h2>
 			</div>
 		</div>
+  -->
 		
 		<!--login-->
 		<div class="container">
-			<div class="login">
-				<form action="${pageContext.request.contextPath}/registerAccount" method="post">
-					<div class="col-md-6 login-do">
-						<div class="login-mail">
-							<input type="text" name="fName" placeholder="Firstname" required="">
-							<i  class="glyphicon glyphicon-user"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="text" name="lName" placeholder="Lastname" required="">
-							<i  class="glyphicon glyphicon-user"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="text" name="phoneNum" placeholder="Phone Number" required="">
-							<i  class="glyphicon glyphicon-phone"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="text" name="email" placeholder="Email" required="">
-							<i  class="glyphicon glyphicon-envelope"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="password" name="password" placeholder="Password" required="">
-							<i class="glyphicon glyphicon-lock"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="password" placeholder="Confirm password" required="">
-							<i class="glyphicon glyphicon-lock"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="text" name="answer" placeholder="Answer" required="">
-							<i  class="glyphicon glyphicon-lock"></i>
-						</div>
-						
-						<label class="hvr-skew-backward">
-							<input type="submit" value="Submit">
-						</label>
-					</div>
-				
-					<div class="col-md-6 login-right">
-						 <h3>Completely Free Account</h3>
-						 
-						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
-						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
-						 
-						 <a href="login.html" class="hvr-skew-backward">Login</a>
-					</div>
-				
-					<div class="clearfix"> </div>
-				</form>
+			<div class="four">
+				<h3>Registration Complete!</h3>
+				<p>Congratulations! Your account has been registered successfully!</p>
+				<a href="home" class="hvr-skew-backward">Back To Home</a>
 			</div>
 		</div>
-	
 		<!--//login-->
 	
 		<!--brand-->
 		<%@include file="../html/brands.html" %>
-		
+			
 		<!--//content-->
 		
-		<!--//footer-->
+		<!--footer-->
 		<%@include file="../html/footer.html" %>
 		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

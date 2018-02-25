@@ -51,6 +51,20 @@ public class Customer {
 		this.zip_code = zip_code;
 		this.credit_card_num = credit_card_num;
 	}
+	
+	/**
+	 * Constructor used for registering an account (customer)
+	 * @param fName
+	 * @param lName
+	 * @param phoneNum
+	 */
+	public Customer(String fName, 
+					String lName,
+					String phoneNum) {
+		this.first_name = fName;
+		this.last_name = lName;
+		this.contact_number = phoneNum;
+	}
 
 	public int getAccount_id() {
 		return account_id;
