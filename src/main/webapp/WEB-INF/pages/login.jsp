@@ -82,10 +82,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
-						<a class="news-letter " href="#">
-							<label class="checkbox1"><input type="checkbox" name="checkbox" ><i> </i>Forget Password</label>
-						</a>
-						
 						<label class="hvr-skew-backward">
 							<input type="submit" value="login">
 						</label>
