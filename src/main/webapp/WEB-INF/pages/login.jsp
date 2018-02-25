@@ -4,6 +4,7 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -54,9 +55,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</head>
 	
 	<body>
-	
+		
 		<!--header-->
-		<%@include file="../html/navigationBar.html" %>
+		<c:choose>
+			<c:when test="${account eq null}">
+				<%@include file="../html/navigationBar.html"%>
+			</c:when>
+		</c:choose>
 	
 		<!--banner-->
 		<div class="banner-top">

@@ -3,6 +3,7 @@
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.beans.Account;
 import com.dao.AccountDao;
 import com.services.LoggingService;
+import com.services.SessionAttributes;
 
 @Controller
 public class LoginController {
@@ -28,12 +30,11 @@ public class LoginController {
 	public ModelAndView loginPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
-		
 		return mv;
 	}
 	
 	@RequestMapping(value="/authentication", method=RequestMethod.POST)
-	public RedirectView authenticate(@RequestParam Map<String, String> requestParams){
+	public RedirectView authenticate(@RequestParam Map<String, String> requestParams, HttpServletRequest request){
 		/*
 		 * TODO validate inputs
 		 */
@@ -42,11 +43,17 @@ public class LoginController {
 		
 		Account account = loggingService.logIn(email, password);
 		if(account!=null){
+			HttpSession session = request.getSession();
+			
 			/*
-			 * TODO create cookies/session to save current user logged in
+			 * TODO check user type of the account; if brand manufacturer, get info using accountDao
+			 * if customer, get info using accountDao
+			 * if admin, just use the account
+			 * TODO create cookies/session to save account (and either bm info or customer info) logged in
 			 * TODO redirect to home
 			 */
-			System.out.println("welcome back: " + account.getEmail());
+			
+			session.setAttribute(SessionAttributes.ACC, account);
 		}else{
 			/*
 			 * TODO don't redirect, show login failed in the page
