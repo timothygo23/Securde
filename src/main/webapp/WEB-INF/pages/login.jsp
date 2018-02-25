@@ -52,16 +52,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		</script>
 		<!---//End-rate---->
+		
+		<script>
+			$(document).ready(function(){
+				
+			})
+		</script>
 	</head>
 	
 	<body>
-		
+	
 		<!--header-->
-		<c:choose>
-			<c:when test="${account eq null}">
-				<%@include file="../html/navigationBar.html"%>
-			</c:when>
-		</c:choose>
+		<%@include file="../html/navigationBar.html"%>
 	
 		<!--banner-->
 		<div class="banner-top">

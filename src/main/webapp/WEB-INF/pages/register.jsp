@@ -74,7 +74,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<form>
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<input type="text" placeholder="Name" required="">
+							<input type="text" placeholder="Firstname" required="">
+							<i  class="glyphicon glyphicon-user"></i>
+						</div>
+						
+						<div class="login-mail">
+							<input type="text" placeholder="Lastname" required="">
 							<i  class="glyphicon glyphicon-user"></i>
 						</div>
 						
@@ -93,9 +98,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
-						<a class="news-letter " href="#">
-								 <label class="checkbox1"><input type="checkbox" name="checkbox" ><i> </i>Forget Password</label>
-						</a>
+						<div class="login-mail">
+							<input type="password" placeholder="Confirm password" required="">
+							<i class="glyphicon glyphicon-lock"></i>
+						</div>
+						
+						<div class="login-mail">
+							<input type="text" placeholder="Answer" required="">
+							<i  class="glyphicon glyphicon-lock"></i>
+						</div>
 						
 						<label class="hvr-skew-backward">
 							<input type="submit" value="Submit">

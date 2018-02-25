@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.beans.Account;
+import com.beans.BrandManufacturer;
+import com.beans.Customer;
 
 @Component
 public class ModelAndViewService {
@@ -26,11 +28,13 @@ public class ModelAndViewService {
 			 * TODO check cookies
 			 */
 		}else{ //account in the session exists
-			/*
-			 * TODO check if the account logged in is a brand manufacturer or customer
-			 * TODO add the model of both the account and either bm or customer info
-			 */
 			Account account = (Account)session.getAttribute(SessionAttributes.ACC);
+			if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
+				mv.addObject("info", (BrandManufacturer)session.getAttribute(SessionAttributes.BM_INFO));
+			}else if(account.getAccount_type() == Account.CUSTOMER){
+				mv.addObject("info", (Customer)session.getAttribute(SessionAttributes.CUSTOMER_INFO));
+			}
+			mv.addObject("account", account);
 		}
 		
 		return mv;

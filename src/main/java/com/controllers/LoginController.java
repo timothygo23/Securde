@@ -41,27 +41,43 @@ public class LoginController {
 		String email = requestParams.get("email");
 		String password = requestParams.get("password");
 		
+		RedirectView rv = new RedirectView();
+		
 		Account account = loggingService.logIn(email, password);
 		if(account!=null){
 			HttpSession session = request.getSession();
+			/* TODO cookies */
 			
-			/*
-			 * TODO check user type of the account; if brand manufacturer, get info using accountDao
-			 * if customer, get info using accountDao
-			 * if admin, just use the account
-			 * TODO create cookies/session to save account (and either bm info or customer info) logged in
-			 * TODO redirect to home
-			 */
-			
-			session.setAttribute(SessionAttributes.ACC, account);
+			/* session */
+			session.setAttribute(SessionAttributes.ACC, account);	
+			if(account.getAccount_type() == Account.ADMIN){
+				//redirect to admin page
+			}if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
+				session.setAttribute(SessionAttributes.BM_INFO, accountDao.getBrandManufacturer(account.getAccount_id()));
+				//redirect to brandmanufacturer page
+			}else if(account.getAccount_type() == Account.CUSTOMER){
+				session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDao.getCustomer(account.getAccount_id()));
+				rv.setUrl("home");
+			}
 		}else{
 			/*
 			 * TODO don't redirect, show login failed in the page
 			 */
 			System.out.println("login failed");
+			rv.setUrl("login");
 		}
 		
-		return new RedirectView("home");
+		return rv;
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("login");
+		
+		loggingService.logOut(request);
+		
+		return mv;
 	}
 	
 }

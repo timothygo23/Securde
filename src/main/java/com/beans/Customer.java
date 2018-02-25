@@ -17,6 +17,8 @@ public class Customer {
 	private String first_name;
 	@Column(name="last_name")
 	private String last_name;
+	@Column(name="contact_number")
+	private String contact_number;
 	
 	//address
 	@Column(name="address1")
@@ -32,15 +34,16 @@ public class Customer {
 	
 	//payment
 	@Column(name="credit_card_num")
-	private int credit_card_num;
+	private String credit_card_num;
 	
 	public Customer() {}
 
-	public Customer(int account_id, String first_name, String last_name, String address1, String address2, String city,
-			String province, String zip_code, int credit_card_num) {
+	public Customer(int account_id, String first_name, String last_name, String contact_number, String address1, String address2, String city,
+			String province, String zip_code, String credit_card_num) {
 		this.account_id = account_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
+		this.contact_number = contact_number;
 		this.address1 = address1;
 		this.address2 = address2;
 		this.city = city;
@@ -113,12 +116,20 @@ public class Customer {
 		this.zip_code = zip_code;
 	}
 
-	public int getCredit_card_num() {
+	public String getCredit_card_num() {
 		return credit_card_num;
 	}
 
-	public void setCredit_card_num(int credit_card_num) {
+	public void setCredit_card_num(String credit_card_num) {
 		this.credit_card_num = credit_card_num;
 	}
-	
+
+	public String getContact_number() {
+		return contact_number;
+	}
+
+	public void setContact_number(String contact_number) {
+		this.contact_number = contact_number;
+	}
+
 }

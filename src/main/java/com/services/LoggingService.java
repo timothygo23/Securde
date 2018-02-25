@@ -3,6 +3,7 @@ package com.services;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,8 +39,8 @@ public class LoggingService {
 		return account;
 	}
 	
-	public void logOut(){
-		//TODO remove session
+	public void logOut(HttpServletRequest request){
+		request.getSession().invalidate();
 		//TODO remove cookies
 	}
 }
