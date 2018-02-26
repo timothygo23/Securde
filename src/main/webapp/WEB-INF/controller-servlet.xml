@@ -33,6 +33,11 @@
 		</property>
 	</bean>
 	
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/jdbc.properties" />
+	</bean>
+	
 	<!-- JDBC PROPERTIES -->
 	<bean id="myDataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
@@ -40,7 +45,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/clothes_catalog"/> <!-- CHANGE SCHEMA HERE -->
 		<property name="username" value="root"/>
-		<property name="password" value="root"/>
+		<property name="password" value="${jdbc.password}"/>
 	</bean>
 	
 	<!-- SPRING-HIBERNATE -->
