@@ -23,6 +23,8 @@ public class Order {
 	@Column(name="arrival_date")
 	private Calendar arrival_date;
 	
+	public Order() {}
+	
 	public Order(int order_id, int cart_id, Calendar purchase_date, Calendar arrival_date) {
 		super();
 		this.order_id = order_id;

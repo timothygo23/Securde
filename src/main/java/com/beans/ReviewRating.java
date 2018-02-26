@@ -21,6 +21,8 @@ public class ReviewRating {
 	@Column(name="review_description")
 	private String review_description;
 	
+	public ReviewRating() {}
+	
 	public ReviewRating(int rating_id, int account_id, int product_id, int rating_score, String review_description) {
 		this.rating_id = rating_id;
 		this.account_id = account_id;

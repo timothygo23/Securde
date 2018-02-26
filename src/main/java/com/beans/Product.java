@@ -23,6 +23,8 @@ public class Product {
 	@Column(name="brand_name")
 	private String brand_name;
 	
+	public Product() {}
+	
 	public Product(int product_id, String product_name, String product_description, int catalog_id, int price,
 			String brand_name) {
 		this.product_id = product_id;

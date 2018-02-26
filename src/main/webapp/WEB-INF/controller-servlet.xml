@@ -40,7 +40,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/clothes_catalog"/> <!-- CHANGE SCHEMA HERE -->
 		<property name="username" value="root"/>
-		<property name="password" value="1234"/>
+		<property name="password" value="root"/>
 	</bean>
 	
 	<!-- SPRING-HIBERNATE -->
@@ -62,7 +62,7 @@
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	<tx:annotation-driven transaction-manager="myTransactionManager"/>
+	<tx:annotation-driven transaction-manager="myTransactionManager" proxy-target-class="true"/>
 	
 	<!-- RESOURCE MAPPING -->
 	<mvc:resources mapping="/resources/**" location="/resources/"/>

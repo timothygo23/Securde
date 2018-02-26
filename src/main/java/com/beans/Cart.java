@@ -21,6 +21,8 @@ public class Cart {
 	@Column(name="product_avail_id")
 	private int product_avail_id;
 	
+	public Cart() {}
+
 	public Cart(int cart_id, int account_id, int product_id, String quantity, int product_avail_id) {
 		this.cart_id = cart_id;
 		this.account_id = account_id;

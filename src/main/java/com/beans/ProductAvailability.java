@@ -19,6 +19,8 @@ public class ProductAvailability {
 	@Column(name="quantity")
 	private int quantity;
 	
+	public ProductAvailability() {}
+	
 	public ProductAvailability(int product_avail_id, int product_id, int size, int quantity) {
 		this.product_avail_id = product_avail_id;
 		this.product_id = product_id;

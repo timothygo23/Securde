@@ -19,6 +19,8 @@ public class SecretQuestion {
 	@Column(name="account_id")
 	private int account_id;
 	
+	public SecretQuestion() {}
+	
 	public SecretQuestion(int secret_id, String question, String answer, int account_id) {
 		this.secret_id = secret_id;
 		this.question = question;

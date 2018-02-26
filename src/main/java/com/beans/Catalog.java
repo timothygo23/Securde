@@ -17,6 +17,8 @@ public class Catalog {
 	@Column(name="target_gender")
 	private String target_gender;
 	
+	public Catalog() {}
+	
 	public Catalog(int catalog_id, String catalog_name, String target_gender) {
 		this.catalog_id = catalog_id;
 		this.catalog_name = catalog_name;
