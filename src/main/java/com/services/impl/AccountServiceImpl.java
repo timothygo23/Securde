@@ -1,7 +1,6 @@
-package com.services;
+package com.services.impl;
 
 import java.util.List;
-
 
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
@@ -9,17 +8,29 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Account;
+import com.beans.Customer;
+import com.dao.AccountDAO;
+import com.services.AccountService;
 
-@Component
-public class LoggingService {
+@Service
+public class AccountServiceImpl implements AccountService{
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	//Add account and customer.
+	@Transactional
+	public void addAccount(Account account, Customer customer){
+		Session session = sessionFactory.getCurrentSession();
+		
+		customer.setAccount_id((int) session.save(account)); //"save" returns the ID of this entity.
+		session.save(customer);
+	}
+
 	@Transactional
 	public Account logIn(String email, String password){
 		Account account = null;

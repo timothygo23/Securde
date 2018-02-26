@@ -13,13 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.beans.Account;
 import com.beans.BrandManufacturer;
-import com.dao.AccountDao;
+import com.dao.impl.AccountDAOImpl;
 
 @Controller
 public class SampleController {
 	
 	@Autowired
-	private AccountDao accountDao;
+	private AccountDAOImpl accountDao;
 	
 	@RequestMapping(value="/sdfsdfsdf")
 	public ModelAndView sampleUrlMapping(){
