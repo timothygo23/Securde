@@ -51,7 +51,7 @@ public class RegisterController {
 //		System.out.println("Answer: " + answer);
 		
 		//add account to db
-		Account account = new Account(email, password, 1);
+		Account account = new Account(email, password, Account.CUSTOMER);
 		Customer customer = new Customer(fName, lName, phoneNum);
 		registerService.addAccount(account, customer);
 		
