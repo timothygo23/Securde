@@ -5,10 +5,12 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Catalog;
 
+@Repository
 public class CatalogDAOImpl {
 
 	@Autowired
@@ -41,7 +43,7 @@ public class CatalogDAOImpl {
 		if (sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
 			
-			catalog = session.createQuery("from catalog", Catalog.class).getResultList();
+			catalog = session.createQuery("from Catalog", Catalog.class).getResultList();
 		}
 		
 		return catalog;

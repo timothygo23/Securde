@@ -52,6 +52,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		</script>
 		<!---//End-rate---->
+		
+		<!-- GLOBAL SCRIPTS -->
+		<script src="${pageContext.request.contextPath}/resources/js/customjs/global.js"></script>
+		
+		<!-- SETTING CONTEXT PATH -->
+		<script>var contextPath = "${pageContext.request.contextPath}"</script>
+		
+		<!-- CATALOG SCRIPT -->
+		<script src="${pageContext.request.contextPath}/resources/js/customjs/catalog.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+				getCatalogs();
+			});
+		</script>
 	</head>
 	
 	<body>
@@ -101,45 +116,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="content">
 			<div class="container">
 				<div class="content-top">
-					<div class="col-md-6 col-md">
-						<div class="col-1">
-							<a href="product" class="b-link-stroke b-animate-go  thickbox">
-		 	  					<img src="${pageContext.request.contextPath}/resources/images/pi.jpg" class="img-responsive" alt=""/>
-		 	  					<div class="b-wrapper1 long-img"><p class="b-animate b-from-right    b-delay03 ">Lorem ipsum</p><label class="b-animate b-from-right    b-delay03 "></label><h3 class="b-animate b-from-left    b-delay03 ">Trendy</h3></div>
-							</a>
-						</div>
+					
+					<div id="leftCatalogs" class="col-md-6 col-md1">
+						
 					</div>
 					
-					<div class="col-md-6 col-md1">
-						<div class="col-3">
-							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi1.jpg" class="img-responsive" alt="">
-								<div class="col-pic">
-									<p>Lorem Ipsum</p>
-									<label></label>
-									<h5>For Men</h5>
-								</div>
-							</a>
-						</div>
+					<div id="rightCatalogs" class="col-md-6 col-md1">
 						
-						<div class="col-3">
-							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi2.jpg" class="img-responsive" alt="">
-								<div class="col-pic">
-									<p>Lorem Ipsum</p>
-									<label></label>
-									<h5>For Kids</h5>
-								</div>
-							</a>
-						</div>
-						
-						<div class="col-3">
-							<a href="product"><img src="${pageContext.request.contextPath}/resources/images/pi3.jpg" class="img-responsive" alt="">
-								<div class="col-pic">
-									<p>Lorem Ipsum</p>
-									<label></label>
-									<h5>For Women</h5>
-								</div>
-							</a>
-						</div>
 					</div>
 					
 					<div class="clearfix"></div>
