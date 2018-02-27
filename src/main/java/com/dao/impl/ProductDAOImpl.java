@@ -2,13 +2,17 @@ package com.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Product;
 
+@Repository
 public class ProductDAOImpl {
 
 	@Autowired
@@ -41,7 +45,23 @@ public class ProductDAOImpl {
 		if (sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
 			
-			product = session.createQuery("from product", Product.class).getResultList();
+			product = session.createQuery("from Product", Product.class).getResultList();
+		}
+		
+		return product;
+	}
+	
+	@Transactional
+	public List<Product> getProductsOfCatalog(int catalog_id){
+		List<Product> product = null;
+		
+		if (sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			
+			Query query = session.createQuery("from Product where catalog_id =:ci", Product.class);
+			query.setParameter("ci", catalog_id);
+			
+			product = query.getResultList();
 		}
 		
 		return product;

@@ -15,13 +15,13 @@ public class ProductAvailability {
 	@Column(name="product_id")
 	private int product_id;
 	@Column(name="size")
-	private int size;
+	private String size;
 	@Column(name="quantity")
 	private int quantity;
 	
 	public ProductAvailability() {}
 	
-	public ProductAvailability(int product_avail_id, int product_id, int size, int quantity) {
+	public ProductAvailability(int product_avail_id, int product_id, String size, int quantity) {
 		this.product_avail_id = product_avail_id;
 		this.product_id = product_id;
 		this.size = size;
@@ -44,11 +44,11 @@ public class ProductAvailability {
 		this.product_id = product_id;
 	}
 
-	public int getSize() {
+	public String getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 

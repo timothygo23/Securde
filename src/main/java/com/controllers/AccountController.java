@@ -70,6 +70,12 @@ public class AccountController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public RedirectView logOut(HttpServletRequest request){
+		accountService.logOut(request);
+		return new RedirectView("login");
+	}
+	
 	@RequestMapping(value="/authentication", method=RequestMethod.POST)
 	public RedirectView authenticate(@RequestParam Map<String, String> requestParams, HttpServletRequest request){
 		/*

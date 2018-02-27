@@ -7,7 +7,7 @@ function createCatalogDiv(catalog){
 	let catalogDiv = $("<div/>");
 	catalogDiv.addClass("col-3");
 	
-	let link = $("<a href='catalog'></a>");
+	let link = $("<a href='catalog?catalog=" + catalog.catalog_id + "'></a>");
 	
 	let image = $("<img src='" + contextPath + "/resources/images/pi1.jpg' alt=''/>");
 	image.addClass("img-responsive");
@@ -41,7 +41,6 @@ function loadCatalogs(catalogs){
 }
 
 function getCatalogs(){
-	console.log("GET CATALOGS")
 	$.ajax({
 		url: contextPath + "/catalog/get_catalogs",
 		type: "get",
