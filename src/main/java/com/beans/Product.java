@@ -2,6 +2,8 @@ package com.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 public class Product {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="product_id")
 	private int product_id;
 	@Column(name="product_name")
@@ -25,9 +28,8 @@ public class Product {
 	
 	public Product() {}
 	
-	public Product(int product_id, String product_name, String product_description, int catalog_id, int price,
+	public Product(String product_name, String product_description, int catalog_id, int price,
 			String brand_name) {
-		this.product_id = product_id;
 		this.product_name = product_name;
 		this.product_description = product_description;
 		this.catalog_id = catalog_id;

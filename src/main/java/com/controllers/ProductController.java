@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.beans.Catalog;
 import com.beans.Product;
@@ -61,6 +62,32 @@ public class ProductController {
 		String jsonString = gson.toJson(pJson);
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
+	}
+	
+	@RequestMapping(value="/new_product", method=RequestMethod.GET)
+	public ModelAndView newProduct (HttpServletRequest request) {
+		ModelAndView mv = modelService.createModelAndView(request);
+		mv.setViewName("newProduct");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/add_product", method=RequestMethod.POST)
+	public RedirectView addProduct(@RequestParam Map<String, String> requestParams) {
+		
+		String product_name = requestParams.get("product_name");
+		String product_description = requestParams.get("product_description");
+		int catalog_id = Integer.parseInt(requestParams.get("catalog_id"));
+		int price = Integer.parseInt(requestParams.get("price"));
+		String brand_name = requestParams.get("brand_name");
+		
+		Product product = new Product (product_name, product_description, catalog_id, price, brand_name);
+		productDAO.add(product);
+		
+		RedirectView rv = new RedirectView();
+		rv.setUrl("home");
+		
+		return rv;
 	}
 	
 }

@@ -10,7 +10,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	<head>
 	
-		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
+		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | Register :: w3layouts</title>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	
 		<!-- Custom Theme files -->
@@ -52,21 +52,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		</script>
 		<!---//End-rate---->
-		
-		<!-- GLOBAL SCRIPTS -->
-		<script src="${pageContext.request.contextPath}/resources/js/servicejs/global.js"></script>
-		
-		<!-- SETTING CONTEXT PATH -->
-		<script>var contextPath = "${pageContext.request.contextPath}"</script>
-		
-		<!-- CATALOG SCRIPT -->
-		<script src="${pageContext.request.contextPath}/resources/js/servicejs/catalog.js"></script>
-		
-		<script>
-			$(document).ready(function(){
-				getCatalogs();
-			});
-		</script>
 	</head>
 	
 	<body>
@@ -85,76 +70,75 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<%@include file="../html/navigationBar_customer.html"%>
 			</c:otherwise>
 		</c:choose>
-		
+	
 		<!--banner-->
-		<div class="banner">
+		<div class="banner-top">
 			<div class="container">
-				<section class="rw-wrapper">
-					<h1 class="rw-sentence">
-						<span>Fashion &amp; Beauty</span>
-						
-						<div class="rw-words rw-words-1">
-							<span>Beautiful Designs</span>
-							<span>Sed ut perspiciatis</span>
-							<span> Totam rem aperiam</span>
-							<span>Nemo enim ipsam</span>
-							<span>Temporibus autem</span>
-							<span>intelligent systems</span>
-						</div>
-						
-						<div class="rw-words rw-words-2">
-							<span>We denounce with right</span>
-							<span>But in certain circum</span>
-							<span>Sed ut perspiciatis unde</span>
-							<span>There are many variation</span>
-							<span>The generated Lorem Ipsum</span>
-							<span>Excepteur sint occaecat</span>
-						</div>
-						
-					</h1>
-				</section>
+				<h1>Register</h1>
+				<em></em>
+				<h2><a href="index.html">Home</a><label>/</label>Register</h2>
 			</div>
 		</div>
 		
-		<!--content-->
-		<div class="content">
-			<div class="container">
-				<div class="content-top">
-					
-					<div id="leftCatalogs" class="col-md-6 col-md1">
+		<!--login-->
+		<div class="container">
+			<div class="login">
+				<form action="${pageContext.request.contextPath}/add_product" method="post">
+					<div class="col-md-6 login-do">
+						<div class="login-mail">
+							<input type="text" name="product_name" placeholder="Product Name" required="">
+						</div>
 						
-					</div>
-					
-					<div id="rightCatalogs" class="col-md-6 col-md1">
+						<div class="login-mail">
+							<input type="text" name="product_description" placeholder="Product Description" required="">
+						</div>
 						
+						<div class="login-mail">
+							<input type="text" name="catalog_id" placeholder="Catalog ID" required="">
+						</div>
+						
+						<div class="login-mail">
+							<input type="text" name="price" placeholder="Price" required="">
+						</div>
+						
+						<div class="login-mail">
+							<input type="text" name="brand_name" placeholder="Brand Name" required="">
+						</div>
+						
+						<label class="hvr-skew-backward">
+							<input type="submit" value="Submit">
+						</label>
 					</div>
-					
-					<div class="clearfix"></div>
-				</div>
 				
-				<!--brand-->
-				<%@include file="../html/brands.html" %>
-			</div>	
+					<div class="col-md-6 login-right">
+						 <h3>Completely Free Account</h3>
+						 
+						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
+						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
+						 
+						 <a href="login.html" class="hvr-skew-backward">Login</a>
+					</div>
+				
+					<div class="clearfix"> </div>
+				</form>
+			</div>
 		</div>
+	
+		<!--//login-->
+	
+		<!--brand-->
+		<%@include file="../html/brands.html" %>
+		
 		<!--//content-->
 		
-		<!--footer-->
+		<!--//footer-->
 		<%@include file="../html/footer.html" %>
 		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-		<!--light-box-files -->
-		<script src="${pageContext.request.contextPath}/resources/js/jquery.chocolat.js"></script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chocolat.css" type="text/css" media="screen" charset="utf-8">
-		<!--light-box-files -->
-		<script type="text/javascript" charset="utf-8">
-			$(function() {
-				$('a.picture').Chocolat();
-			});
-		</script>
-	
+	 
 	</body>
 	
 </html>

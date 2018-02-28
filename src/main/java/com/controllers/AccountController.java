@@ -97,7 +97,7 @@ public class AccountController {
 				//redirect to admin page
 			}if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
 				session.setAttribute(SessionAttributes.BM_INFO, accountDAO.getBrandManufacturer(account.getAccount_id()));
-				//redirect to brandmanufacturer page
+				rv.setUrl("home");
 			}else if(account.getAccount_type() == Account.CUSTOMER){
 				session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDAO.getCustomer(account.getAccount_id()));
 				rv.setUrl("home");
