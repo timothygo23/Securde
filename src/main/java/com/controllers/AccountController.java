@@ -57,7 +57,7 @@ public class AccountController {
 		//add account to db
 		Account account = new Account(email, password, Account.CUSTOMER);
 		Customer customer = new Customer(fName, lName, phoneNum);
-		//registerService.addAccount(account, customer);
+		accountService.addAccount(account, customer);
 		
 		mv.setViewName("successRegister");
 		return mv;
