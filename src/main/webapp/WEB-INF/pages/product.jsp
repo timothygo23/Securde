@@ -52,8 +52,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			});
 		</script>
 		<!---//End-rate---->
-	
 		<link href="${pageContext.request.contextPath}/resources/css/form.css" rel="stylesheet" type="text/css" media="all" />
+		
+		<!-- GLOBAL SCRIPTS -->
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/global.js"></script>
+		
+		<!-- SETTING CONTEXT PATH -->
+		<script>var contextPath = "${pageContext.request.contextPath}"</script>
+		
+		<!-- PRODUCT LIST SCRIPT -->
+		<script>
+			var product_id = "${param.product}";
+		</script>
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/product.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+				getProductInfo();
+			});
+		</script>
 	</head>
 	
 	<body>
@@ -72,9 +89,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Single</h1>
+				<h1 id="brandName">Product</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Single</h2>
+				<h2 id="directory"><a href="index">Home</a><label>/</label></h2>
 			</div>
 		</div>
 		
@@ -88,31 +105,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							        <div class="thumb-image"> <img src="${pageContext.request.contextPath}/resources/images/si.jpg" data-imagezoom="true" class="img-responsive"> </div>
 							    </li>
 						    
-							    <li data-thumb="${pageContext.request.contextPath}/resources/images/si1.jpg">
+							    <!-- <li data-thumb="${pageContext.request.contextPath}/resources/images/si1.jpg">
 							         <div class="thumb-image"> <img src="${pageContext.request.contextPath}/resources/images/si1.jpg" data-imagezoom="true" class="img-responsive"> </div>
 							    </li>
 						    
 							    <li data-thumb="${pageContext.request.contextPath}/resources/images/si2.jpg">
 							       <div class="thumb-image"> <img src="${pageContext.request.contextPath}/resources/images/si2.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							    </li> 
+							    </li> --> 
 						  	</ul>
 						</div>
 					</div>	
 					
 					<div class="col-md-7 single-top-in">
 						<div class="span_2_of_a1 simpleCart_shelfItem">
-							<h3>Nam liber tempor cum</h3>
+							<h3 id="productName">Nam liber tempor cum</h3>
 							
-							<p class="in-para"> There are many variations of passages of Lorem Ipsum.</p>
+							<p id="productBrandName" class="in-para"> There are many variations of passages of Lorem Ipsum.</p>
 							    
 						    <div class="price_single">
-								<span class="reducedfrom item_price">$140.00</span>
+								<span id="productPrice" class="reducedfrom item_price">$140.00</span>
 								<div class="clearfix"></div>
 							</div>
 							
 							<h4 class="quick">Quick Overview:</h4>
 							
-							<p class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
+							<p id="productDescription" class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
 							
 							<div class="quantity"> 
 								<div class="quantity-select">                           
@@ -145,7 +162,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="clearfix"> </div>
 					<!---->
 					
-					<div class="tab-head">
+					<!-- <div class="tab-head">
 					 	<nav class="nav-sidebar">
 							<ul class="nav tabs">
 					          <li class="active"><a href="#tab1" data-toggle="tab">Product Description</a></li>
@@ -185,10 +202,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				  
 				  <div class="clearfix"></div>
 				  
-				  </div>
+				  </div> -->
 				  <!---->	
 				</div>
 			</div>
+		</div>
+		
+		<div style="margin-top: 85px;">
 		</div>
 		<!----->		
 		<!--//content-->
