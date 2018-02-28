@@ -2,6 +2,12 @@
  * Script used for products
  */
 function createProductThumbnail(product){
+	let name = product.product_name;
+	let brand = product.brand_name;
+	let price = "P" + product.price + ".00";
+	let productPath = "product?product=" + product.product_id;
+	let addToCartPath = "";
+	
 	let productDiv = $("<div></div>");
 	productDiv.addClass("col-md-4 item-grid1 simpleCart_shelfItem");
 	
@@ -16,7 +22,7 @@ function createProductThumbnail(product){
 	let hoverDiv = $("<div></div>");
 	hoverDiv.addClass("zoom-icon");
 	let leftIcon = $("<a class='picture' href='" + contextPath + "/resources/images/pc.jpg' rel='title' class='b-link-stripe b-animate-go  thickbox'><i class='glyphicon glyphicon-search icon '></i></a>");
-	let rightIcon = $("<a href='product'><i class='glyphicon glyphicon-menu-right icon'></i></a>");
+	let rightIcon = $("<a href='" + productPath + "'><i class='glyphicon glyphicon-menu-right icon'></i></a>");
 	
 	hoverDiv.append(leftIcon);
 	hoverDiv.append(rightIcon);
@@ -24,11 +30,6 @@ function createProductThumbnail(product){
 	imageDiv.append(hoverDiv);
 	
 	/* lower div with the details and stuff */
-	let name = product.product_name;
-	let brand = product.brand_name;
-	let price = product.price;
-	let addToCartPath = "";
-	
 	//main container
 	let lowerDiv = $("<div></div>");
 	lowerDiv.addClass("mid-1");
@@ -40,7 +41,7 @@ function createProductThumbnail(product){
 	let nameContainer = $("<div></div>");
 	nameContainer.addClass("women-top");
 	let span = $("<span>" + brand + "</span>");
-	let link = $("<h6><a href='product'>" + name + "</a></h6>");
+	let link = $("<h6><a href='" + productPath + "'>" + name + "</a></h6>");
 	
 	//appending to nameContainer
 	nameContainer.append(span);
@@ -60,7 +61,7 @@ function createProductThumbnail(product){
 	priceRatingContainer.addClass("mid-2");
 	
 	let priceContainer = $("<p></p>");
-	priceContainer.append("<em class='item_price'>P" + price + ".00</em>");
+	priceContainer.append("<em class='item_price'>" + price + "</em>");
 	
 	let ratingContainer = $("<div></div>");
 	ratingContainer.addClass("block");
@@ -88,11 +89,18 @@ function createProductThumbnail(product){
  */
 function loadProducts(products){
 	$("#productList").empty();
-	
 	for(var i = 0; i < products.length; i++){
 		let p = products[i];
 		createProductThumbnail(p);
 	}
+}
+
+/*
+ * used to set the catalog name and the directory name
+ */
+function setCatalogName(catalogName, directoryName){
+	$("#catalogName").html(catalogName);
+	$("#directoryContainer").append(directoryName);
 }
 
 /*
@@ -107,18 +115,26 @@ function getProductList(){
 		},
 		cache: false,
 		success: function(data){
-			loadProducts(data);
+			loadProducts(data.products);
+			setCatalogName(data.catalogName, data.catalogName);
 		}
 	})
 }
 
-function loadProductDetails(){
-	
-}
-
 /*
- * used to get the product info of a particular product
+ * used to get the list of products search by the user
  */
-function getProduct(){
-	
+function getSearchedProductList(){
+	$.ajax({
+		url: contextPath + "/search/get_searched_products",
+		type: "get",
+		data: {
+			search_key: search_key,
+		},
+		cache: false,
+		success: function(data){
+			loadProducts(data);
+			setCatalogName("\"" + search_key +"\"", "Search Results");
+		}
+	})
 }

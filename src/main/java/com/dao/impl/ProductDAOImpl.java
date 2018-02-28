@@ -67,4 +67,24 @@ public class ProductDAOImpl {
 		return product;
 	}
 	
+	@Transactional
+	public List<Product> getSearched (String searchKey){
+		List<Product> product = null;
+		
+		if (sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			
+			String searchKey1 = "'" + searchKey + "%'";
+			String searchKey2 = "'% " + searchKey + "%'";
+			
+			Query query = session.createQuery("from Product "
+					+ "where brand_name like " + searchKey1 + " or brand_name like " + searchKey2 + " or "
+						+ "product_name like " + searchKey1 + " or product_name like " + searchKey2, Product.class);
+
+			product = query.getResultList();
+		}
+		
+		return product;
+	}
+	
 }

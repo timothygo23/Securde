@@ -57,20 +57,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<link href="${pageContext.request.contextPath}/resources/css/form.css" rel="stylesheet" type="text/css" media="all" />
 		
 		<!-- GLOBAL SCRIPTS -->
-		<script src="${pageContext.request.contextPath}/resources/js/customjs/global.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/global.js"></script>
 		
 		<!-- SETTING CONTEXT PATH -->
 		<script>var contextPath = "${pageContext.request.contextPath}"</script>
 		
-		<!-- CATALOG SCRIPT -->
+		<!-- PRODUCT LIST SCRIPT -->
 		<script>
-			var catalog_id = ${param.catalog};
+			if("${request}" == "catalog"){
+				var catalog_id = "${param.catalog}";
+			}else if("${request}" == "search"){
+				var search_key =  "${param.search_key}";
+			}
 		</script>
-		<script src="${pageContext.request.contextPath}/resources/js/customjs/product.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/product_list.js"></script>
 		
 		<script>
 			$(document).ready(function(){
-				getProductList();
+				if("${request}" == "catalog"){
+					getProductList();	
+				}else if("${request}" == "search"){
+					getSearchedProductList();
+				}
 			});
 		</script>
 		
@@ -92,9 +100,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Products</h1>
+				<h1 id="catalogName">Catalog</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Products</h2>
+				<h2 id="directoryContainer"><a href="home">Home</a><label>/</label></h2>
 			</div>
 		</div>
 		

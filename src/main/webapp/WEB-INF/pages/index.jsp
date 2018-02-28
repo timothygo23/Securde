@@ -54,13 +54,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!---//End-rate---->
 		
 		<!-- GLOBAL SCRIPTS -->
-		<script src="${pageContext.request.contextPath}/resources/js/customjs/global.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/global.js"></script>
 		
 		<!-- SETTING CONTEXT PATH -->
 		<script>var contextPath = "${pageContext.request.contextPath}"</script>
 		
 		<!-- CATALOG SCRIPT -->
-		<script src="${pageContext.request.contextPath}/resources/js/customjs/catalog.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/servicejs/catalog.js"></script>
 		
 		<script>
 			$(document).ready(function(){
