@@ -6,3 +6,4 @@
 *.class
 .classpath
 src/main/webapp/WEB-INF/jdbc.properties
+.classpath

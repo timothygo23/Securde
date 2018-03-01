@@ -74,14 +74,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</c:choose>
 		
 		<!--banner-->
-<!--		<div class="banner-top">
+		<div class="banner-top">
 			<div class="container">
-				<h1>404</h1>
+				<h1>Registration Success</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>404</h2>
+				<h2><a href="index.html">Home</a><label>/</label>Registration Success</h2>
 			</div>
 		</div>
-  -->
+
 		
 		<!--login-->
 		<div class="container">
