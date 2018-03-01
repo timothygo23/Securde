@@ -93,9 +93,8 @@ public class ProductController {
 		return rv;
 	}
 	
-	@RequestMapping(value="/get_product", method=RequestMethod.GET)
 	public RedirectView getProduct (HttpServletRequest request, RedirectAttributes redirectAttribute) {
-		List<Product> products = productDAO.getAllProducts();
+		//List<Product> products = productDAO.getAllProducts();
 		Product product = productDAO.getProduct(Integer.parseInt(request.getParameter("product_id")));
 		
 		/*ModelAndView mv = modelService.createModelAndView(request);
@@ -105,6 +104,13 @@ public class ProductController {
 		
 		RedirectView rv = new RedirectView();
 		redirectAttribute.addFlashAttribute("product", product);
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/edit_get_product", method=RequestMethod.GET)
+	public RedirectView editProductRedirect (HttpServletRequest request, RedirectAttributes redirectAttribute) {
+		RedirectView rv = getProduct(request, redirectAttribute);
 		rv.setUrl("edit_product");
 		
 		return rv;
@@ -140,6 +146,40 @@ public class ProductController {
 		RedirectView rv = new RedirectView();
 		redirectAttribute.addFlashAttribute("product_id", product_id);
 		rv.setUrl("edit_product_availability");
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/delete_get_product", method=RequestMethod.GET)
+	public RedirectView deleteProductRedirect (HttpServletRequest request, RedirectAttributes redirectAttribute) {
+		RedirectView rv = getProduct(request, redirectAttribute);
+		rv.setUrl("delete_product");
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/delete_product", method=RequestMethod.GET)
+	public ModelAndView deleteProduct (HttpServletRequest request, @ModelAttribute("product") Product product) {
+		List<Product> products = productDAO.getAllProducts();
+		
+		ModelAndView mv = modelService.createModelAndView(request);
+		mv.addObject("products", products);
+		mv.addObject("product", product);
+		mv.setViewName("deleteProduct");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/remove_product", method=RequestMethod.POST)
+	public RedirectView removeProduct (@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
+		
+		int product_id = Integer.parseInt(requestParams.get("product_id"));
+		
+		//productDAO.delete(product_id);
+		
+		RedirectView rv = new RedirectView();
+		redirectAttribute.addFlashAttribute("product_id", product_id);
+		rv.setUrl("remove_product_availability");
 		
 		return rv;
 	}
