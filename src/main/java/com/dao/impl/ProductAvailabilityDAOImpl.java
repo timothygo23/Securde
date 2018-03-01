@@ -11,9 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.ProductAvailability;
+import com.dao.ProductAvailabilityDAO;
 
 @Repository
-public class ProductAvailabilityDAOImpl {
+public class ProductAvailabilityDAOImpl implements ProductAvailabilityDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 	

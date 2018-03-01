@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.ReviewRating;
+import com.dao.ReviewRatingDAO;
 
-public class ReviewRatingDAOImpl {
+public class ReviewRatingDAOImpl implements ReviewRatingDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 	

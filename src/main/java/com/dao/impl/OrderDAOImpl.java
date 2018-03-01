@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Order;
+import com.dao.OrderDAO;
 
-public class OrderDAOImpl {
+public class OrderDAOImpl implements OrderDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;

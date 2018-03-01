@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.beans.Catalog;
@@ -73,7 +75,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/add_product", method=RequestMethod.POST)
-	public RedirectView addProduct(@RequestParam Map<String, String> requestParams) {
+	public RedirectView addProduct(@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
 		
 		String product_name = requestParams.get("product_name");
 		String product_description = requestParams.get("product_description");
@@ -82,10 +84,62 @@ public class ProductController {
 		String brand_name = requestParams.get("brand_name");
 		
 		Product product = new Product (product_name, product_description, catalog_id, price, brand_name);
-		productDAO.add(product);
+		int product_id = productDAO.add(product);
 		
 		RedirectView rv = new RedirectView();
-		rv.setUrl("home");
+		redirectAttribute.addFlashAttribute("product_id", product_id);
+		rv.setUrl("new_product_availability");
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/get_product", method=RequestMethod.GET)
+	public RedirectView getProduct (HttpServletRequest request, RedirectAttributes redirectAttribute) {
+		List<Product> products = productDAO.getAllProducts();
+		Product product = productDAO.getProduct(Integer.parseInt(request.getParameter("product_id")));
+		
+		/*ModelAndView mv = modelService.createModelAndView(request);
+		mv.addObject("product", product);
+		mv.addObject("products", products);
+		mv.setViewName("editProduct");*/
+		
+		RedirectView rv = new RedirectView();
+		redirectAttribute.addFlashAttribute("product", product);
+		rv.setUrl("edit_product");
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/edit_product", method=RequestMethod.GET)
+	public ModelAndView editProduct (HttpServletRequest request, @ModelAttribute("product") Product product) {
+		List<Product> products = productDAO.getAllProducts();
+		
+		ModelAndView mv = modelService.createModelAndView(request);
+		mv.addObject("products", products);
+		mv.addObject("product", product);
+		mv.setViewName("editProduct");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/update_product", method=RequestMethod.POST)
+	public RedirectView updateProduct (@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
+		
+		int product_id = Integer.parseInt(requestParams.get("product_id"));
+		String product_name = requestParams.get("product_name");
+		String product_description = requestParams.get("product_description");
+		int catalog_id = Integer.parseInt(requestParams.get("catalog_id"));
+		int price = Integer.parseInt(requestParams.get("price"));
+		String brand_name = requestParams.get("brand_name");
+		
+		Product product = new Product (product_name, product_description, catalog_id, price, brand_name);
+		product.setProduct_id(product_id);
+		
+		productDAO.edit(product);
+		
+		RedirectView rv = new RedirectView();
+		redirectAttribute.addFlashAttribute("product_id", product_id);
+		rv.setUrl("edit_product_availability");
 		
 		return rv;
 	}

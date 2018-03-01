@@ -83,26 +83,45 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--login-->
 		<div class="container">
 			<div class="login">
-				<form action="${pageContext.request.contextPath}/add_product" method="post">
+			
+				<form action="${pageContext.request.contextPath}/get_product" method="get">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<input type="text" name="product_name" placeholder="Product Name" required="">
+							<select name="product_id" required>
+								<c:forEach items="${products}" var="product">
+									<option value="${product.product_id}"><c:out value="${product.product_name}" /></option>
+								</c:forEach>
+							</select>
+						</div>
+						<label class="hvr-skew-backward">
+							<input type="submit" value="Select Product">
+						</label>
+					</div>
+				</form>
+				
+				<form action="${pageContext.request.contextPath}/update_product" method="post">
+					<div class="col-md-6 login-do">
+					
+						<input type="hidden" name="product_id" value="${product.product_id}"/>
+						
+						<div class="login-mail">
+							<input type="text" name="product_name" placeholder="Product Name" value="${product.product_name}" required="">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="product_description" placeholder="Product Description" required="">
+							<input type="text" name="product_description" placeholder="Product Description" value="${product.product_description}" required="">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="catalog_id" placeholder="Catalog ID" required="">
+							<input type="text" name="catalog_id" placeholder="Catalog ID" value="${product.catalog_id}" required="">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="price" placeholder="Price" required="">
+							<input type="text" name="price" placeholder="Price" value="${product.price}" required="">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="brand_name" placeholder="Brand Name" required="">
+							<input type="text" name="brand_name" placeholder="Brand Name"value="${product.brand_name}"  required="">
 						</div>
 						
 						<label class="hvr-skew-backward">
@@ -111,7 +130,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 				
 					<div class="col-md-6 login-right">
-						 <h3>Add Product</h3>
+						 <h3>Edit Product</h3>
 						 
 						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
 						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>

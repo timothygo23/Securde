@@ -9,9 +9,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Catalog;
+import com.dao.CatalogDAO;
 
 @Repository
-public class CatalogDAOImpl {
+public class CatalogDAOImpl implements CatalogDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;

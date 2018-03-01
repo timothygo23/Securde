@@ -8,6 +8,6 @@ public interface ReviewRatingDAO {
 	public void add(ReviewRating reviewRating);
 	public void edit(ReviewRating reviewRating);
 	public void delete(int rating_id);
-	public ReviewRating getCart(int rating_id);
+	public ReviewRating getReviewRating(int rating_id);
 	public List<ReviewRating> getAllReviewRatings();	
 }

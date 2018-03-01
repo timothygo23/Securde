@@ -11,16 +11,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Product;
+import com.dao.ProductDAO;
 
 @Repository
-public class ProductDAOImpl {
+public class ProductDAOImpl implements ProductDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	@Transactional
-	public void add(Product product) {
-		sessionFactory.getCurrentSession().save(product);
+	public int add(Product product) {
+		return (Integer) sessionFactory.getCurrentSession().save(product);
 	}
 
 	@Transactional

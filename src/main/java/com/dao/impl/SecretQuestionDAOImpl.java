@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.SecretQuestion;
+import com.dao.SecretQuestionDAO;
 
-public class SecretQuestionDAOImpl {
+public class SecretQuestionDAOImpl implements SecretQuestionDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 	
