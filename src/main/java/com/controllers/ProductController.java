@@ -1,15 +1,18 @@
 package com.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.beans.CartSession;
 import com.beans.Catalog;
 import com.beans.Product;
 import com.beans.ProductAvailability;
@@ -185,5 +189,37 @@ public class ProductController {
 		
 		return rv;
 	}
+	
+	@RequestMapping(value="/saveProductToCart", method=RequestMethod.POST)
+	public void saveProductToCart(@RequestParam("productId") String productId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		Product p = productDAO.getProduct(Integer.parseInt(productId));
+		
+		if(session.getAttribute(CartSession.PRODUCT_LIST) == null) {
+			CartSession cs = new CartSession();
+			System.out.println("First time cartsession!");
+			cs.addProducts(p);
+			session.setAttribute(cs.PRODUCT_LIST, cs.getProductList());
+			
+			for(Product test : cs.getProductList()) {
+				System.out.println("Product: " + test.getProduct_name());
+			}
+		}
+		
+		else {
+			System.out.println("Not first time cartsession!");
+			CartSession cs = new CartSession();
+			cs.setProductList((ArrayList<Product>) session.getAttribute("productList"));
+			cs.addProducts(p);
+			session.setAttribute(cs.PRODUCT_LIST, cs.getProductList());
+			for(Product test : cs.getProductList()) {
+				System.out.println("Product: "  +  test.getProduct_name());
+			}
+		}
+		
+		System.out.println("Working! " + productId);
+		response.getWriter().write("Done!");
+	}
+	
 	
 }

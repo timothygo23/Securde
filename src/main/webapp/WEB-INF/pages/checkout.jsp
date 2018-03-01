@@ -114,84 +114,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		
 		<div class="check-out">
 			<div class="container">
-		
-				<div class="bs-example4" data-example-id="simple-responsive-table">
-	    			<div class="table-responsive">
-	    	    		
-	    	    		<table class="table-heading simpleCart_shelfItem">
-					  	
-						  	<tr>
-								<th class="table-grid">Item</th>		
-								<th>Prices</th>
-								<th >Delivery </th>
-								<th>Subtotal</th>
-						  	</tr>
+		    <c:choose>
+		    	<c:when test="${productList eq null}">
+				 	<h1>Cart is empty..</h1>
+			 	</c:when>
+			 	<c:otherwise>
+					<div class="bs-example4" data-example-id="simple-responsive-table">
+		    			<div class="table-responsive">
+		    			
+		    	    		<table class="table-heading simpleCart_shelfItem">
 						  	
-			  				<tr class="cart-header">
-								<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/ch.jpg" class="img-responsive" alt=""></a>
-									<div class="sed">
-										<h5><a href="single.html">Sed ut perspiciatis unde</a></h5>
-										<p>(At vero eos et accusamus et iusto odio dignissimos ducimus ) </p>
-									</div>
-									
-									<div class="clearfix"> </div>
+							  	<tr>
+									<th class="table-grid">Item</th>		
+									<th>Prices</th>
+									<th >Delivery </th>
+									<th>Subtotal</th>
+							  	</tr>
 								
-									<div class="close1"> </div>
-								</td>
-								<td>$100.00</td>
-								<td>FREE SHIPPING</td>
-								<td class="item_price">$100.00</td>
-								<td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
-						  	</tr>
-						  	
-						  	<tr class="cart-header1">
-							  	<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/ch2.jpg" class="img-responsive" alt=""></a>
-									<div class="sed">
-										<h5><a href="single.html">Sed ut perspiciatis unde</a></h5>
-										<p>(At vero eos et accusamus et iusto odio dignissimos ducimus ) </p>
-									</div>
-									
-									<div class="clearfix"> </div>
-									
-									<div class="close2"> </div>
-								</td>
-								<td>$100.00</td>
-								<td>FREE SHIPPING</td>
-								<td class="item_price">$100.00</td>
-								<td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
-						  	</tr>
-						  	
-						  	<tr class="cart-header2">
-						  		<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/ch1.jpg" class="img-responsive" alt=""></a>
-									<div class="sed">
-										<h5><a href="single.html">Sed ut perspiciatis unde</a></h5>
-										<p>(At vero eos et accusamus et iusto odio dignissimos ducimus ) </p>
-									</div>
-							
-									<div class="clearfix"> </div>
-									
-									<div class="close3"> </div>
-								</td>
-								<td>$100.00</td>
-								<td>FREE SHIPPING</td>
-								<td class="item_price">$100.00</td>
-								<td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
-						  	</tr>
-						</table>
+								<c:forEach items="${productList}" var="product">		
+					  				<tr class="cart-header">
+										<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/pc.jpg" class="img-responsive" alt=""></a>
+											<div class="sed">
+												<h5><a href="single.html">${product.product_name}</a></h5>
+												<p>${product.product_description} </p>
+											</div>
+											
+											<div class="clearfix"> </div>
+										
+											<div class="close1"> </div>
+										</td>
+										<td>P${product.price}</td>
+										<td>FREE SHIPPING</td>
+										<td class="item_price">P${product.price}</td>
+										<td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
+								  	</tr>
+							  	</c:forEach>
+							</table>
+						</div>
 					</div>
-				</div>
-
-				<div class="produced">
-					<c:choose>
-					  <c:when test="${account eq null}">
-					        <a href="login" class="hvr-skew-backward">Login to purchase</a>
-					  </c:when>
-					  <c:otherwise>
-					    	<a href="home" class="hvr-skew-backward">Proceed to purchase</a>
-					  </c:otherwise>
-					</c:choose>
-			 	</div>
+	
+					<div class="produced">
+						<c:choose>
+						  <c:when test="${account eq null}">
+						        <a href="login" class="hvr-skew-backward">Login to purchase</a>
+						  </c:when>
+						  <c:otherwise>
+						    	<a href="home" class="hvr-skew-backward">Proceed to purchase</a>
+						  </c:otherwise>
+						</c:choose>
+				 	</div>
+			 	</c:otherwise>
+			</c:choose>
 			</div>
+
 		</div>
 		<!--//login-->
 	

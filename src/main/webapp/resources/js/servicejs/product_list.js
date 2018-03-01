@@ -6,7 +6,8 @@ function createProductThumbnail(product){
 	let brand = product.brand_name;
 	let price = "P" + product.price + ".00";
 	let productPath = "product?product=" + product.product_id;
-	let addToCartPath = "";
+	//let addToCartPath = ""//"saveProductToCart/" + product.product_id;
+	let addToCartFunc = "addToCart(" + product.product_id + ")";
 	
 	let productDiv = $("<div></div>");
 	productDiv.addClass("col-md-4 item-grid1 simpleCart_shelfItem");
@@ -49,7 +50,7 @@ function createProductThumbnail(product){
 	
 	let cartIconContainer = $("<div></div>");
 	cartIconContainer.addClass("img item_add");
-	cartIconContainer.append("<a href='" + addToCartPath + "'><img src='" + contextPath + "/resources/images/ca.png' alt=''></a>")
+	cartIconContainer.append(/*"<a href='" + addToCartPath + "'>*/ "<a onClick='" + addToCartFunc + "'><img src='" + contextPath + "/resources/images/ca.png' alt=''></a>")
 	
 	//append to brandNameCarContainer
 	brandNameCartContainer.append(nameContainer);
