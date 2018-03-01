@@ -138,3 +138,104 @@ function getSearchedProductList(){
 		}
 	})
 }
+
+/*
+ * used to get the filtered list of products
+ */
+function getFilteredProductList(){
+	//not an arrays because i dont know how to receive arrays from ajax
+	var brands = "";
+	var sizes = "";
+	var prices = "";
+	
+	var url;
+	var value; //value is either the catalog_id or search_key
+	
+	//get filtered options
+	$("input[type=checkbox]").each(function(){
+		//checks all the input check boxes
+		if($(this).is(':checked')){
+			//brands
+			if($(this).attr('name') == "brand"){
+				brands += $(this).val() + "/";
+			}else if($(this).attr('name') == "size"){
+				sizes += $(this).val() + "/";
+			}else if($(this).attr('name') == "priceRange"){
+				prices += $(this).val();
+			}
+		}
+	});
+	
+	if(typeof catalog_id != "undefined"){
+		//its a catalog
+		url = contextPath + "/catalog/get_products_catalogs";
+		value = catalog_id;
+	}else{
+		//its a search
+		url = contextPath + "/search/get_searched_products";
+		value = search_key;
+	}
+	
+	$.ajax({
+		url: url,
+		type: "get",
+		data: {
+			filter: "true",
+			value: value,
+			brands: brands,
+			sizes: sizes,
+			priceRange: prices
+		},
+		cache: false,
+		success: function(data){
+			if(typeof catalog_id != "undefined"){
+				loadProducts(data.products);
+				console.log("filter through catalog");
+			}else{
+				loadProducts(data);
+				console.log("filter through search");
+			}
+		}
+	})
+}
+
+/*
+ * creates a side bar label for the brands list
+ */
+function createSidebarLabel(brand){
+	var label = $("<label></label>");
+	label.addClass("checkbox");
+	
+	var input = $("<input type='checkbox' name='brand' value='" + brand.brand_name + "'>");
+	var iTag = $("<i></i>");
+	
+	label.append(input);
+	label.append(iTag);
+	label.append(brand.brand_name);
+	
+	$("#brandList").append(label);
+}
+
+/*
+ * used to create list of sidebar labels
+ */
+function loadSidebarBrands(brands){
+	for(var i = 0; i < brands.length; i++){
+		let brand = brands[i];
+		createSidebarLabel(brand);
+	}
+}
+
+/*
+ * used to get the brands show at the side bar
+ */
+function getSidebarBrands(){
+	$.ajax({
+		url: contextPath + "/catalog/get_all_brands",
+		type: "get",
+		cache: false,
+		success: function(data){
+			loadSidebarBrands(data);
+		}
+	})
+}

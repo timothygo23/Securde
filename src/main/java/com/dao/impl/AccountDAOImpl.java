@@ -71,7 +71,7 @@ public class AccountDAOImpl implements AccountDAO{
 		
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
-			bm = session.createQuery("from brand_manufacturer", BrandManufacturer.class).getResultList();
+			bm = session.createQuery("from BrandManufacturer", BrandManufacturer.class).getResultList();
 		}
 		
 		return bm;
@@ -95,7 +95,7 @@ public class AccountDAOImpl implements AccountDAO{
 		
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
-			customers = session.createQuery("from customer", Customer.class).getResultList();
+			customers = session.createQuery("from Customer", Customer.class).getResultList();
 		}
 		
 		return customers;
