@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.beans.Account;
+import com.beans.BrandManufacturer;
 import com.beans.Customer;
 import com.dao.impl.AccountDAOImpl;
 import com.services.AccountService;
@@ -94,7 +95,7 @@ public class AccountController {
 			/* session */
 			session.setAttribute(SessionAttributes.ACC, account);	
 			if(account.getAccount_type() == Account.ADMIN){
-				//redirect to admin page
+				rv.setUrl("home");
 			}if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
 				session.setAttribute(SessionAttributes.BM_INFO, accountDAO.getBrandManufacturer(account.getAccount_id()));
 				rv.setUrl("home");
@@ -111,5 +112,53 @@ public class AccountController {
 		}
 		
 		return rv;
+	}
+	
+	@RequestMapping(value="/create_bm", method=RequestMethod.GET)
+	public ModelAndView createBrandManufacturer() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("createBrandManufacturer");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/register_bm", method=RequestMethod.POST)
+	public ModelAndView registerBrandManufacturer(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		
+		String brand_name = requestParams.get("brand_name");
+		String email = requestParams.get("email");
+		String password = requestParams.get("password");
+		
+		//add account to db
+		Account account = new Account(email, password, Account.BRAND_MANUFACTURER);
+		BrandManufacturer brandManufacturer = new BrandManufacturer(brand_name);
+		accountDAO.addBrandManufacturer(account, brandManufacturer);
+		
+		mv.setViewName("successRegister");
+		return mv;
+	}
+	
+	@RequestMapping(value="/create_admin", method=RequestMethod.GET)
+	public ModelAndView createAdmin() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("createAdmin");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/register_admin", method=RequestMethod.POST)
+	public ModelAndView registerAdmin(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		
+		String email = requestParams.get("email");
+		String password = requestParams.get("password");
+		
+		//add account to db
+		Account account = new Account(email, password, Account.BRAND_MANUFACTURER);
+		accountDAO.addAdmin(account);
+		
+		mv.setViewName("successRegister");
+		return mv;
 	}
 }

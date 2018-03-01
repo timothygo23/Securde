@@ -18,8 +18,7 @@ public class BrandManufacturer {
 	
 	public BrandManufacturer() {}
 
-	public BrandManufacturer(int account_id, String brand_name) {
-		this.account_id = account_id;
+	public BrandManufacturer(String brand_name) {
 		this.brand_name = brand_name;
 	}
 

@@ -88,36 +88,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="container">
 			<div class="login">
 			
-				<form action="${pageContext.request.contextPath}/delete_get_product" method="get">
+				<form action="${pageContext.request.contextPath}/override_get_order" method="get">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<select name="product_id" required>
-								<c:forEach items="${products}" var="product">
-									<option value="${product.product_id}"><c:out value="${product.product_name}" /></option>
+							<select name="order_id" required>
+								<c:forEach items="${orders}" var="order">
+									<option value="${order.order_id}"><c:out value="Purchase Date: ${order.purchaseDateAsString} Arrival Date: ${order.arrivalDateAsString}" /></option>
 								</c:forEach>
 							</select>
 						</div>
 						<label class="hvr-skew-backward">
-							<input type="submit" value="Select Product">
+							<input type="submit" value="Select Order">
 						</label>
 					</div>
 				</form>
 				
-				<form action="${pageContext.request.contextPath}/remove_product" method="post">
+				<form action="${pageContext.request.contextPath}/delete_order" method="post">
 					<div class="col-md-6 login-do">
 					
-						<span>Product Name</span>
-				<div>${product.product_name}</div>
-				<span>Product Description</span>
-				<div>${product.product_description}</div>
-				<span>Catalog ID</span>
-				<div>${product.catalog_id}</div>
-				<span>Price</span>
-				<div>${product.price}</div>
-				<span>Brand Name</span>
-				<div>${product.brand_name}</div>
-					
-						<input type="hidden" name="product_id" value="${product.product_id}"/>
+						<c:choose>
+						<c:when test="${order ne null}">
+							<span>Cart ID</span>
+							<div>${order.cart_id}</div>
+							<span>purchase date</span>
+							<div>${order.purchaseDateAsString}</div>
+							<span>arrival date</span>
+							<div>${order.arrivalDateAsString}</div>
+						</c:when>
+						</c:choose>
+						
+						<input type="hidden" name="order_id" value="${order.order_id}"/>
 						
 						<label class="hvr-skew-backward">
 							<input type="submit" value="Submit">
@@ -125,7 +125,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 				
 					<div class="col-md-6 login-right">
-						 <h3>Delete Product</h3>
+						 <h3>Override Purchase</h3>
 						 
 						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
 						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>

@@ -5,11 +5,13 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Order;
 import com.dao.OrderDAO;
 
+@Repository
 public class OrderDAOImpl implements OrderDAO{
 
 	@Autowired
@@ -42,7 +44,7 @@ public class OrderDAOImpl implements OrderDAO{
 		if (sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
 			
-			order = session.createQuery("from order", Order.class).getResultList();
+			order = session.createQuery("from Order", Order.class).getResultList();
 		}
 		
 		return order;

@@ -100,6 +100,14 @@ public class AccountDAOImpl implements AccountDAO{
 		
 		return customers;
 	}
+
+	@Transactional
+	public void addAdmin(Account account) {
+		if(sessionFactory != null){
+			Session session = sessionFactory.getCurrentSession();
+			session.save(account);
+		}
+	}
 	
 	
 }

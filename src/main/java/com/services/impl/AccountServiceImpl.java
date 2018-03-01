@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Account;
+import com.beans.BrandManufacturer;
 import com.beans.Customer;
 import com.dao.AccountDAO;
 import com.services.AccountService;

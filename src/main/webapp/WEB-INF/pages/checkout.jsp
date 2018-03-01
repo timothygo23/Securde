@@ -63,6 +63,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<%@include file="../html/navigationBar.html"%>
 			</c:when>
 			
+			<c:when test="${account.account_type eq 1}">
+				<%@include file="../html/navigationBar_admin.html"%>
+			</c:when>
+			
 			<c:when test="${account.account_type eq 2}">
 				<%@include file="../html/navigationBar_brandManufacturer.html"%>
 			</c:when>
