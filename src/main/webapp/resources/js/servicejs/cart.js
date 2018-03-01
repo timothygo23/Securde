@@ -39,10 +39,15 @@ function deleteCartProducts() {
 }
 
 function deleteCertainProductFromCart(cartItemID) {
+	console.log(cartItemID)
+	console.log(contextPath)
 	$.ajax({
-		url: contextPath + "/removeAllProductsFromCart",
+		url: contextPath + "/removeOneProdCart",
 		type: "post",
 		cache: false,
+		data: {
+			cartItemID: cartItemID,
+		},
 		success: function(data){
 			console.log(data);
 		}

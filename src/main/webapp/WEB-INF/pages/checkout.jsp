@@ -152,7 +152,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<td class="item_price">P${cart_Item.product.price}</td>
 										<td class="add-check">
 											<!-- <a class="item_add hvr-skew-backward" href="#">Add To Cart</a> -->
-											<a class="hvr-skew-backward" href="#" onClick="deleteCertainProductFromCart(${cart_item.id})" >Remove</a>
+											<a class="hvr-skew-backward" href="#" onClick="deleteCertainProductFromCart(${cart_Item.id})" >Remove</a>
 										</td>
 								  	</tr>
 							  	</c:forEach>
