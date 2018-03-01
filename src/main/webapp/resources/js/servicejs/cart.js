@@ -6,6 +6,11 @@ $(document).ready(function() {
 		
 		addToCart(productId);
 	});
+	
+	//Delete whole contents of the cart.
+	$("a#emptyTheCart").click(function() {
+		deleteCartProducts();
+	});
 })
 
 function addToCart(productId) {
@@ -15,6 +20,17 @@ function addToCart(productId) {
 		data: {
 			productId: productId,
 		},
+		cache: false,
+		success: function(data){
+			console.log(data);
+		}
+	})
+}
+
+function deleteCartProducts() {
+	$.ajax({
+		url: contextPath + "/removeAllProductsFromCart",
+		type: "post",
 		cache: false,
 		success: function(data){
 			console.log(data);

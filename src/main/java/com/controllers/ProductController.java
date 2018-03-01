@@ -220,5 +220,20 @@ public class ProductController {
 		response.getWriter().write("Done!");
 	}
 	
+	@RequestMapping(value="/removeAllProductsFromCart", method=RequestMethod.POST)
+	public void removeAllProductFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute(CartSession.CART_ITEM_LIST) != null) {
+			session.removeAttribute(CartSession.CART_ITEM_LIST);
+			System.out.println("Removed!");
+		}
+		else {
+			System.out.println("Nothing to be Removed!");
+		}
+		
+		response.getWriter().write("Delete done!");
+	}
+	
 	
 }

@@ -7,12 +7,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-	
+
 	<head>
 	
-		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | Checkout :: w3layouts</title>
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | 404 :: w3layouts</title>
 	
+		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		
 		<!-- Custom Theme files -->
 		<!--theme-style-->
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" media="all" />	
@@ -26,7 +27,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<link href="${pageContext.request.contextPath}/resources/css/style4.css" rel="stylesheet" type="text/css" media="all" />	
 		<!--//theme-style-->
 		<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	
+		
 		<!--- start-rate---->
 		<script src="${pageContext.request.contextPath}/resources/js/jstarbox.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
@@ -56,15 +57,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</head>
 	
 	<body>
-		
+	
 		<!--header-->
 		<c:choose>
 			<c:when test="${account eq null}">
 				<%@include file="../html/navigationBar.html"%>
-			</c:when>
-			
-			<c:when test="${account.account_type eq 1}">
-				<%@include file="../html/navigationBar_admin.html"%>
 			</c:when>
 			
 			<c:when test="${account.account_type eq 2}">
@@ -79,107 +76,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Checkout</h1>
+				<h1>Purchase Success</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Checkout</h2>
+				<h2><a href="index.html">Home</a><label>/</label>Purchase Success</h2>
 			</div>
 		</div>
+
 		
 		<!--login-->
-		<script>
-			$(document).ready(function(c) {
-				$('.close1').on('click', function(c){
-					$('.cart-header').fadeOut('slow', function(c){
-						$('.cart-header').remove();
-					});
-				});	  
-			});
-		</script>
-
-		<script>
-			$(document).ready(function(c) {
-				$('.close2').on('click', function(c){
-					$('.cart-header1').fadeOut('slow', function(c){
-						$('.cart-header1').remove();
-					});
-				});	  
-			});
-		</script>
-				   
-		<script>
-			$(document).ready(function(c) {
-				$('.close3').on('click', function(c){
-					$('.cart-header2').fadeOut('slow', function(c){
-						$('.cart-header2').remove();
-					});
-				});	  
-			});
-		</script>
-		
-		<div class="check-out">
-			<div class="container">
-		    <c:choose>
-		    	<c:when test="${cartItemList eq null}">
-				 	<h1>Cart is empty..</h1>
-			 	</c:when>
-			 	<c:otherwise>
-					<div class="bs-example4" data-example-id="simple-responsive-table">
-		    			<div class="table-responsive">
-		    			
-		    	    		<table class="table-heading simpleCart_shelfItem">
-						  	
-							  	<tr>
-									<th class="table-grid">Item</th>		
-									<th>Prices</th>
-									<th >Delivery </th>
-									<th>Subtotal</th>
-							  	</tr>
-								
-								<c:forEach items="${cartItemList}" var="cart_Item">		
-					  				<tr class="cart-header">
-										<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/pc.jpg" class="img-responsive" alt=""></a>
-											<div class="sed">
-												<h5><a href="single.html">${cart_Item.product.product_name}</a></h5>
-												<p>${cart_Item.product.product_description} </p>
-											</div>
-											
-											<div class="clearfix"> </div>
-											<!-- <p>Qty: </p> -->
-											<!-- <div class="close1"> </div> -->
-										</td>
-										<td>P${cart_Item.product.price}</td>
-										<td>FREE SHIPPING</td>
-										<td class="item_price">P${cart_Item.product.price}</td>
-										<td class="add-check">
-											<!-- <a class="item_add hvr-skew-backward" href="#">Add To Cart</a> -->
-											<a class="hvr-skew-backward" href="#" onClick="" >Remove</a>
-										</td>
-								  	</tr>
-							  	</c:forEach>
-							</table>
-						</div>
-					</div>
-	
-					<div class="produced">
-						<c:choose>
-						  <c:when test="${account eq null}">
-						        <a href="login" class="hvr-skew-backward">Login to purchase</a>
-						  </c:when>
-						  <c:otherwise>
-						    	<a href="home" class="hvr-skew-backward">Proceed to purchase</a>
-						  </c:otherwise>
-						</c:choose>
-				 	</div>
-			 	</c:otherwise>
-			</c:choose>
+		<div class="container">
+			<div class="four">
+				<h3>Purchase Complete!</h3>
+				<p>Congratulations! Your purchase has been made!</p>
+				<a href="home" class="hvr-skew-backward">Back To Home</a>
 			</div>
-
 		</div>
 		<!--//login-->
 	
 		<!--brand-->
 		<%@include file="../html/brands.html" %>
-		
+			
 		<!--//content-->
 		
 		<!--footer-->
