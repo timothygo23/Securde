@@ -37,3 +37,14 @@ function deleteCartProducts() {
 		}
 	})
 }
+
+function deleteCertainProductFromCart(cartItemID) {
+	$.ajax({
+		url: contextPath + "/removeAllProductsFromCart",
+		type: "post",
+		cache: false,
+		success: function(data){
+			console.log(data);
+		}
+	})
+}

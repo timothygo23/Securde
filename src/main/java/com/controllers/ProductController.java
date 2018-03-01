@@ -234,6 +234,17 @@ public class ProductController {
 		
 		response.getWriter().write("Delete done!");
 	}
+
+	@RequestMapping(value="/removeSingleProductFromCart", method=RequestMethod.POST)
+	public void removeSingleProductFromCart(@RequestParam("cartItemID") String cartItemID, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
+		System.out.println("The ID: " + cartItemID);
+		for(CartItem test : cartItemList) {
+			System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
+		}
+		
+	}
 	
 	
 }
