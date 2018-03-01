@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.beans.Product;
 import com.beans.ProductAvailability;
 import com.dao.impl.ProductAvailabilityDAOImpl;
+import com.dao.impl.ProductDAOImpl;
 import com.services.ModelAndViewService;
 
 @Controller
@@ -24,6 +25,8 @@ public class ProductAvailablityController {
 	
 	@Autowired
 	private ProductAvailabilityDAOImpl paDAO;
+	@Autowired
+	private ProductDAOImpl productDAO;
 	@Autowired
 	private ModelAndViewService modelService;
 	
@@ -59,7 +62,7 @@ public class ProductAvailablityController {
 	}
 	
 	@RequestMapping(value="/edit_product_availability", method=RequestMethod.GET)
-	public ModelAndView editProduct (HttpServletRequest request, @ModelAttribute("product_id") String product_id) {
+	public ModelAndView editProductAvailability (HttpServletRequest request, @ModelAttribute("product_id") String product_id) {
 		
 		List<ProductAvailability> productAvailabilities = paDAO.getProductAvailability(Integer.parseInt(product_id));
 		ProductAvailability productAvailabilitySmall = productAvailabilities.get(0);
@@ -98,6 +101,23 @@ public class ProductAvailablityController {
 		paDAO.edit(productAvailabilitySmall);
 		paDAO.edit(productAvailabilityMedium);
 		paDAO.edit(productAvailabilityLarge);
+		
+		RedirectView rv = new RedirectView();
+		rv.setUrl("home");
+		
+		return rv;
+	}
+	
+	@RequestMapping(value="/remove_product_availability", method=RequestMethod.GET)
+	public RedirectView deleteProductAvailability (HttpServletRequest request, @ModelAttribute("product_id") String product_id) {
+		
+		List<ProductAvailability> productAvailabilities = paDAO.getProductAvailability(Integer.parseInt(product_id));
+		
+		for (ProductAvailability pa : productAvailabilities) {
+			paDAO.delete(pa.getProduct_avail_id());
+		}
+		
+		productDAO.delete(Integer.parseInt(product_id));
 		
 		RedirectView rv = new RedirectView();
 		rv.setUrl("home");

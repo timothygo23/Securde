@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.beans.Product;
 import com.beans.ProductAvailability;
 import com.dao.ProductAvailabilityDAO;
 
@@ -30,7 +31,7 @@ public class ProductAvailabilityDAOImpl implements ProductAvailabilityDAO{
 
 	@Transactional
 	public void delete(int product_avail_id) {
-		sessionFactory.getCurrentSession().delete(getProductAvailability(product_avail_id));
+		sessionFactory.getCurrentSession().delete(getProductAvailabilityById(product_avail_id));
 	}
 
 	@Transactional
@@ -60,5 +61,10 @@ public class ProductAvailabilityDAOImpl implements ProductAvailabilityDAO{
 		}
 		
 		return ProductAvailability;
+	}
+
+	@Override
+	public ProductAvailability getProductAvailabilityById(int product_avail_id) {
+		return (ProductAvailability)sessionFactory.getCurrentSession().get(ProductAvailability.class, product_avail_id);
 	}
 }
