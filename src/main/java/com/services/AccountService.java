@@ -3,6 +3,7 @@ package com.services;
 import javax.servlet.http.HttpServletRequest;
 
 import com.beans.Account;
+import com.beans.BrandManufacturer;
 import com.beans.Customer;
 
 public interface AccountService {

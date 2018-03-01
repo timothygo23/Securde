@@ -57,23 +57,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<body>
 	
 		<!--header-->
-		<c:choose>
-			<c:when test="${account eq null}">
-				<%@include file="../html/navigationBar.html"%>
-			</c:when>
-			
-			<c:when test="${account.account_type eq 1}">
-				<%@include file="../html/navigationBar_admin.html"%>
-			</c:when>
-			
-			<c:when test="${account.account_type eq 2}">
-				<%@include file="../html/navigationBar_brandManufacturer.html"%>
-			</c:when>
-			
-			<c:otherwise>
-				<%@include file="../html/navigationBar_customer.html"%>
-			</c:otherwise>
-		</c:choose>
+		<%@include file="../html/navigationBar.html" %>
 	
 		<!--banner-->
 		<div class="banner-top">
@@ -87,37 +71,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--login-->
 		<div class="container">
 			<div class="login">
-			
-				<form action="${pageContext.request.contextPath}/delete_get_product" method="get">
+				<form action="${pageContext.request.contextPath}/register_bm" method="post">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<select name="product_id" required>
-								<c:forEach items="${products}" var="product">
-									<option value="${product.product_id}"><c:out value="${product.product_name}" /></option>
-								</c:forEach>
-							</select>
+							<input type="text" name="brand_name" placeholder="Brand Name" required="">
+							<i  class="glyphicon glyphicon-user"></i>
 						</div>
-						<label class="hvr-skew-backward">
-							<input type="submit" value="Select Product">
-						</label>
-					</div>
-				</form>
-				
-				<form action="${pageContext.request.contextPath}/remove_product" method="post">
-					<div class="col-md-6 login-do">
-					
-						<span>Product Name</span>
-				<div>${product.product_name}</div>
-				<span>Product Description</span>
-				<div>${product.product_description}</div>
-				<span>Catalog ID</span>
-				<div>${product.catalog_id}</div>
-				<span>Price</span>
-				<div>${product.price}</div>
-				<span>Brand Name</span>
-				<div>${product.brand_name}</div>
-					
-						<input type="hidden" name="product_id" value="${product.product_id}"/>
+						
+						<div class="login-mail">
+							<input type="text" name="email" placeholder="Email" required="">
+							<i  class="glyphicon glyphicon-envelope"></i>
+						</div>
+						
+						<div class="login-mail">
+							<input type="password" name="password" placeholder="Password" required="">
+							<i class="glyphicon glyphicon-lock"></i>
+						</div>
+						
+						<div class="login-mail">
+							<input type="password" placeholder="Confirm password" required="">
+							<i class="glyphicon glyphicon-lock"></i>
+						</div>
 						
 						<label class="hvr-skew-backward">
 							<input type="submit" value="Submit">
@@ -125,7 +99,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 				
 					<div class="col-md-6 login-right">
-						 <h3>Delete Product</h3>
+						 <h3>Register Brand Manufacturer</h3>
 						 
 						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
 						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>

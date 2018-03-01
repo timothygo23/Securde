@@ -14,17 +14,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.beans.BrandManufacturer;
 import com.beans.Catalog;
 import com.beans.Product;
+import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.CatalogDAOImpl;
 import com.dao.impl.ProductDAOImpl;
 import com.google.gson.Gson;
 import com.json.CatalogJSON;
+import com.json.Filter;
 import com.services.ModelAndViewService;
 
 @Controller
 public class CatalogController {
 	
+	@Autowired
+	private AccountDAOImpl accountDAO;
 	@Autowired
 	private CatalogDAOImpl catalogDAO;
 	@Autowired
@@ -60,11 +65,25 @@ public class CatalogController {
 	
 	@RequestMapping(value="/catalog/get_products_catalogs", method=RequestMethod.GET)
 	public void getProductsOfCatalog(HttpServletResponse response, @RequestParam Map<String,String> requestParam) throws IOException{
-		int catalog_id = Integer.parseInt(requestParam.get("catalog"));
+		int catalog_id;
+		Filter filter = null;
+		
+		if(requestParam.get("filter") != null){
+			//catalog with filter
+			catalog_id = Integer.parseInt(requestParam.get("value"));
+			
+			//set filters
+			filter = new Filter();
+			filter.setBrands(requestParam.get("brands").split("/"));
+			filter.setSizes(requestParam.get("sizes").split("/"));
+			filter.setPriceRange(requestParam.get("priceRange").split("-"));
+		}else{
+			catalog_id = Integer.parseInt(requestParam.get("catalog"));
+		}
 		
 		//gets data from db
 		Catalog catalog = catalogDAO.getCatalog(catalog_id);
-		List<Product> products = productDAO.getProductsOfCatalog(catalog_id);
+		List<Product> products = productDAO.getProductsOfCatalog(catalog_id, filter);
 		
 		//puts data in a custom class
 		CatalogJSON cJson = new CatalogJSON();
@@ -74,6 +93,17 @@ public class CatalogController {
 		//converts that class into a json and sends it as a response
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(cJson);
+		response.setContentType("application/json");
+		response.getWriter().write(jsonString);
+	}
+	
+	@RequestMapping(value="/catalog/get_all_brands", method=RequestMethod.GET)
+	public void getAllBrands(HttpServletResponse response, @RequestParam Map<String,String> requestParam) throws IOException{
+		List<BrandManufacturer> bm = accountDAO.getAllBrandManufacturers();
+		
+		//converts the class into a json and sends it as a response
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(bm);
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}
@@ -94,10 +124,24 @@ public class CatalogController {
 
 	@RequestMapping(value="/search/get_searched_products", method=RequestMethod.GET)
 	public void getSearchedProducts(HttpServletResponse response, @RequestParam Map<String,String> requestParam) throws IOException{
-		String searchKey = requestParam.get("search_key");
+		String searchKey;
+		Filter filter = null;
+		
+		if(requestParam.get("filter") != null){
+			//search with filter
+			searchKey = requestParam.get("value");
+			
+			//set filters
+			filter = new Filter();
+			filter.setBrands(requestParam.get("brands").split("/"));
+			filter.setSizes(requestParam.get("sizes").split("/"));
+			filter.setPriceRange(requestParam.get("priceRange").split("-"));
+		}else{
+			searchKey = requestParam.get("search_key");
+		}
 		
 		//get from db
-		List<Product> products = productDAO.getSearched(searchKey);
+		List<Product> products = productDAO.getSearched(searchKey, filter);
 		
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(products);

@@ -1,5 +1,7 @@
 package com.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.Product;
 import com.dao.ProductDAO;
+import com.json.Filter;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO{
@@ -53,36 +56,146 @@ public class ProductDAOImpl implements ProductDAO{
 	}
 	
 	@Transactional
-	public List<Product> getProductsOfCatalog(int catalog_id){
+	public List<Product> getProductsOfCatalog(int catalog_id, Filter filter){
 		List<Product> product = null;
 		
 		if (sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
-			
-			Query query = session.createQuery("from Product where catalog_id =:ci", Product.class);
+			Query query = null;
+			query = session.createQuery("from Product where catalog_id =:ci", Product.class);
 			query.setParameter("ci", catalog_id);
-			
 			product = query.getResultList();
+			
+			if(filter == null){
+				/*query = session.createQuery("from Product where catalog_id =:ci", Product.class);
+				query.setParameter("ci", catalog_id);*/
+			}else{
+				//filtered query
+				/*
+				 * TODO FIX THIS WITH LEGIT SQL FILTER
+				 */
+				List<Product> removeProduct = new ArrayList<Product>();
+				for(Product p : product){
+					boolean pass = true;
+					int filterPriceMin = 0;
+					int filterPriceMax = 0;
+					
+					//price filter
+					if(!filter.getPriceRange()[0].equals("")){
+						if(filter.getPriceRange().length > 1){
+							filterPriceMin = Integer.parseInt(filter.getPriceRange()[0]);
+							filterPriceMax = Integer.parseInt(filter.getPriceRange()[1]);
+						}else{
+							filterPriceMin = Integer.parseInt(filter.getPriceRange()[0]);
+							filterPriceMax = 0;
+						}
+						
+						//price 
+						if(p.getPrice() > filterPriceMin){
+							if(filterPriceMax != 0){
+								if(p.getPrice() > filterPriceMax){
+									pass = false;
+								}
+							}
+						}else{
+							pass = false;
+						}
+					}
+					
+					//brands
+					if(!filter.getBrands()[0].equals("")){
+						if(!Arrays.asList(filter.getBrands()).contains(p.getBrand_name())){
+							pass = false;
+						}
+					}
+					
+					if(!pass){
+						removeProduct.add(p);
+					}
+				}
+				
+				for(Product rp : removeProduct){
+					product.remove(rp);
+				}
+			}
+			
+			//product = query.getResultList();
 		}
 		
 		return product;
 	}
 	
 	@Transactional
-	public List<Product> getSearched (String searchKey){
+	public List<Product> getSearched (String searchKey, Filter filter){
 		List<Product> product = null;
 		
 		if (sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
+			Query query = null;
 			
 			String searchKey1 = "'" + searchKey + "%'";
 			String searchKey2 = "'% " + searchKey + "%'";
 			
-			Query query = session.createQuery("from Product "
+			query = session.createQuery("from Product "
 					+ "where brand_name like " + searchKey1 + " or brand_name like " + searchKey2 + " or "
 						+ "product_name like " + searchKey1 + " or product_name like " + searchKey2, Product.class);
-
 			product = query.getResultList();
+			
+			if(filter == null){
+				/*query = session.createQuery("from Product "
+						+ "where brand_name like " + searchKey1 + " or brand_name like " + searchKey2 + " or "
+							+ "product_name like " + searchKey1 + " or product_name like " + searchKey2, Product.class);*/
+			}else{
+				//filtered query
+				/*
+				 * TODO FIX THIS WITH LEGIT SQL FILTER
+				 */
+				List<Product> removeProduct = new ArrayList<Product>();
+				for(Product p : product){
+					boolean pass = true;
+					int filterPriceMin = 0;
+					int filterPriceMax = 0;
+					
+					//price filter
+					if(!filter.getPriceRange()[0].equals("")){
+						if(filter.getPriceRange().length > 1){
+							filterPriceMin = Integer.parseInt(filter.getPriceRange()[0]);
+							filterPriceMax = Integer.parseInt(filter.getPriceRange()[1]);
+						}else{
+							filterPriceMin = Integer.parseInt(filter.getPriceRange()[0]);
+							filterPriceMax = 0;
+						}
+						
+						//price 
+						if(p.getPrice() > filterPriceMin){
+							if(filterPriceMax != 0){
+								if(p.getPrice() > filterPriceMax){
+									pass = false;
+								}
+							}
+						}else{
+							pass = false;
+						}
+					}
+					
+					//brands
+					if(!filter.getBrands()[0].equals("")){
+						if(!Arrays.asList(filter.getBrands()).contains(p.getBrand_name())){
+							pass = false;
+						}
+					}
+					
+					if(!pass){
+						removeProduct.add(p);
+					}
+				}
+				
+				for(Product rp : removeProduct){
+					product.remove(rp);
+				}
+			}
+			
+			//product = query.getResultList();
 		}
 		
 		return product;

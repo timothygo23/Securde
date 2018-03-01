@@ -14,5 +14,6 @@ public interface AccountDAO {
 	public List<BrandManufacturer> getAllBrandManufacturers();
 	public Customer getCustomer(int account_id);
 	public List<Customer> getAllCustomers();
+	public void addAdmin (Account account);
 
 }

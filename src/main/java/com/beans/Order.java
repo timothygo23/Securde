@@ -5,15 +5,18 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="cart")
+@Table(name="orders")
 public class Order {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_id")
 	private int order_id;
 	@Column(name="cart_id")
@@ -68,13 +71,13 @@ public class Order {
 	@Transient
 	public String getPurchaseDateAsString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return dateFormat.format(this.purchase_date.getTime());
+		return (String) dateFormat.format(this.purchase_date.getTime());
 	}
 	
 	@Transient
 	public String getArrivalDateAsString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return dateFormat.format(this.arrival_date.getTime());
+		return (String) dateFormat.format(this.arrival_date.getTime());
 	}
 
 }

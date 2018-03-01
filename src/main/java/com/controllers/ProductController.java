@@ -59,8 +59,6 @@ public class ProductController {
 		List<ProductAvailability> productAvailability = paDAO.getProductAvailability(product.getProduct_id()); 
 		Catalog catalog = catalogDAO.getCatalog(product.getCatalog_id());
 		
-		System.out.println("sdfsfsfdds: " + productAvailability.size());
-		
 		ProductJSON pJson = new ProductJSON();
 		pJson.setProduct(product);
 		pJson.setProductAvailability(productAvailability);
