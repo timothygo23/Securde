@@ -180,9 +180,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</table>
 					</div>
 				</div>
-		
+
 				<div class="produced">
-					<a href="single.html" class="hvr-skew-backward">Produced To Buy</a>
+					<c:choose>
+					  <c:when test="${account eq null}">
+					        <a href="login" class="hvr-skew-backward">Login to purchase</a>
+					  </c:when>
+					  <c:otherwise>
+					    	<a href="home" class="hvr-skew-backward">Proceed to purchase</a>
+					  </c:otherwise>
+					</c:choose>
 			 	</div>
 			</div>
 		</div>
