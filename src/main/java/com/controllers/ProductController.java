@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.beans.CartItem;
 import com.beans.CartSession;
 import com.beans.Catalog;
 import com.beans.Product;
@@ -193,25 +194,25 @@ public class ProductController {
 		HttpSession session = request.getSession();
 		Product p = productDAO.getProduct(Integer.parseInt(productId));
 		
-		if(session.getAttribute(CartSession.PRODUCT_LIST) == null) {
+		if(session.getAttribute(CartSession.CART_ITEM_LIST) == null) {
 			CartSession cs = new CartSession();
 			System.out.println("First time cartsession!");
 			cs.addProducts(p);
-			session.setAttribute(cs.PRODUCT_LIST, cs.getProductList());
+			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
 			
-			for(Product test : cs.getProductList()) {
-				System.out.println("Product: " + test.getProduct_name());
+			for(CartItem test : cs.getCartItemList()) {
+				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
 			}
 		}
 		
 		else {
 			System.out.println("Not first time cartsession!");
 			CartSession cs = new CartSession();
-			cs.setProductList((ArrayList<Product>) session.getAttribute("productList"));
+			cs.setCartItemList((ArrayList<CartItem>) session.getAttribute(cs.CART_ITEM_LIST));
 			cs.addProducts(p);
-			session.setAttribute(cs.PRODUCT_LIST, cs.getProductList());
-			for(Product test : cs.getProductList()) {
-				System.out.println("Product: "  +  test.getProduct_name());
+			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
+			for(CartItem test : cs.getCartItemList()) {
+				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
 			}
 		}
 		

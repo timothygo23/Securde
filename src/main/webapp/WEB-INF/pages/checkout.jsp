@@ -119,7 +119,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="check-out">
 			<div class="container">
 		    <c:choose>
-		    	<c:when test="${productList eq null}">
+		    	<c:when test="${cartItemList eq null}">
 				 	<h1>Cart is empty..</h1>
 			 	</c:when>
 			 	<c:otherwise>
@@ -135,22 +135,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<th>Subtotal</th>
 							  	</tr>
 								
-								<c:forEach items="${productList}" var="product">		
+								<c:forEach items="${cartItemList}" var="cart_Item">		
 					  				<tr class="cart-header">
 										<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/pc.jpg" class="img-responsive" alt=""></a>
 											<div class="sed">
-												<h5><a href="single.html">${product.product_name}</a></h5>
-												<p>${product.product_description} </p>
+												<h5><a href="single.html">${cart_Item.product.product_name}</a></h5>
+												<p>${cart_Item.product.product_description} </p>
 											</div>
 											
 											<div class="clearfix"> </div>
-										
-											<div class="close1"> </div>
+											<p>Qty: </p>
+											<!-- <div class="close1"> </div> -->
 										</td>
-										<td>P${product.price}</td>
+										<td>P${cart_Item.product.price}</td>
 										<td>FREE SHIPPING</td>
-										<td class="item_price">P${product.price}</td>
-										<td class="add-check"><a class="item_add hvr-skew-backward" href="#">Add To Cart</a></td>
+										<td class="item_price">P${cart_Item.product.price}</td>
+										<td class="add-check">
+											<!-- <a class="item_add hvr-skew-backward" href="#">Add To Cart</a> -->
+											<a class="hvr-skew-backward" href="#" onClick="" >Remove</a>
+										</td>
 								  	</tr>
 							  	</c:forEach>
 							</table>
