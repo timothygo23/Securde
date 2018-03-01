@@ -181,8 +181,10 @@
 				<div id="small-dialog" class="mfp-hide">
 					<div class="search-top">
 						<div class="login-search">
-							<input type="submit" value="">
-							<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}">		
+							<form action="${pageContext.request.contextPath}/search" method="get">
+								<input type="submit" value="">
+								<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" name="search_key">		
+							</form>
 						</div>
 						<p>Shopin</p>
 					</div>				
