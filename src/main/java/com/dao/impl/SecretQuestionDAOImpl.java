@@ -48,4 +48,20 @@ public class SecretQuestionDAOImpl implements SecretQuestionDAO{
 		
 		return secretQuestion;
 	}
+	
+	@Transactional
+	public SecretQuestion getByAccount_ID(int account_id){
+		SecretQuestion secretQuestion = null;
+		
+		if (sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			List<SecretQuestion> sq = session.createQuery("from SecretQuestion where account_id =:account_id", SecretQuestion.class).setParameter("account_id", account_id).getResultList();
+			
+			if(sq != null && !sq.isEmpty()){
+				secretQuestion = sq.get(0);
+			}
+		}
+
+		return secretQuestion;
+	}
 }

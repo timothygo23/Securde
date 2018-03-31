@@ -55,22 +55,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		
 		<script>
 			$(document).ready(function(){
-				$("#forgotPassword").click(function(){
-					$("#loginContainer").hide();
-					$("#forgotPasswordContainer").show();
-				});
-				
 				$("#loginLink").click(function(){
-					$("#loginContainer").show();
-					$("#forgotPasswordContainer").hide();
+					window.location = "${pageContext.request.contextPath}/login";
 				});
 			})
 		</script>
 		
 		<style>
-			#forgotPassword:hover{
-				cursor: pointer;
-			}
 			#loginLink:hover{
 				cursor: pointer;
 			}
@@ -92,53 +83,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	
 		<!--login-->
-		<div class="container">
-			<div id="loginContainer" class="login">
-				<form action="${pageContext.request.contextPath}/authentication" method="post">
-					<div class="col-md-6 login-do">
-						<div class="login-mail">
-							<input type="text" name="email" placeholder="Email" required="">
-							<i  class="glyphicon glyphicon-envelope"></i>
-						</div>
-						
-						<div class="login-mail">
-							<input type="password" name="password" placeholder="Password" required="">
-							<i class="glyphicon glyphicon-lock"></i>
-						</div>
-						
-						<div style="margin-top: -20px; margin-bottom: 15px; float: right; font-size: 10pt; color: #0000EE;">
-							<span id="forgotPassword">Forgot password?</span>
-						</div>
-						
-						<label class="hvr-skew-backward">
-							<input type="submit" value="login">
-						</label>
-					</div>
-				
-					<div class="col-md-6 login-right">
-						 <h3>Completely Free Account</h3>
-						 
-						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
-						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
-						 
-						 <a href="register" class=" hvr-skew-backward">Register</a>		
-					</div>
-				
-					<div class="clearfix"> </div>
-				</form>
-			</div>
-			
-			<div id="forgotPasswordContainer" class="login" style="display:none;">
-				<form action="${pageContext.request.contextPath}/forgot_password" method="post">
+		<div class="container">	
+			<div id="forgotPasswordContainer" class="login">
+				<form action="${pageContext.request.contextPath}/reset_password" method="post">
 					<div class="col-md-6 login-do">
 						<div style="margin-bottom: 20px;">
-							FORGOT PASSWORD
+							Welcome back <span style="font-weight: bold;"> <c:out value="${email}"></c:out> </span>,
+						</div>
+						
+						<div style="margin-bottom: 20px;">
+							<span style="font-weight: bold;">Secret Q</span>: <c:out value="${question}"></c:out>
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="email" placeholder="Email" required="">
-							<i  class="glyphicon glyphicon-envelope"></i>
+							<input type="text" name="answer" placeholder="Answer" required="">
+							<i  class="glyphicon glyphicon-lock"></i>
 						</div>
+						
+						<input type="hidden" name="email" value="${email}">
 						
 						<div style="margin-top: -20px; margin-bottom: 15px; float: right; font-size: 10pt; color: #0000EE;">
 							<span id="loginLink">Login Now?</span>

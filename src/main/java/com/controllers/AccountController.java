@@ -1,8 +1,10 @@
 package com.controllers;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,6 +159,68 @@ public class AccountController {
 		}
 		
 		return rv;
+	}
+	
+	@RequestMapping(value="/forgot_password", method=RequestMethod.POST)
+	public ModelAndView forgotPasswordPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
+		ModelAndView mv = new ModelAndView();
+		
+		String email = requestParams.get("email");
+		Account account = accountDAO.getByEmail(email);
+		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+		
+		mv.setViewName("forgotPassword");
+		mv.addObject("question", secretQuestion.getQuestion());
+		mv.addObject("email", email);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/reset_password", method=RequestMethod.POST)
+	public ModelAndView resetPasswordPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
+		ModelAndView mv = new ModelAndView();
+		
+		String email = requestParams.get("email");
+		String answer = requestParams.get("answer");
+		Account account = accountDAO.getByEmail(email);
+		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+		
+		if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
+			mv.setViewName("resetPassword");
+			mv.addObject("email", email);
+			mv.addObject("answer", answer);
+		}else{
+			mv.setViewName("login");
+			response.sendRedirect("login");
+		}
+
+		return mv;
+	}
+	
+	@RequestMapping(value="/confirm_reset_pass", method=RequestMethod.POST)
+	public ModelAndView resetPassword(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
+		ModelAndView mv = new ModelAndView();
+		
+		String email = requestParams.get("email");
+		String answer = requestParams.get("answer");
+		String password = requestParams.get("newpassword");
+		Account account = accountDAO.getByEmail(email);
+		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+		
+		//checking again just incase
+		if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
+			//reset password here
+			account.setPassword(Hash.hash(password, account.getSalt()));
+			accountDAO.update(account);
+			
+			mv.setViewName("login");
+			response.sendRedirect("login");
+		}else{
+			mv.setViewName("login");
+			response.sendRedirect("login");
+		}
+
+		return mv;
 	}
 	
 	@RequestMapping(value="/create_bm", method=RequestMethod.GET)

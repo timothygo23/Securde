@@ -8,6 +8,7 @@ import com.beans.Customer;
 
 public interface AccountDAO {
 	public Account get(int account_id);
+	public Account getByEmail(String email);
 	public void addBrandManufacturer(Account account, BrandManufacturer brandManufacturer);
 	public int addCustomer(Account account, Customer customer);
 	public BrandManufacturer getBrandManufacturer(int account_id);

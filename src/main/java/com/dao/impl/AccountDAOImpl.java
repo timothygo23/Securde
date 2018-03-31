@@ -32,6 +32,21 @@ public class AccountDAOImpl implements AccountDAO{
 	}
 	
 	@Transactional
+	public Account getByEmail(String email) {
+		Account account = null;
+		
+		if(sessionFactory != null){
+			Session session = sessionFactory.getCurrentSession();
+			List<Account> accs = session.createQuery("from Account where email =:email", Account.class).setParameter("email", email).getResultList();
+			
+			if(accs != null && !accs.isEmpty())
+				account = accs.get(0);
+		}
+		
+		return account;
+	}
+	
+	@Transactional
 	public void addBrandManufacturer(Account account, BrandManufacturer brandManufacturer) {
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
@@ -127,6 +142,18 @@ public class AccountDAOImpl implements AccountDAO{
 			return true;
 		else
 			return false;
+	}
+	
+	@Transactional
+	public void update(Account account){
+		if(sessionFactory != null){
+			Session session = sessionFactory.getCurrentSession();
+			Account acc = session.find(Account.class, account.getAccount_id());
+			acc.setAccount_type(account.getAccount_type());
+			acc.setEmail(account.getEmail());
+			acc.setPassword(account.getPassword());
+			acc.setSalt(account.getSalt());
+		}
 	}
 	
 	
