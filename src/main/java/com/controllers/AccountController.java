@@ -43,11 +43,12 @@ public class AccountController {
 		ModelAndView mv = new ModelAndView();
 		
 		String fName = requestParams.get("fName"),
-			   lName = requestParams.get("LName"),
+			   lName = requestParams.get("lName"),
 			   phoneNum = requestParams.get("phoneNum"),
 			   email = requestParams.get("email"),
 			   password = requestParams.get("password"),
-			  //question = requestParams.get("question"),
+			   cpassword = requestParams.get("cpassword"),
+			   question = requestParams.get("question"),
 			   answer = requestParams.get("answer");
 		
 		//Checking purposes.
@@ -56,6 +57,28 @@ public class AccountController {
 //		System.out.println("email: " + email);
 //		System.out.println("Password: " + password);
 //		System.out.println("Answer: " + answer);
+		
+		/*boolean wrongInput = false;
+		String errorMessage = "";
+		
+		if(fName.trim().equals("") || lName.trim().equals("") ||
+				phoneNum.trim().equals("") || email.trim().equals("") ||
+				password.trim().equals("") || cpassword.trim().equals("") || answer.trim().equals("")){
+			wrongInput = true;
+			errorMessage = "Empty fields.";
+		}else{
+			//input validation for password and email
+			if(!password.equals(cpassword)){
+				wrongInput = true;
+				errorMessage = "Password does not match.";
+			}
+		}
+		
+		if(wrongInput){
+			mv.setViewName("register");
+			mv.addObject("error", errorMessage);
+			return mv;
+		}*/
 		
 		//security part
 		byte[] salt = SaltGenerator.getInstance().generate();
@@ -66,9 +89,15 @@ public class AccountController {
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.CUSTOMER, salt);
 		Customer customer = new Customer(fName, lName, phoneNum);
-		accountService.addAccount(account, customer);
 		
-		mv.setViewName("successRegister");
+		try{
+			accountDAO.addCustomer(account, customer);
+			mv.setViewName("successRegister");
+		}catch(Exception e){
+			mv.setViewName("register");
+			mv.addObject("error", "Duplicate Email");
+		}
+		
 		return mv;
 	}
 	

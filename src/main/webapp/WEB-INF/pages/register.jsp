@@ -51,6 +51,53 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				});
 			});
 		</script>
+		
+		<c:if test="${error ne null}">
+			<script>
+				$(document).ready(function(){
+					alert("${error}");
+				});
+			</script>
+		</c:if>
+		
+		<script>
+			function validateNum(event){
+				var key = String.fromCharCode(event.keyCode);
+				var regex = /[0-9]/;
+				if( !regex.test(key) ) {
+					event.returnValue = false;
+				}
+			}
+			
+			function submitForm(){
+				var inputs = $("#registerForm :input");
+				var values = {};
+				var emptyFields = false;
+				inputs.each(function(){
+					values[this.name] = $(this).val();
+					if(values[this.name].trim() == ""){
+						emptyFields = true;
+					}
+				})
+				
+				if(emptyFields == true){
+					alert("Empty fields.");
+					return false;
+				}
+				
+				if(values["phoneNum"].length > 11){
+					alert("Invalid phone number.");
+					return false;
+				}
+				
+				if(values["password"] != values["cpassword"]){
+					alert("Passwords does not match.");
+					return false;
+				}
+				
+				return true;
+			}
+		</script>
 		<!---//End-rate---->
 	</head>
 	
@@ -71,7 +118,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--login-->
 		<div class="container">
 			<div class="login">
-				<form action="${pageContext.request.contextPath}/registerAccount" method="post">
+				<form id="registerForm" action="${pageContext.request.contextPath}/registerAccount" onsubmit="return submitForm()" method="post">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
 							<input type="text" name="fName" placeholder="Firstname" required="">
@@ -84,7 +131,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="phoneNum" placeholder="Phone Number" required="">
+							<input type="text" name="phoneNum" onkeypress="validateNum(event)" placeholder="Phone Number" required="">
 							<i  class="glyphicon glyphicon-phone"></i>
 						</div>
 						
@@ -94,13 +141,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="password" name="password" placeholder="Password" required="">
+							<input type="password" name="password" placeholder="Password" pattern="^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{9,}" title="Min 9 char. 1 Uppercase, 1 Number, and 1 Special Character." required>
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
 						<div class="login-mail">
-							<input type="password" placeholder="Confirm password" required="">
+							<input type="password" name="cpassword" placeholder="Confirm password" pattern="^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{9,}" title="Min 9 char. 1 Uppercase, 1 Number, and 1 Special Character." required>
 							<i class="glyphicon glyphicon-lock"></i>
+						</div>
+						
+						<div class="login-mail">
+							<select name="question" form="registerForm">
+								<option value="What was the name of your elementary / primary school?">What was the name of your elementary / primary school?</option>
+								<option value="What is the last name of the teacher who gave you your first failing grade?">What is the last name of the teacher who gave you your first failing grade?</option>
+								<option value="In what city or town does your nearest sibling live?">In what city or town does your nearest sibling live?</option>
+							</select>
+							<i  class="glyphicon glyphicon-lock"></i>
 						</div>
 						
 						<div class="login-mail">
