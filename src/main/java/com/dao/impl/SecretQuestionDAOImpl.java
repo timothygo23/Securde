@@ -5,11 +5,13 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.SecretQuestion;
 import com.dao.SecretQuestionDAO;
 
+@Repository
 public class SecretQuestionDAOImpl implements SecretQuestionDAO{
 	@Autowired
 	private SessionFactory sessionFactory;

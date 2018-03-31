@@ -2,7 +2,6 @@ package com.controllers;
 
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +16,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.beans.Account;
 import com.beans.BrandManufacturer;
 import com.beans.Customer;
+import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
+import com.dao.impl.SecretQuestionDAOImpl;
 import com.services.AccountService;
 import com.services.SessionAttributes;
 import com.utility.Hash;
@@ -28,6 +29,8 @@ public class AccountController {
 	
 	@Autowired
 	private AccountDAOImpl accountDAO;
+	@Autowired
+	private SecretQuestionDAOImpl secretQuestionDAO;
 	@Autowired
 	private AccountService accountService;
 	
@@ -89,9 +92,14 @@ public class AccountController {
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.CUSTOMER, salt);
 		Customer customer = new Customer(fName, lName, phoneNum);
+		SecretQuestion secretQuestion = new SecretQuestion();
+		secretQuestion.setQuestion(question);
+		secretQuestion.setAnswer(Hash.hash(answer, salt));
 		
 		try{
-			accountDAO.addCustomer(account, customer);
+			int account_id = accountDAO.addCustomer(account, customer);
+			secretQuestion.setAccount_id(account_id);
+			secretQuestionDAO.add(secretQuestion);
 			mv.setViewName("successRegister");
 		}catch(Exception e){
 			mv.setViewName("register");
@@ -176,9 +184,15 @@ public class AccountController {
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
 		BrandManufacturer brandManufacturer = new BrandManufacturer(brand_name);
-		accountDAO.addBrandManufacturer(account, brandManufacturer);
 		
-		mv.setViewName("successRegister");
+		try{
+			accountDAO.addBrandManufacturer(account, brandManufacturer);
+			mv.setViewName("successRegister");
+		}catch(Exception e){
+			mv.setViewName("register");
+			mv.addObject("error", "Duplicate Email");
+		}
+		
 		return mv;
 	}
 	
@@ -205,9 +219,15 @@ public class AccountController {
 		
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
-		accountDAO.addAdmin(account);
 		
-		mv.setViewName("successRegister");
+		try{
+			accountDAO.addAdmin(account);
+			mv.setViewName("successRegister");
+		}catch(Exception e){
+			mv.setViewName("register");
+			mv.addObject("error", "Duplicate Email");
+		}
+		
 		return mv;
 	}
 }

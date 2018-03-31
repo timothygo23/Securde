@@ -15,14 +15,20 @@ public class SecretQuestion {
 	@Column(name="question")
 	private String question;
 	@Column(name="answer")
-	private String answer;
+	private byte[] answer;
 	@Column(name="account_id")
 	private int account_id;
 	
 	public SecretQuestion() {}
 	
-	public SecretQuestion(int secret_id, String question, String answer, int account_id) {
+	public SecretQuestion(int secret_id, String question, byte[] answer, int account_id) {
 		this.secret_id = secret_id;
+		this.question = question;
+		this.answer = answer;
+		this.account_id = account_id;
+	}
+	
+	public SecretQuestion(String question, byte[] answer, int account_id) {
 		this.question = question;
 		this.answer = answer;
 		this.account_id = account_id;
@@ -44,11 +50,11 @@ public class SecretQuestion {
 		this.question = question;
 	}
 
-	public String getAnswer() {
+	public byte[] getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(String answer) {
+	public void setAnswer(byte[] answer) {
 		this.answer = answer;
 	}
 
