@@ -20,6 +20,8 @@ import com.beans.Customer;
 import com.dao.impl.AccountDAOImpl;
 import com.services.AccountService;
 import com.services.SessionAttributes;
+import com.utility.Hash;
+import com.utility.SaltGenerator;
 
 @Controller
 public class AccountController {
@@ -33,7 +35,6 @@ public class AccountController {
 	public ModelAndView registerPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("register");
-		
 		return mv;
 	}
 	
@@ -56,8 +57,14 @@ public class AccountController {
 //		System.out.println("Password: " + password);
 //		System.out.println("Answer: " + answer);
 		
+		//security part
+		byte[] salt = SaltGenerator.getInstance().generate();
+		while(!accountDAO.isSaltUnique(salt)){
+			salt = SaltGenerator.getInstance().generate();
+		}
+		
 		//add account to db
-		Account account = new Account(email, password, Account.CUSTOMER);
+		Account account = new Account(email, Hash.hash(password, salt), Account.CUSTOMER, salt);
 		Customer customer = new Customer(fName, lName, phoneNum);
 		accountService.addAccount(account, customer);
 		
@@ -131,8 +138,14 @@ public class AccountController {
 		String email = requestParams.get("email");
 		String password = requestParams.get("password");
 		
+		//security part
+		byte[] salt = SaltGenerator.getInstance().generate();
+		while(!accountDAO.isSaltUnique(salt)){
+			salt = SaltGenerator.getInstance().generate();
+		}
+		
 		//add account to db
-		Account account = new Account(email, password, Account.BRAND_MANUFACTURER);
+		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
 		BrandManufacturer brandManufacturer = new BrandManufacturer(brand_name);
 		accountDAO.addBrandManufacturer(account, brandManufacturer);
 		
@@ -155,8 +168,14 @@ public class AccountController {
 		String email = requestParams.get("email");
 		String password = requestParams.get("password");
 		
+		//security part
+		byte[] salt = SaltGenerator.getInstance().generate();
+		while(!accountDAO.isSaltUnique(salt)){
+			salt = SaltGenerator.getInstance().generate();
+		}
+		
 		//add account to db
-		Account account = new Account(email, password, Account.BRAND_MANUFACTURER);
+		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
 		accountDAO.addAdmin(account);
 		
 		mv.setViewName("successRegister");

@@ -15,5 +15,6 @@ public interface AccountDAO {
 	public Customer getCustomer(int account_id);
 	public List<Customer> getAllCustomers();
 	public void addAdmin (Account account);
+	public boolean isSaltUnique(byte[] salt);
 
 }

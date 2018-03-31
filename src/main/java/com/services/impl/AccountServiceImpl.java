@@ -16,6 +16,7 @@ import com.beans.BrandManufacturer;
 import com.beans.Customer;
 import com.dao.AccountDAO;
 import com.services.AccountService;
+import com.utility.Hash;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -39,14 +40,18 @@ public class AccountServiceImpl implements AccountService{
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
 			TypedQuery<Account> query = session.createNativeQuery("select * from account "
-														+ "where email =:email and "
-															+ "password =:password", Account.class);
+														+ "where email =:email" , Account.class);
 			query.setParameter("email", email);
-			query.setParameter("password", password);
 			
 			List<Account> accounts = query.getResultList();
-			if(!accounts.isEmpty())
-				account = query.getResultList().get(0);
+			if(!accounts.isEmpty()){
+				Account tempAcc = query.getResultList().get(0);
+
+				//test for password
+				if(Hash.compare(tempAcc.getPassword(), password, tempAcc.getSalt()))
+					account = tempAcc;
+			}
+			
 		}
 		
 		return account;

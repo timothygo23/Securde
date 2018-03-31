@@ -23,24 +23,29 @@ public class Account {
 	private String email;
 	
 	@Column(name="password")
-	private String password;
+	private byte[] password;
 	
 	@Column(name="account_type")
 	private int account_type;
+	
+	@Column(name="salt")
+	private byte[] salt;
 
 	public Account() {}
 	
-	public Account(int account_id, String email, String password, int account_type) {
+	public Account(int account_id, String email, byte[] password, int account_type, byte[] salt) {
 		this.account_id = account_id;
 		this.email = email;
 		this.password = password;
 		this.account_type = account_type;
+		this.salt = salt;
 	}
 
-	public Account(String email, String password, int account_type) {
+	public Account(String email, byte[] password, int account_type, byte[] salt) {
 		this.email = email;
 		this.password = password;
 		this.account_type = account_type;
+		this.salt = salt;
 	}
 	public int getAccount_id() {
 		return account_id;
@@ -58,11 +63,11 @@ public class Account {
 		this.email = email;
 	}
 
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(byte[] password) {
 		this.password = password;
 	}
 
@@ -74,4 +79,11 @@ public class Account {
 		this.account_type = account_type;
 	}
 	
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
+	}
 }

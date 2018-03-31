@@ -108,6 +108,24 @@ public class AccountDAOImpl implements AccountDAO{
 			session.save(account);
 		}
 	}
+
+	@Transactional
+	public boolean isSaltUnique(byte[] salt) {
+		Account account = null;
+		
+		if(sessionFactory != null){
+			Session session = sessionFactory.getCurrentSession();
+			List<Account> accs = session.createQuery("from Account where salt =:salt", Account.class).setParameter("salt", salt).getResultList();
+			
+			if(accs != null && !accs.isEmpty())
+				account = accs.get(0);
+		}
+		
+		if(account == null)
+			return true;
+		else
+			return false;
+	}
 	
 	
 }
