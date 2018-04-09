@@ -6,14 +6,21 @@ package com.utility;
  */
 public class RestrictedPages {
 	
+	//TODO finish whitelisting.
 	//Whitelist of path only viewable by said users.
-	private final String[] ADMIN_LIST = {};
+	private final String[] ADMIN_LIST = {"/create_bm",
+            							 "/create_admin",
+            							 "/register_admin",
+            							 "/catalog/get_catalogs",
+            							 "/override_order",
+            							 "/delete_order"};
 	private final String[] BM_LIST = {};
 	private final String[] CUSTOMER_LIST = {"/checkout"};
 	
 	private final String[] GENERAL_LIST = {"/register", //general list, basically anyone can access these.
-			                               "/login",
-			                               "/home"};
+			                               "/login",    //If user is already logged in, accessing register or login would redirect to home.
+			                               "/home",
+			                               "/404"};
 	
 	/**
 	 * 
@@ -22,6 +29,9 @@ public class RestrictedPages {
 	 * @return true if the user is restricted, false if not.
 	 */
 	public static boolean isRestricted(int accountType, String path) {
+		
+		//TODO perform restriction true/false here 
+		
 		return false;
 	}
 }

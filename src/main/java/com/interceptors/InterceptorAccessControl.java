@@ -24,34 +24,40 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 		
 		HttpSession session = request.getSession();
 		Account account;
+		String path = request.getServletPath();
 		
 		account = identifyUser(session);
 		
 		//if account null, dont do anything.
 		try {
 			//perform access control.
+			//any resources path will be ignored.
+
+	        if(!path.matches(".*resources.*")) {
+				System.out.println(path);
+				//restricted
+				if(RestrictedPages.isRestricted(account.getAccount_type(), path)) {
+					
+					/*TODO Perform redirection (PAGE NOT FOUND)*/
+					
+					return false;
+				}
+				//not restricted
+				else {
+					return true;
+				}
 			
-			System.out.println(request.getRequestURL());
-			System.out.println(request.getServletPath());
-			
-			//restricted
-			if(RestrictedPages.isRestricted(account.getAccount_type(), request.getServletPath())) {
-				
-				/* Perform redirection (PAGE NOT FOUND)*/
-				
-				return false;
 			}
-			//not restricted
-			else {
-				return true;
-			}
+	        
+	        else {
+				System.out.println("IGNORED: " + path);
+	        }
 		}
 		
-		catch(Exception e) {
-			System.out.println("No user.");
-		}
 		
-		//if no user exist given the type, do not proceed with other handlers.
+		catch(Exception e) {}
+		
+		//TODO if no user exist given the type, do not proceed with other handlers. redirect to home (gonna do this later)
 		return true;
 
 	}

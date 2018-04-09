@@ -24,7 +24,7 @@
     
     <!-- INTERCEPTORS -->
 	<mvc:interceptors>
-		<bean id="InterceptorAccessControl" class="com.interceptors.InterceptorAccessControl" />
+	    <bean id="InterceptorAccessControl" class="com.interceptors.InterceptorAccessControl" />
 		<bean id="InterceptorLogging" class="com.interceptors.InterceptorLogging" />
 	</mvc:interceptors>
 	
