@@ -1,5 +1,7 @@
 package com.interceptors;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.beans.Account;
 import com.services.SessionAttributes;
-import com.utility.RestrictedPages;
+import com.utility.Restriction;
 
 /**
  * Access control (Authorization) handler.
@@ -19,12 +21,13 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 	
 	public boolean preHandle(HttpServletRequest request, 
 			                 HttpServletResponse response,
-			                 Object handler) {
-		
-		
+			                 Object handler) throws IOException {
+
 		HttpSession session = request.getSession();
 		Account account;
 		String path = request.getServletPath();
+		String contextPath = request.getContextPath();
+		Restriction restriction = new Restriction();
 		
 		account = identifyUser(session);
 		
@@ -34,12 +37,12 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 			//any resources path will be ignored.
 
 	        if(!path.matches(".*resources.*")) {
-				System.out.println(path);
+	    		System.out.println(path);
 				//restricted
-				if(RestrictedPages.isRestricted(account.getAccount_type(), path)) {
+				if(restriction.isRoleRestricted(account.getAccount_type(), path)) {
 					
 					/*TODO Perform redirection (PAGE NOT FOUND)*/
-					
+					response.sendRedirect(contextPath + "/404");
 					return false;
 				}
 				//not restricted
@@ -52,14 +55,16 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 	        else {
 				System.out.println("IGNORED: " + path);
 	        }
+	        
+		} catch(Exception e) {}
+		
+		//-1 account type indicating it is PUBLIC or no role.
+		if(restriction.isRoleRestricted(-1, path)) {
+			response.sendRedirect(contextPath + "/404");
+			return false;
 		}
 		
-		
-		catch(Exception e) {}
-		
-		//TODO if no user exist given the type, do not proceed with other handlers. redirect to home (gonna do this later)
 		return true;
-
 	}
 	
 	public void postHandle(HttpServletRequest request, 

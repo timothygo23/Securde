@@ -282,7 +282,7 @@ public class AccountController {
 		}
 		
 		//add account to db
-		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
+		Account account = new Account(email, Hash.hash(password, salt), Account.ADMIN, salt);
 		
 		try{
 			accountDAO.addAdmin(account);
