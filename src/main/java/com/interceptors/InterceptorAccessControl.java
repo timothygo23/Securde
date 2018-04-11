@@ -30,17 +30,15 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 		Restriction restriction = new Restriction();
 		
 		account = identifyUser(session);
-		
-		//if account null, dont do anything.
-		try {
-			//perform access control.
-			//any resources path will be ignored.
-
-	        if(!path.matches(".*resources.*")) {
-	    		System.out.println(path);
+    	System.out.println(path);
+		//if path is resources, don't do anything.
+		if(!path.matches(".*resources.*")) {
+			//if account null, dont do anything.
+			try {
+				//perform access control.
 				//restricted
 				if(restriction.isRoleRestricted(account.getAccount_type(), path)) {
-					
+						
 					/*TODO Perform redirection (PAGE NOT FOUND)*/
 					response.sendRedirect(contextPath + "/404");
 					return false;
@@ -49,22 +47,22 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 				else {
 					return true;
 				}
+				
+			}catch(Exception e) {}
 			
+			//-1 account type indicating it is PUBLIC or no role.
+			if(restriction.isRoleRestricted(-1, path)) {
+				response.sendRedirect(contextPath + "/404");
+				return false;
 			}
-	        
-	        else {
-				System.out.println("IGNORED: " + path);
-	        }
-	        
-		} catch(Exception e) {}
-		
-		//-1 account type indicating it is PUBLIC or no role.
-		if(restriction.isRoleRestricted(-1, path)) {
-			response.sendRedirect(contextPath + "/404");
-			return false;
+			else return true;
+			
 		}
 		
-		return true;
+		else {
+			return true;
+		}
+
 	}
 	
 	public void postHandle(HttpServletRequest request, 
