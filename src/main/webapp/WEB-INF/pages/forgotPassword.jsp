@@ -85,10 +85,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--login-->
 		<div class="container">	
 			<div id="forgotPasswordContainer" class="login">
-				<form action="${pageContext.request.contextPath}/reset_password" method="post">
+				<form action="${pageContext.request.contextPath}/forgot_password/secret_question" method="post">
 					<div class="col-md-6 login-do">
 						<div style="margin-bottom: 20px;">
-							Welcome back <span style="font-weight: bold;"> <c:out value="${email}"></c:out> </span>,
+							Email: <span style="font-weight: bold;"> <c:out value="${email}"></c:out> </span>,
 						</div>
 						
 						<div style="margin-bottom: 20px;">
