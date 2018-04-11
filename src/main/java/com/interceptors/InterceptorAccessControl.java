@@ -24,23 +24,29 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 			                 Object handler) throws IOException {
 
 		HttpSession session = request.getSession();
-		Account account;
 		String path = request.getServletPath();
 		String contextPath = request.getContextPath();
 		Restriction restriction = new Restriction();
+		Account account;
+		int rCode;
+		
 		
 		account = identifyUser(session);
     	System.out.println(path);
-		//if path is resources, don't do anything.
+		//if path is resources, don't do anything. just proceed
 		if(!path.matches(".*resources.*")) {
 			//if account null, dont do anything.
 			try {
 				//perform access control.
+				
 				//restricted
-				if(restriction.isRoleRestricted(account.getAccount_type(), path)) {
-						
-					/*TODO Perform redirection (PAGE NOT FOUND)*/
+				rCode = restriction.isRoleRestricted(account.getAccount_type(), path);
+				if(rCode == Restriction.YES_ERROR) {
 					response.sendRedirect(contextPath + "/404");
+					return false;
+				}
+				else if(rCode == Restriction.YES_HOME) {
+					response.sendRedirect(contextPath + "/home");
 					return false;
 				}
 				//not restricted
@@ -51,7 +57,8 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 			}catch(Exception e) {}
 			
 			//-1 account type indicating it is PUBLIC or no role.
-			if(restriction.isRoleRestricted(-1, path)) {
+			rCode = restriction.isRoleRestricted(-1, path);
+			if(rCode == Restriction.YES_ERROR) {
 				response.sendRedirect(contextPath + "/404");
 				return false;
 			}

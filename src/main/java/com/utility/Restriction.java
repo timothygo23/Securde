@@ -8,6 +8,11 @@ import com.beans.Account;
  */
 public class Restriction {
 	
+	//response codes.
+	public static final int YES_HOME = 1;
+	public static final int YES_ERROR = 2;
+	public static final int NO = 3;
+	
 	//TODO finish whitelisting.
 	//Whitelist of path only viewable by said users.
 	private final String[] ADMIN_LIST = {"/create_admin",
@@ -49,7 +54,10 @@ public class Restriction {
             							  "/checkout",
             							  "/forgot_password",
             							  "/reset_password",
-            							  "/confirm_reset_pass"};
+            							  "/confirm_reset_pass",
+            							  "/saveProductToCart",
+										  "/removeAllProductsFromCart",
+										  "/removeOneProdCart"};
 	
 	//general list, basically anyone can access these.
 	private final String[] GENERAL_LIST = {"/",
@@ -67,16 +75,16 @@ public class Restriction {
 	
 	/**
 	 * Checks whether the given authorized user is authorized to view action / page.
-	 * @param accountType -  the account type
+	 * @param accType -  the account type
 	 * @param path - the path that the user wants to access
 	 * @return true if the user is restricted, false if not.
 	 */
-	public boolean isRoleRestricted(int accountType, String path) {
+	public int isRoleRestricted(int accType, String path) {
 		
 		//TODO perform restriction true/false here 
-		boolean restricted = true;
+		int restricted;
 		
-		switch(accountType) {
+		switch(accType) {
 			case Account.ADMIN: restricted = check(ADMIN_LIST, path);
 			                    break;
 			case Account.BRAND_MANUFACTURER: restricted = check(BM_LIST, path); 
@@ -91,13 +99,26 @@ public class Restriction {
 		return restricted;
 	}
 	
-	private boolean check(String[] list, String path) {
+	private int check(String[] list, String path) {
+		
 		
 		if(hasPath(list, path) || hasPath(GENERAL_LIST, path)) {
-			return false;
+			return NO;
 		}
 		
-		return true;
+		//what kind of restriction is it.
+		else {
+			
+			//No, go back home.
+			if(hasPath(PUBLIC_LIST, path)) {
+				return YES_HOME;
+			}
+			
+			//No, not found.
+			else return YES_ERROR;
+			
+		}
+		
 	}
 	
 	/**
