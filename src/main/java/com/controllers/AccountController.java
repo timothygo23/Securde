@@ -186,6 +186,9 @@ public class AccountController {
 		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
 		
 		if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
+			/*
+			 * TODO: SEND EMAIL HERE INSTEAD OF GOING TO RESET PASSWORD
+			 */
 			mv.setViewName("resetPassword");
 			mv.addObject("email", email);
 			mv.addObject("answer", answer);
