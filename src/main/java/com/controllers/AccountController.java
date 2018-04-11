@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,9 @@ import com.services.impl.AccountServiceImpl;
 import com.utility.Hash;
 import com.utility.SaltGenerator;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+
 @Controller
 public class AccountController {
 	
@@ -45,6 +50,8 @@ public class AccountController {
 	private EmailService emailService;
 	@Autowired
 	private EmailTokenDAOImpl emailTokenDAO;
+	
+	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView registerPage() {
@@ -152,6 +159,12 @@ public class AccountController {
 		
 		RedirectView rv = new RedirectView();
 		HttpSession session = request.getSession();
+		
+		logger.trace("TRACE LEVEL TANGINA");
+		logger.debug("DEBUG LEVEL TANGINA");
+		logger.info("INFO LEVEL TANGINA");
+		logger.warn("WARN LEVEL TANGINA");
+		logger.error("ERROR LEVEL TANGINA");
 		
 		if(!accountService.isLockedout(email)){
 			Account account = accountService.logIn(email, password);
