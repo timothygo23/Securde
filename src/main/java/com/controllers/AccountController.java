@@ -28,6 +28,7 @@ import com.dao.impl.SecretQuestionDAOImpl;
 import com.services.AccountService;
 import com.services.EmailService;
 import com.services.SessionAttributes;
+import com.services.impl.AccountServiceImpl;
 import com.utility.Hash;
 import com.utility.SaltGenerator;
 
@@ -39,14 +40,11 @@ public class AccountController {
 	@Autowired
 	private SecretQuestionDAOImpl secretQuestionDAO;
 	@Autowired
-	private AccountService accountService;
+	private AccountServiceImpl accountService;
 	@Autowired
 	private EmailService emailService;
 	@Autowired
 	private EmailTokenDAOImpl emailTokenDAO;
-	
-	@Autowired
-	private AttemptLoginDAOImpl attemptLoginDAO; 
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView registerPage() {
@@ -155,21 +153,27 @@ public class AccountController {
 		RedirectView rv = new RedirectView();
 		HttpSession session = request.getSession();
 		
-		Account account = accountService.logIn(email, password);
-		if(account!=null){
-			/* session */
-			session.setAttribute(SessionAttributes.ACC, account);	
-			if(account.getAccount_type() == Account.ADMIN){
-				rv.setUrl("home");
-			}if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
-				session.setAttribute(SessionAttributes.BM_INFO, accountDAO.getBrandManufacturer(account.getAccount_id()));
-				rv.setUrl("home");
-			}else if(account.getAccount_type() == Account.CUSTOMER){
-				session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDAO.getCustomer(account.getAccount_id()));
-				rv.setUrl("home");
+		if(!accountService.isLockedout(email)){
+			Account account = accountService.logIn(email, password);
+			if(account!=null){
+				/* session */
+				session.setAttribute(SessionAttributes.ACC, account);	
+				if(account.getAccount_type() == Account.ADMIN){
+					rv.setUrl("home");
+				}if(account.getAccount_type() == Account.BRAND_MANUFACTURER){
+					session.setAttribute(SessionAttributes.BM_INFO, accountDAO.getBrandManufacturer(account.getAccount_id()));
+					rv.setUrl("home");
+				}else if(account.getAccount_type() == Account.CUSTOMER){
+					session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDAO.getCustomer(account.getAccount_id()));
+					rv.setUrl("home");
+				}
+			}else{
+				accountService.failedLogin(email);
+				session.setAttribute(SessionAttributes.ERROR, "Incorrect email or password");
+				rv.setUrl("login");
 			}
 		}else{
-			session.setAttribute(SessionAttributes.ERROR, "Incorrect email or password");
+			session.setAttribute(SessionAttributes.ERROR, "Account is locked out.");
 			rv.setUrl("login");
 		}
 		
