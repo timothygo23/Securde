@@ -96,6 +96,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div id="loginContainer" class="login">
 				<form action="${pageContext.request.contextPath}/authentication" method="post">
 					<div class="col-md-6 login-do">
+						<c:if test="${error ne null}">
+							<h2 style="margin-bottom: 15px;">
+								<c:out value="${error}"/>
+							</h2>
+						</c:if>
 						<div class="login-mail">
 							<input type="text" name="email" placeholder="Email" required="">
 							<i  class="glyphicon glyphicon-envelope"></i>

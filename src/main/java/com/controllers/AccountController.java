@@ -22,6 +22,7 @@ import com.beans.Customer;
 import com.beans.EmailToken;
 import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
+import com.dao.impl.AttemptLoginDAOImpl;
 import com.dao.impl.EmailTokenDAOImpl;
 import com.dao.impl.SecretQuestionDAOImpl;
 import com.services.AccountService;
@@ -43,6 +44,9 @@ public class AccountController {
 	private EmailService emailService;
 	@Autowired
 	private EmailTokenDAOImpl emailTokenDAO;
+	
+	@Autowired
+	private AttemptLoginDAOImpl attemptLoginDAO; 
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView registerPage() {
@@ -120,9 +124,17 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public ModelAndView loginPage() {
+	public ModelAndView loginPage(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
+		
+		//check if there's an error to be displayed.
+		HttpSession session = request.getSession();
+		String error = (String)session.getAttribute(SessionAttributes.ERROR);
+		if(error != null){
+			mv.addObject(SessionAttributes.ERROR, error);
+			session.removeAttribute(SessionAttributes.ERROR); //remove it after
+		}
 		return mv;
 	}
 	
@@ -141,12 +153,10 @@ public class AccountController {
 		String password = requestParams.get("password");
 		
 		RedirectView rv = new RedirectView();
+		HttpSession session = request.getSession();
 		
 		Account account = accountService.logIn(email, password);
 		if(account!=null){
-			HttpSession session = request.getSession();
-			/* TODO cookies */
-			
 			/* session */
 			session.setAttribute(SessionAttributes.ACC, account);	
 			if(account.getAccount_type() == Account.ADMIN){
@@ -159,10 +169,7 @@ public class AccountController {
 				rv.setUrl("home");
 			}
 		}else{
-			/*
-			 * TODO don't redirect, show login failed in the page
-			 */
-			System.out.println("login failed");
+			session.setAttribute(SessionAttributes.ERROR, "Incorrect email or password");
 			rv.setUrl("login");
 		}
 		
