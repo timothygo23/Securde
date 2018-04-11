@@ -30,12 +30,17 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 		Account account;
 		int rCode;
 		
-		
 		account = identifyUser(session);
     	System.out.println(path);
 		//if path is resources, don't do anything. just proceed
 		if(!path.matches(".*resources.*")) {
-			//if account null, dont do anything.
+
+			//disable backing to secure page after loging out.
+	        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+	        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	        response.setDateHeader("Expires", 0);
+	        
+			//if account null, dont do anything. (no current user)
 			try {
 				//perform access control.
 				
@@ -62,7 +67,9 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 				response.sendRedirect(contextPath + "/404");
 				return false;
 			}
-			else return true;
+			else {
+				return true;
+			}
 			
 		}
 		
@@ -116,8 +123,7 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 			}
 		}
 		
-		return account;
-		
+		return account;	
 	}
 	
 

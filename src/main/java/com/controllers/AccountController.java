@@ -1,6 +1,7 @@
 package com.controllers;
 
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -157,6 +158,8 @@ public class AccountController {
 			Account account = accountService.logIn(email, password);
 			if(account!=null){
 				/* session */
+				//renew session when logging in.
+				request.changeSessionId();
 				session.setAttribute(SessionAttributes.ACC, account);	
 				if(account.getAccount_type() == Account.ADMIN){
 					rv.setUrl("home");
@@ -279,7 +282,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/confirm_reset_pass", method=RequestMethod.POST)
-	public ModelAndView resetPassword(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
+	public ModelAndView resetPassword(@RequestParam Map<String, String> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		
 		String email = requestParams.get("email");
@@ -296,6 +299,9 @@ public class AccountController {
 			
 			//delete token
 			emailTokenDAO.delete(email);
+			
+			//renew sessionid
+			request.changeSessionId();
 			
 			mv.setViewName("successPasswordChange");
 		}else{
