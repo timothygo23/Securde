@@ -2,6 +2,7 @@ package com.services;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -68,8 +69,16 @@ public class EmailService {
 	}
 	
 	public String generateLink(String contextPath){
-		String link = contextPath + "/";
+		String token = generateToken();
+		String link = contextPath + "/reset_password?token=" + token;
 		
 		return link;
+	}
+	
+	private String generateToken(){
+		String token = "";
+		UUID uuid = UUID.randomUUID();
+		token = uuid.toString().replace("-", "");
+		return token;
 	}
 }
