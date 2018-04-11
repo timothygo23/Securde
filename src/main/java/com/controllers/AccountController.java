@@ -1,6 +1,7 @@
 package com.controllers;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +19,13 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.beans.Account;
 import com.beans.BrandManufacturer;
 import com.beans.Customer;
+import com.beans.EmailToken;
 import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
+import com.dao.impl.EmailTokenDAOImpl;
 import com.dao.impl.SecretQuestionDAOImpl;
 import com.services.AccountService;
+import com.services.EmailService;
 import com.services.SessionAttributes;
 import com.utility.Hash;
 import com.utility.SaltGenerator;
@@ -35,6 +39,10 @@ public class AccountController {
 	private SecretQuestionDAOImpl secretQuestionDAO;
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private EmailTokenDAOImpl emailTokenDAO;
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public ModelAndView registerPage() {
@@ -164,20 +172,25 @@ public class AccountController {
 	@RequestMapping(value="/forgot_password", method=RequestMethod.POST)
 	public ModelAndView forgotPasswordPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
 		ModelAndView mv = new ModelAndView();
+		mv.setViewName("forgotPassword");
 		
 		String email = requestParams.get("email");
 		Account account = accountDAO.getByEmail(email);
-		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+		SecretQuestion secretQuestion = null;
 		
-		mv.setViewName("forgotPassword");
-		mv.addObject("question", secretQuestion.getQuestion());
-		mv.addObject("email", email);
+		if(account != null){
+			secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+			mv.addObject("question", secretQuestion.getQuestion());
+			mv.addObject("email", email);
+		}else{
+			response.sendRedirect("login");
+		}
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/forgot_password/secret_question", method=RequestMethod.POST)
-	public ModelAndView secretQuestionPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
+	@RequestMapping(value="/secret_question", method=RequestMethod.POST)
+	public ModelAndView secretQuestionPage(@RequestParam Map<String, String> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		
 		String email = requestParams.get("email");
@@ -192,27 +205,64 @@ public class AccountController {
 			mv.setViewName("login");
 			response.sendRedirect("login");
 		}else if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
-			/*
-			 * TODO: SEND EMAIL HERE INSTEAD OF GOING TO RESET PASSWORD
-			 */
-			mv.setViewName("resetPassword");
-			mv.addObject("email", email);
-			mv.addObject("answer", answer);
+			//simple email body
+			String link = emailService.generateLink(request.getContextPath());
+			String token = link.split("=")[1];
+			String body = "Reset your password using the link below; <br>" +
+						link;
+			
+			//send email
+			emailService.sendMail(email, "Reset Password Request", body);
+			
+			//save to db
+			long minute = 60000;
+			EmailToken emailToken = new EmailToken();
+			emailToken.setEmail(email);
+			emailToken.setToken(token);
+			emailToken.setExpirationDate(new Date(new Date().getTime() + minute * 30));
+			
+			emailTokenDAO.deleteExpired(); //delete expired
+			if(emailTokenDAO.doesEmailExist(email)){
+				//just edit
+				emailTokenDAO.edit(emailToken);
+			}else{
+				//add
+				emailTokenDAO.add(emailToken);
+			}
+			mv.setViewName("successSecretQuestion");
+		}else{
+			mv.setViewName("login");
+			response.sendRedirect("login");
 		}
 
 		return mv;
 	}
 	
-	@RequestMapping(value="/reset_password", method=RequestMethod.POST)
+	@RequestMapping(value="/reset_password", method=RequestMethod.GET)
 	public ModelAndView resetPasswordPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
 		ModelAndView mv = new ModelAndView();
+		mv.setViewName("resetPassword");
 		
 		/*
 		 * TODO: check if token is expired
+		 * check if there is a token
 		 */
+		String token = requestParams.get("token");
 		
-		mv.setViewName("resetPassword");
-		//mv.addObject("email", email);
+		if(token == null){
+			//tried to access page without putting a token
+			response.sendRedirect("home");
+		}else{
+			emailTokenDAO.deleteExpired(); //check if there are expired rows
+			EmailToken emailToken = emailTokenDAO.get(token);
+			
+			if(emailToken == null){
+				//invalid/expired token
+				response.sendRedirect("home");
+			}else{
+				mv.addObject("email", emailToken.getEmail());
+			}
+		}
 
 		return mv;
 	}
@@ -222,24 +272,26 @@ public class AccountController {
 		ModelAndView mv = new ModelAndView();
 		
 		String email = requestParams.get("email");
-		String answer = requestParams.get("answer");
 		String password = requestParams.get("newpassword");
-		Account account = accountDAO.getByEmail(email);
-		SecretQuestion secretQuestion = secretQuestionDAO.getByAccount_ID(account.getAccount_id());
+		Account account = null;
 		
-		//checking again just incase
-		if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
-			//reset password here
+		if(email != null)
+			account = accountDAO.getByEmail(email);
+		
+		if(account != null){
+			//update password
 			account.setPassword(Hash.hash(password, account.getSalt()));
 			accountDAO.update(account);
 			
-			mv.setViewName("login");
-			response.sendRedirect("login");
+			//delete token
+			emailTokenDAO.delete(email);
+			
+			mv.setViewName("successPasswordChange");
 		}else{
 			mv.setViewName("login");
 			response.sendRedirect("login");
 		}
-
+		
 		return mv;
 	}
 	

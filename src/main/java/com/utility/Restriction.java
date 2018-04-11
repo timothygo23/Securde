@@ -53,6 +53,7 @@ public class Restriction {
             							  "/registerAccount",
             							  "/checkout",
             							  "/forgot_password",
+            							  "/secret_question",
             							  "/reset_password",
             							  "/confirm_reset_pass",
             							  "/saveProductToCart",

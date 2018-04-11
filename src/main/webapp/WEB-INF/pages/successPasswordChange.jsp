@@ -10,9 +10,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	<head>
 	
-		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | Login :: w3layouts</title>
-		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<title>Shopin A Ecommerce Category Flat Bootstrap Responsive Website Template | 404 :: w3layouts</title>
 	
+		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		
 		<!-- Custom Theme files -->
 		<!--theme-style-->
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" media="all" />	
@@ -26,7 +27,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<link href="${pageContext.request.contextPath}/resources/css/style4.css" rel="stylesheet" type="text/css" media="all" />	
 		<!--//theme-style-->
 		<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	
+		
 		<!--- start-rate---->
 		<script src="${pageContext.request.contextPath}/resources/js/jstarbox.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
@@ -53,66 +54,44 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>
 		<!---//End-rate---->
 		
-		<script>
-			$(document).ready(function(){
-				$("#loginLink").click(function(){
-					window.location = "${pageContext.request.contextPath}/login";
-				});
-			})
-		</script>
-		
-		<style>
-			#loginLink:hover{
-				cursor: pointer;
-			}
-		</style>
 	</head>
 	
 	<body>
 	
 		<!--header-->
-		<%@include file="../html/navigationBar.html"%>
-	
+		<c:choose>
+			<c:when test="${account eq null}">
+				<%@include file="../html/navigationBar.html"%>
+			</c:when>
+			
+			<c:when test="${account.account_type eq 1}">
+				<%@include file="../html/navigationBar_admin.html"%>
+			</c:when>
+			
+			<c:when test="${account.account_type eq 2}">
+				<%@include file="../html/navigationBar_brandManufacturer.html"%>
+			</c:when>
+			
+			<c:otherwise>
+				<%@include file="../html/navigationBar_customer.html"%>
+			</c:otherwise>
+		</c:choose>
+		
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Login</h1>
+				<h1>Success!</h1>
 				<em></em>
-				<h2><a href="index">Home</a><label>/</label>Login</h2>
+				<h2><a href="index.html">Home</a><label>/</label>login</h2>
 			</div>
 		</div>
-	
+		
 		<!--login-->
-		<div class="container">	
-			<div id="forgotPasswordContainer" class="login">
-				<form action="${pageContext.request.contextPath}/secret_question" method="post">
-					<div class="col-md-6 login-do">
-						<div style="margin-bottom: 20px;">
-							Email: <span style="font-weight: bold;"> <c:out value="${email}"></c:out> </span>,
-						</div>
-						
-						<div style="margin-bottom: 20px;">
-							<span style="font-weight: bold;">Secret Q</span>: <c:out value="${question}"></c:out>
-						</div>
-						
-						<div class="login-mail">
-							<input type="text" name="answer" placeholder="Answer" required="">
-							<i  class="glyphicon glyphicon-lock"></i>
-						</div>
-						
-						<input type="hidden" name="email" value="${email}">
-						
-						<div style="margin-top: -20px; margin-bottom: 15px; float: right; font-size: 10pt; color: #0000EE;">
-							<span id="loginLink">Login Now?</span>
-						</div>
-						
-						<label class="hvr-skew-backward">
-							<input type="submit" value="Submit">
-						</label>
-					</div>
-				
-					<div class="clearfix"> </div>
-				</form>
+		<div class="container">
+			<div class="four">
+				<h3>Success!</h3>
+				<p>Password changed successfully.</p>
+				<a href="login" class="hvr-skew-backward">Login Now!</a>
 			</div>
 		</div>
 		<!--//login-->
@@ -124,7 +103,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		
 		<!--footer-->
 		<%@include file="../html/footer.html" %>
-	
+		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
