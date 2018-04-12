@@ -133,7 +133,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="check-out">
 			<div class="container">
 		   		<h3>ORDER PLACED!</h3>
-		   		<p>Your order has been placed. ORDER #: </p>
+		   		<p>Your order has been placed. ORDER #: <c:out value="${orderNum}"/></p>
 		   		<a href="home" class="hvr-skew-backward">Continue Shopping!</a> 				 				 
 			</div>
 		</div>
