@@ -2,9 +2,11 @@ package com.controllers;
 
 import java.io.IOException;
 
+
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -144,7 +146,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/authentication", method=RequestMethod.POST)
-	public RedirectView authenticate(@RequestParam Map<String, String> requestParams, HttpServletRequest request){
+	public RedirectView authenticate(@RequestParam Map<String, String> requestParams, HttpServletRequest request) throws Exception{
 		/*
 		 * TODO validate inputs
 		 */
@@ -170,6 +172,8 @@ public class AccountController {
 					session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDAO.getCustomer(account.getAccount_id()));
 					rv.setUrl("home");
 				}
+				
+				
 			}else{
 				accountService.failedLogin(email);
 				session.setAttribute(SessionAttributes.ERROR, "Incorrect email or password");

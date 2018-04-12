@@ -31,7 +31,7 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 		int rCode;
 		
 		account = identifyUser(session);
-    	System.out.println(path);
+    	//System.out.println(path);
 		//if path is resources, don't do anything. just proceed
 		if(!path.matches(".*resources.*")) {
 

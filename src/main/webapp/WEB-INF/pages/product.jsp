@@ -162,7 +162,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<div class="quantity"> 
 									<div class="quantity-select">                           
 										<div class="entry value-minus">&nbsp;</div>
-										<div class="entry value"><span>1</span></div>
+										<div class="entry value" id="prodQTY"><span>1</span></div>
 										<div class="entry value-plus active">&nbsp;</div>
 									</div>
 								</div>
@@ -170,15 +170,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<!--quantity-->
 								<script>
 									$('.value-plus').on('click', function(){
-										let availableQuantity = $("#available").val();
+										let availableQuantity = $("#available").html();
 										if(parseInt(availableQuantity) > 0){}
 										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
-										divUpd.text(newVal);
+										
+										if(newVal <= parseInt(availableQuantity))
+											divUpd.text(newVal);
 									});
 										
 									$('.value-minus').on('click', function(){
 										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
-										if(newVal>=1) divUpd.text(newVal);
+										if(newVal>=1) {
+											divUpd.text(newVal);
+										}
 									});
 								</script>
 								<!--quantity-->

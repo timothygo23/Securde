@@ -141,15 +141,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 											<div class="sed">
 												<h5><a href="single.html">${cart_Item.product.product_name}</a></h5>
 												<p>${cart_Item.product.product_description} </p>
+												<p>Quantity: ${cart_Item.qty}</p>
+												<p>Size: ${cart_Item.size}
 											</div>
 											
 											<div class="clearfix"> </div>
 											<!-- <p>Qty: </p> -->
 											<!-- <div class="close1"> </div> -->
 										</td>
-										<td>P${cart_Item.product.price}</td>
+										<td>P${cart_Item.price}</td>
 										<td>FREE SHIPPING</td>
-										<td class="item_price">P${cart_Item.product.price}</td>
+										<td class="item_price">P${cart_Item.price}</td>
 										<td class="add-check">
 											<!-- <a class="item_add hvr-skew-backward" href="#">Add To Cart</a> -->
 											<a class="hvr-skew-backward" href="#" onClick="deleteCertainProductFromCart(${cart_Item.id})" >Remove</a>
