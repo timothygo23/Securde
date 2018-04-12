@@ -53,6 +53,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>
 		<!---//End-rate---->
 		
+		<script>
+			function formValidation(){
+				var inputs = $("#paymentDetails :input");
+				var values = {};
+				var emptyFields = false;
+				inputs.each(function(){
+					values[this.name] = $(this).val();
+					if(this.name != "address2" && values[this.name].trim() == ""){
+						emptyFields = true;
+					}
+				})
+				
+				if(emptyFields == true){
+					alert("Empty fields.");
+					return false;
+				}
+			}
+		</script>
 	</head>
 	
 	<body>
@@ -79,9 +97,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Checkout</h1>
+				<h1>Setup Payment Details</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Checkout</h2>
+				<h2><a href="index.html">Home</a><label>/</label>Payment Details</h2>
 			</div>
 		</div>
 		
@@ -118,64 +136,41 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		
 		<div class="check-out">
 			<div class="container">
-		    <c:choose>
-		    	<c:when test="${cartItemList eq null}">
-				 	<h1>Cart is empty..</h1>
-			 	</c:when>
-			 	<c:otherwise>
-					<div class="bs-example4" data-example-id="simple-responsive-table">
-		    			<div class="table-responsive">
-		    			
-		    	    		<table class="table-heading simpleCart_shelfItem">
-						  	
-							  	<tr>
-									<th class="table-grid">Item</th>		
-									<th>Prices</th>
-									<th >Delivery </th>
-									<th>Subtotal</th>
-							  	</tr>
-								
-								<c:forEach items="${cartItemList}" var="cart_Item">		
-					  				<tr class="cart-header">
-										<td class="ring-in"><a href="single.html" class="at-in"><img src="${pageContext.request.contextPath}/resources/images/pc.jpg" class="img-responsive" alt=""></a>
-											<div class="sed">
-												<h5><a href="single.html">${cart_Item.product.product_name}</a></h5>
-												<p>${cart_Item.product.product_description} </p>
-												<p>Quantity: ${cart_Item.qty}</p>
-												<p>Size: ${cart_Item.size}
-											</div>
-											
-											<div class="clearfix"> </div>
-											<!-- <p>Qty: </p> -->
-											<!-- <div class="close1"> </div> -->
-										</td>
-										<td>P${cart_Item.product.price}</td>
-										<td>FREE SHIPPING</td>
-										<td class="item_price">P${cart_Item.price}</td>
-										<td class="add-check">
-											<!-- <a class="item_add hvr-skew-backward" href="#">Add To Cart</a> -->
-											<a class="hvr-skew-backward" href="#" onClick="deleteCertainProductFromCart(${cart_Item.id})" >Remove</a>
-										</td>
-								  	</tr>
-							  	</c:forEach>
-							</table>
+				<div class="col-md-6 login-do">
+			   		<form id="paymentDetails" action="${pageContext.request.contextPath}/setup_payment_details" onsubmit="return formValidation()" method="post">
+			   			<div class="login-mail">
+			   				<p>Address 1</p>
+							<input type="text" name="address1" placeholder="street, building, etc." required="">
 						</div>
-					</div>
-	
-					<div class="produced">
-						<c:choose>
-						  <c:when test="${account eq null}">
-						        <a href="login" class="hvr-skew-backward">Login to purchase</a>
-						  </c:when>
-						  <c:otherwise>
-						    	<a href="order" class="hvr-skew-backward">Proceed to purchase</a>
-						  </c:otherwise>
-						</c:choose>
-				 	</div>
-			 	</c:otherwise>
-			</c:choose>
+						<div class="login-mail">
+			   				<p>Address 2</p>
+							<input type="text" name="address2" placeholder="street, building, etc.">
+						</div>
+						<div class="login-mail">
+			   				<p>City</p>
+							<input type="text" name="city" placeholder="city" required>
+						</div>
+						<div class="login-mail">
+			   				<p>Province</p>
+							<input type="text" name="province" placeholder="province" required>
+						</div>
+						<div class="login-mail">
+			   				<p>Zip Code</p>
+							<input type="text" name="zipCode" pattern="[0-9]{4}" placeholder="zip code" title="4 digit zip code" required>
+						</div>
+						<div class="login-mail">
+			   				<p>Credit Card Number</p>
+							<input type="text" name="cardNumber" pattern="[0-9]{16}" placeholder="credit card number" title="16 digit credit card number" required>
+						</div>
+						
+						<label class="hvr-skew-backward">
+							<input type="submit" value="Submit">
+						</label>
+			   		</form>
+			   		
+			   		<div class="clearfix"> </div>
+			   	</div>
 			</div>
-
 		</div>
 		<!--//login-->
 	

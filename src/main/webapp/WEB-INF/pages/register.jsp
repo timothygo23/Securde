@@ -136,7 +136,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="email" placeholder="Email" required="">
+							<input type="email" name="email" placeholder="Email" required="">
 							<i  class="glyphicon glyphicon-envelope"></i>
 						</div>
 						

@@ -140,6 +140,40 @@ public class AccountController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/setup_payment_details", method=RequestMethod.POST)
+	public void setupPaymentDetails(@RequestParam Map<String, String> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		Customer customerInfo = (Customer)session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+		
+		if(customerInfo != null){
+			String address1 = requestParams.get("address1");
+			String address2 = requestParams.get("address2");
+			String city = requestParams.get("city");
+			String province = requestParams.get("province");
+			String zipCode = requestParams.get("zipCode");
+			String creditCard = requestParams.get("cardNumber");
+			
+			logger.info("Setting up customer info of '{}", customerInfo.getFirst_name());
+			customerInfo.setAddress1(address1);
+			customerInfo.setAddress2(address2);
+			customerInfo.setCity(city);
+			customerInfo.setProvince(province);
+			customerInfo.setZip_code(zipCode);
+			customerInfo.setCredit_card_num(creditCard);
+			
+			//update db info
+			accountDAO.updateCustomerInfo(customerInfo);
+			logger.info("Updating database...");
+			
+			logger.info("Renewing session for '{}'", customerInfo.getFirst_name());
+			
+			logger.info("Redirecting to order page");
+			response.sendRedirect("order");
+		}else{
+			response.sendRedirect("home");
+		}
+	}
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView loginPage(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();

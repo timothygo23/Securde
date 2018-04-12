@@ -64,6 +64,8 @@ public class Restriction {
 	//general list, basically anyone can access these.
 	private final String[] GENERAL_LIST = {"/",
 			                               "/logout",
+	            						   "/order",
+	            						   "/setup_payment_details",
 			                               "/home",
 			                               "/catalog",
 		            					   "/catalog/get_catalogs",
