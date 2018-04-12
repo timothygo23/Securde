@@ -247,7 +247,7 @@ public class ProductController {
 			CartSession cs = new CartSession();
 			System.out.println("First time cartsession!");
 			cs.addProducts(p, qty, size);
-			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
+			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
 			
 			logger.info("Adding product to cart");
 			

@@ -54,26 +54,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!---//End-rate---->
 		
 		<script>
-			function switchPanel(){
-				$("#authenticationDetails").toggle();
-				$("#orderDetails").toggle();
-			}
-			
-			function showError(){
-				var error = "${error}";
-				
-				if(error != ""){
-					switchPanel();
-				}
-			}
-			
 			function dateToString(date){
 				return date.getDate()+'/'+ (date.getMonth()+1) +'/'+date.getFullYear();
 			}
 			
 			$(document).ready(function(){
-				showError();
-				
 				var date = new Date();
 				date.setDate(date.getDate() + 4);
 				$("#eta").append(dateToString(date));
@@ -146,52 +131,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>
 		
 		<div class="check-out">
-			<div id="orderDetails" class="container">
-		   		<h2 style="margin-bottom: 15px;" >Order details</h2>
-		   		<c:forEach items = "${cartItems}" var = "cartItem" varStatus="loop">
-		   			<c:out value = "${loop.count}"/>.
-		   			<div style="margin-left: 30px; margin-bottom: 15px;">
-		   				<h4><c:out value = "${cartItem.product.product_name}"/></h4>
-		   				<div>qty: <c:out value = "${cartItem.qty}"/></div>
-		   				<div>size: <c:out value = "${cartItem.size}"/></div>
-		   				<div>price: <c:out value = "${cartItem.product.price}"/></div>
-		   				<h34>Sub Total: <c:out value = "${cartItem.price}"/></h4>
-		   			</div>
-		   		</c:forEach>
-		   		
-		   		<h2 style="margin-bottom: 15px;" >Shipping details</h2>
-		   		<div style="margin-left: 30px; margin-bottom: 15px;">
-		   			<h4 id="eta">Estimated Date of Arrival: </h4>
-		   		</div>
-		   		
-		   		<h2 style="margin-bottom: 15px;" >Billing Address</h2>
-		   		<div style="margin-left: 30px; margin-bottom: 15px;">
-			   		<div>Address: <c:out value = "${customerInfo.address1}"/></div>
-	   				<div>City: <c:out value = "${customerInfo.city}"/></div>
-	   				<div>Province: <c:out value = "${customerInfo.province}"/></div>
-		   		</div>
-		   		
-		   		<h4 style="margin-bottom: 5px;" >Shipping Fee: FREE</h4>
-		   		<h4 style="margin-bottom: 5px;" >Total Price: <c:out value = "${totalPrice}"/></h4>
-		   		
-		   		<button class="hvr-skew-backward" style="border: none;" onclick="switchPanel()">Confirm Order</button> 				 				 
-			</div>
-			
-			<div id="authenticationDetails" class="container" style="display: none;">
-				<h2>Authenticate Purchase</h2>
-				<div class="col-md-6 login-do">
-					<form action="${pageContext.request.contextPath}/confirm_order" method="post">
-						<div class="login-mail">
-							<input type="password" name="password" placeholder="Password" required>
-						</div>
-						
-						<label class="hvr-skew-backward">
-							<input type="submit" value="Authenticate">
-						</label>
-					</form>
-					
-					<button class="hvr-skew-backward" style="margin-top: 15px; border: none;" onclick="switchPanel()">Cancel</button> 				 				 
-				</div>
+			<div class="container">
+		   		<h3>ORDER PLACED!</h3>
+		   		<p>Your order has been placed. ORDER #: </p>
+		   		<a href="home" class="hvr-skew-backward">Continue Shopping!</a> 				 				 
 			</div>
 		</div>
 		<!--//login-->

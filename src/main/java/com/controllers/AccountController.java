@@ -26,6 +26,7 @@ import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.EmailTokenDAOImpl;
 import com.dao.impl.SecretQuestionDAOImpl;
+import com.mysql.fabric.Response;
 import com.services.EmailService;
 import com.services.SessionAttributes;
 import com.services.impl.AccountServiceImpl;
@@ -144,7 +145,7 @@ public class AccountController {
 			String zipCode = requestParams.get("zipCode");
 			String creditCard = requestParams.get("cardNumber");
 			
-			logger.info("Setting up customer info of '{}", customerInfo.getFirst_name());
+			logger.info("Setting up customer payment details of '{}'", customerInfo.getFirst_name());
 			customerInfo.setAddress1(address1);
 			customerInfo.setAddress2(address2);
 			customerInfo.setCity(city);
