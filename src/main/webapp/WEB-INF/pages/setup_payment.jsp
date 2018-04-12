@@ -53,6 +53,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</script>
 		<!---//End-rate---->
 		
+		<script>
+			function formValidation(){
+				var inputs = $("#paymentDetails :input");
+				var values = {};
+				var emptyFields = false;
+				inputs.each(function(){
+					values[this.name] = $(this).val();
+					if(this.name != "address2" && values[this.name].trim() == ""){
+						emptyFields = true;
+					}
+				})
+				
+				if(emptyFields == true){
+					alert("Empty fields.");
+					return false;
+				}
+			}
+		</script>
 	</head>
 	
 	<body>
@@ -119,7 +137,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="check-out">
 			<div class="container">
 				<div class="col-md-6 login-do">
-			   		<form action="${pageContext.request.contextPath}/setup_payment_details" method="post">
+			   		<form id="paymentDetails" action="${pageContext.request.contextPath}/setup_payment_details" onsubmit="return formValidation()" method="post">
 			   			<div class="login-mail">
 			   				<p>Address 1</p>
 							<input type="text" name="address1" placeholder="street, building, etc." required="">

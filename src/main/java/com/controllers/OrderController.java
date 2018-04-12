@@ -44,21 +44,14 @@ public class OrderController {
 		mv.setViewName("order");
 		
 		//check if theres an account logged in
-		Account account = (Account) mv.getModel().get("account");
+		Customer customerInfo = (Customer) mv.getModel().get("info");
 		
 		//if cart is empty or account is null redirect to cart page
-		if(account == null){
-			response.sendRedirect("checkout"); //no account logged in
-		}else if(account.getAccount_type() != 3){
-			response.sendRedirect("home"); //not a customer
-		}else{
-			//check if there is already payment details for these account
-			Customer customer = accountDAO.getCustomer(account.getAccount_id());
-			
-			if(customer.getCredit_card_num() == null){
-				//go to set up payment details view
-				mv.setViewName("setup_payment");
-			}
+		if(customerInfo == null){
+			response.sendRedirect("home"); //no account logged in
+		}else if(customerInfo.getCredit_card_num() == null){
+			//go to set up payment details view
+			mv.setViewName("setup_payment");
 		}
 		
 		return mv;

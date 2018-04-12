@@ -156,5 +156,11 @@ public class AccountDAOImpl implements AccountDAO{
 		}
 	}
 	
-	
+	@Transactional
+	public void updateCustomerInfo(Customer customer){
+		if(sessionFactory != null){
+			Session session = sessionFactory.getCurrentSession();
+			session.update(customer);
+		}
+	}
 }

@@ -64,6 +64,7 @@ public class Restriction {
 	private final String[] GENERAL_LIST = {"/",
 			                               "/logout",
 	            						   "/order",
+	            						   "/setup_payment_details",
 			                               "/home",
 			                               "/catalog",
 		            					   "/catalog/get_catalogs",
