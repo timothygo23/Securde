@@ -57,14 +57,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<body>
 	
 		<!--header-->
-		<%@include file="../html/navigationBar.html" %>
+		<%@include file="../html/navigationBar_admin.html"%>
 	
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h1>Register</h1>
+				<h1>Register Brand Manufacturer</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>Register</h2>
+				<h2><a href="index.html">Home</a><label>/</label>Register Brand Manufacturer</h2>
 			</div>
 		</div>
 		
@@ -104,7 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio 
 						 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
 						 
-						 <a href="login.html" class="hvr-skew-backward">Login</a>
+						 <!-- <a href="login.html" class="hvr-skew-backward">Login</a>  -->
 					</div>
 				
 					<div class="clearfix"> </div>
