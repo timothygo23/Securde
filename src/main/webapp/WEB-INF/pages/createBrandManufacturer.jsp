@@ -74,7 +74,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<form action="${pageContext.request.contextPath}/register_bm" method="post">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<input type="text" name="brand_name" placeholder="Brand Name" required="">
+							<input type="text" name="brand_name" placeholder="Brand Name" required="" pattern="[A-Za-z\s]{1,50}" oninvalid="NameInvalidMsg(this)">
 							<i  class="glyphicon glyphicon-user"></i>
 						</div>
 						
@@ -84,12 +84,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="password" name="password" placeholder="Password" required="">
+							<input type="password" name="password" placeholder="Password" pattern="^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{9,}" title="Min 9 char. 1 Uppercase, 1 Number, and 1 Special Character." required="">
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
 						<div class="login-mail">
-							<input type="password" placeholder="Confirm password" required="">
+							<input type="password" placeholder="Confirm password" pattern="^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{9,}" title="Min 9 char. 1 Uppercase, 1 Number, and 1 Special Character." required="">
 							<i class="glyphicon glyphicon-lock"></i>
 						</div>
 						
@@ -126,6 +126,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+		<script>
+			function NameInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Numbers and special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+	
+			function SpecialCharInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+		</script>
 	 
 	</body>
 	

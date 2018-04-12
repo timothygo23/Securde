@@ -2,6 +2,8 @@ package com.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +28,10 @@ import com.beans.CartItem;
 import com.beans.CartSession;
 import com.beans.Customer;
 import com.beans.Order;
+import com.beans.ProductAvailability;
 import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.OrderDAOImpl;
+import com.dao.impl.ProductAvailabilityDAOImpl;
 import com.services.ModelAndViewService;
 import com.services.SessionAttributes;
 import com.services.impl.AccountServiceImpl;
@@ -39,6 +43,8 @@ public class OrderController {
 	private OrderDAOImpl orderDAO;
 	@Autowired
 	private AccountDAOImpl accountDAO;
+	@Autowired
+	private ProductAvailabilityDAOImpl productAvailabilityDAO;
 	@Autowired
 	private AccountServiceImpl accountService;
 	@Autowired
@@ -103,7 +109,53 @@ public class OrderController {
 			Account tempAccount = accountService.logIn(account.getEmail(), password);
 			if(tempAccount != null){
 				logger.info("Successful purchase authentication '{}'", account.getEmail());
+				
 				//DO ORDER HERE
+				ArrayList<CartItem> cartItems = (ArrayList<CartItem>)session.getAttribute(CartSession.CART_ITEM_LIST);
+				Customer customerInfo = (Customer)session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+				
+				int cartId = customerInfo.getCart_num();
+				Date purchaseDate = new Date();
+				Date arrivalDate = new Date();
+				Calendar purchaseCal = Calendar.getInstance();
+				purchaseCal.setTime(purchaseDate);
+			    Calendar arrivalCal = Calendar.getInstance();  
+			    arrivalCal.setTime(arrivalDate);  
+			    arrivalCal.add(Calendar.DATE, 7);
+			    
+			    logger.info("Creating order for cart '{}'", cartId);
+			    
+			    Order order = new Order();
+			    order.setCart_id(cartId);
+			    order.setPurchase_date(purchaseCal);
+			    order.setArrival_date(arrivalCal);
+			    
+			    //increment cart
+			    customerInfo.setCart_num(customerInfo.getCart_num() + 1);
+			    accountDAO.updateCustomerInfo(customerInfo);
+			    
+			    //update product availability
+			    for(CartItem ci : cartItems){
+			    	/*List<ProductAvailability> pas = productAvailabilityDAO.getProductAvailability(ci.getProduct().getProduct_id());
+			    	
+			    	for(ProductAvailability pa : pas){
+			    		if(pa.getSize().equals(ci.getSize())){
+			    			System.out.println(pa.getQuantity() - ci.getQty());
+			    			pa.setQuantity(pa.getQuantity() );
+			    			productAvailabilityDAO.edit(pa);
+			    			break;
+			    		}
+			    	}*/
+			    }
+			    
+			    orderDAO.add(order);
+			    
+			    logger.info("Updating db...");
+			    
+			    logger.info("Order # '{}' successfully placed.", order.getOrder_id());
+				
+			    mv.addObject("orderNum", order.getOrder_id());
+			    session.removeAttribute(CartSession.CART_ITEM_LIST);
 			}else{
 				logger.info("Failed purchase authentication attempt '{}'", account.getEmail());
 				accountService.failedLogin(account.getEmail());

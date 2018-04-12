@@ -121,17 +121,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<form id="registerForm" action="${pageContext.request.contextPath}/registerAccount" onsubmit="return submitForm()" method="post">
 					<div class="col-md-6 login-do">
 						<div class="login-mail">
-							<input type="text" name="fName" placeholder="Firstname" required="">
+							<input type="text" name="fName" placeholder="Firstname" required="" pattern="[A-Za-z\s]{1,50}" oninvalid="NameInvalidMsg(this)">
 							<i  class="glyphicon glyphicon-user"></i>
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="lName" placeholder="Lastname" required="">
+							<input type="text" name="lName" placeholder="Lastname" required="" pattern="[A-Za-z\s]{1,50}" oninvalid="NameInvalidMsg(this)">
 							<i  class="glyphicon glyphicon-user"></i>
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="phoneNum" onkeypress="validateNum(event)" placeholder="Phone Number" required="">
+							<input type="text" name="phoneNum" onkeypress="validateNum(event)" placeholder="Phone Number" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 							<i  class="glyphicon glyphicon-phone"></i>
 						</div>
 						
@@ -160,7 +160,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="answer" placeholder="Answer" required="">
+							<input type="text" name="answer" placeholder="Answer" required="" pattern="[a-zA-Z0-9\s]+" oninvalid="SpecialCharInvalidMsg(this)">
 							<i  class="glyphicon glyphicon-lock"></i>
 						</div>
 						
@@ -197,6 +197,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+		<script>
+			function NameInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Numbers and special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+	
+			function SpecialCharInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+		</script>
 	 
 	</body>
 	

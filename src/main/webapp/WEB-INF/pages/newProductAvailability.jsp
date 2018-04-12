@@ -94,17 +94,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 						<span>Small</span>
 						<div class="login-mail">
-							<input type="text" name="quantity_s" placeholder="Quantity" required="">
+							<input type="text" name="quantity_s" placeholder="Quantity" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<span>Medium</span>
 						<div class="login-mail">
-							<input type="text" name="quantity_m" placeholder="Quantity" required="">
+							<input type="text" name="quantity_m" placeholder="Quantity" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<span>Large</span>
 						<div class="login-mail">
-							<input type="text" name="quantity_l" placeholder="Quantity" required="">
+							<input type="text" name="quantity_l" placeholder="Quantity" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<label class="hvr-skew-backward">
@@ -140,6 +140,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+		<script>
+			function NameInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Numbers and special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+	
+			function SpecialCharInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+		</script>
 	 
 	</body>
 	
