@@ -8,3 +8,4 @@
 src/main/webapp/WEB-INF/jdbc.properties
 .classpath
 *.component
+src/main/webapp/WEB-INF/jdbc.properties

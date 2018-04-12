@@ -161,18 +161,15 @@ public class AccountController {
 		RedirectView rv = new RedirectView();
 		HttpSession session = request.getSession();
 		
-		logger.trace("TRACE LEVEL TANGINA");
-		logger.debug("DEBUG LEVEL TANGINA");
-		logger.info("INFO LEVEL TANGINA");
-		logger.warn("WARN LEVEL TANGINA");
-		logger.error("ERROR LEVEL TANGINA");
-		
 		if(!accountService.isLockedout(email)){
+			logger.info("Logging in '{}'", email);
 			Account account = accountService.logIn(email, password);
 			if(account!=null){
 				/* session */
 				//renew session when logging in.
+				logger.info("Renewing session for '{}'", email);
 				request.changeSessionId();
+				logger.info("{}", account);
 				session.setAttribute(SessionAttributes.ACC, account);	
 				if(account.getAccount_type() == Account.ADMIN){
 					rv.setUrl("home");
@@ -184,11 +181,13 @@ public class AccountController {
 					rv.setUrl("home");
 				}
 			}else{
+				logger.info("Failed login attempt with the account '{}'", email);
 				accountService.failedLogin(email);
 				session.setAttribute(SessionAttributes.ERROR, "Incorrect email or password");
 				rv.setUrl("login");
 			}
 		}else{
+			logger.info("Account '{}' is locked out, maximum number of login attempts exceeded", email);
 			session.setAttribute(SessionAttributes.ERROR, "Account is locked out.");
 			rv.setUrl("login");
 		}

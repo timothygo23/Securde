@@ -86,4 +86,9 @@ public class Account {
 	public void setSalt(byte[] salt) {
 		this.salt = salt;
 	}
+	
+	@Override
+	public String toString () {
+		return "Account [account_id=" + account_id + ", email=" + email + ", account_type=" + account_type + "]";
+	}
 }
