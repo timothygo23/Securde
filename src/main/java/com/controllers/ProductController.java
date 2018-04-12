@@ -22,10 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.beans.Account;
 import com.beans.Cart;
 import com.beans.CartItem;
 import com.beans.CartSession;
 import com.beans.Catalog;
+import com.beans.Customer;
+import com.beans.Order;
 import com.beans.Product;
 import com.beans.ProductAvailability;
 import com.dao.impl.CartDAOImpl;
@@ -34,7 +37,7 @@ import com.dao.impl.ProductAvailabilityDAOImpl;
 import com.dao.impl.ProductDAOImpl;
 import com.google.gson.Gson;
 import com.json.ProductJSON;
-import com.services.ModelAndViewService;
+import com.services.ModelAndViewService;import com.services.SessionAttributes;
 
 @Controller
 public class ProductController {
@@ -49,8 +52,10 @@ public class ProductController {
 	private ProductAvailabilityDAOImpl paDAO;
 	@Autowired
 	private ModelAndViewService modelService;
+
 	
 	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+
 	
 	@RequestMapping(value="/product", method=RequestMethod.GET)
 	public ModelAndView productPage(HttpServletRequest request) {
@@ -233,19 +238,14 @@ public class ProductController {
 		int qty = Integer.parseInt(requestParams.get("quantity"));
 		String size = requestParams.get("size");
 		
-		System.out.println("Product: " + productId);
-		System.out.println("QTY: " + qty);
-		System.out.println("Size: " + size);
-		
 		HttpSession session = request.getSession();
 		Product p = productDAO.getProduct(Integer.parseInt(productId));
 		logger.info("{}", p);
 		
+		CartSession cs = new CartSession();
+		
 		logger.info("Validating cart session");
 		if(session.getAttribute(CartSession.CART_ITEM_LIST) == null) {
-			//for viewing in page
-			CartSession cs = new CartSession();
-			System.out.println("First time cartsession!");
 			cs.addProducts(p, qty, size);
 			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
 			
@@ -254,24 +254,38 @@ public class ProductController {
 			for(CartItem test : cs.getCartItemList()) {
 				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
 			}
+			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
 		}
 		
 		else {
-			System.out.println("Not first time cartsession!");
-			CartSession cs = new CartSession();
 			cs.setCartItemList((ArrayList<CartItem>) session.getAttribute(cs.CART_ITEM_LIST));
 			cs.addProducts(p, qty, size);
-			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
-			
-			logger.info("Adding product to cart");
-			
-			for(CartItem test : cs.getCartItemList()) {
-				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
-			}
+			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList()); 
 		}
 		
-		System.out.println("Working! " + productId);
+		logger.info("Adding product to cart");
+		if(session.getAttribute(SessionAttributes.CUSTOMER_INFO) != null) {
+			//saved cartItem to db.
+			saveCartDBHelper(session, cs.getLastCartItem()); //get last inserted item
+		}
+		
 		response.getWriter().write("Done!");
+	}
+	
+	private void saveCartDBHelper(HttpSession session, CartItem ci) {
+		Cart cart = new Cart();
+		Customer customer = (Customer) session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+		ProductAvailability pa;
+	
+		
+		cart.setQuantity(ci.getQty()+"");
+		cart.setProduct_id(ci.getProduct().getProduct_id());
+		cart.setAccount_id(customer.getAccount_id());
+		pa = paDAO.getProductAvailabilityByFeature(ci.getSize(), ci.getProduct().getProduct_id());
+		cart.setProduct_avail_id(pa.getProduct_avail_id());
+		cart.setCart_id(customer.getCart_num());
+	    cartDAO.add(cart);
+		
 	}
 	
 	@RequestMapping(value="/removeAllProductsFromCart", method=RequestMethod.POST)
@@ -282,12 +296,7 @@ public class ProductController {
 		logger.info("Validating cart session");
 		if(session.getAttribute(CartSession.CART_ITEM_LIST) != null) {
 			session.removeAttribute(CartSession.CART_ITEM_LIST);
-			System.out.println("Removed!");
 		}
-		else {
-			System.out.println("Nothing to be Removed!");
-		}
-		
 		response.getWriter().write("DONE");
 	}
 
@@ -295,23 +304,13 @@ public class ProductController {
 	public void removeSingleProductFromCart(@RequestParam("cartItemID") String cartItemID, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
-		System.out.println("The ID: " + cartItemID);
+		//System.out.println("The ID: " + cartItemID);
 		
 		logger.info("Removing a product from cart");
 		
 		CartSession cs = new CartSession();
 		cs.setCartItemList(cartItemList);
-
-			
-//		for(CartItem test : cartItemList) {
-//			System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId() + "| QTY: " + test.getQty());
-//		}
-		
 		cs.deleteCartItem(Integer.parseInt(cartItemID));
-		
-//		for(CartItem test : cartItemList) {
-//			System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId() + "| QTY: " + test.getQty());
-//		}
 		
 		if(cartItemList.size() != 0) {
 			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
@@ -322,6 +321,47 @@ public class ProductController {
 		}
 		
 		response.getWriter().write("DONE");
+	}
+	
+	@RequestMapping(value="/checkSavedCart", method=RequestMethod.GET)
+	public RedirectView checkSavedCart(HttpServletRequest request) {
+		RedirectView rv = new RedirectView();
+		HttpSession session = request.getSession();
+		Customer customer = (Customer) session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+		int acc_id = customer.getAccount_id();
+		
+		//if user, give the saved cart.
+		List<Cart> cart = cartDAO.getUserCart(acc_id);
+		
+		//check if there's anyting saved in this user's cart.
+		//if yes, replace the current cart.
+		if(cart != null && cart.size() != 0) {
+			CartSession cs = new CartSession();
+			
+			Product p;
+			ProductAvailability pa;
+			
+			for(Cart c : cart) {
+				pa = paDAO.getProductAvailabilityById(c.getProduct_avail_id());
+				p = productDAO.getProduct(c.getProduct_id());
+				
+				cs.addProducts(p, pa.getQuantity(), pa.getSize());
+			}
+			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
+		}
+		//if not, save current cart as user's cart.
+		else {
+			System.out.println("No cart..");
+			ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
+			
+			if(cartItemList != null && cartItemList.size() != 0)
+				for(CartItem ci : cartItemList) {
+					saveCartDBHelper(session, ci);
+				}
+			
+		}
+		rv.setUrl("home");
+		return rv;
 	}
 	
 	

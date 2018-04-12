@@ -45,6 +45,7 @@ public class Restriction {
 											"/order", 
 											"/confirm_order",
 											"/setup_payment_details",
+											"/checkSavedCart",
 										    "/saveProductToCart",
 										    "/removeAllProductsFromCart",
 										    "/removeOneProdCart"};

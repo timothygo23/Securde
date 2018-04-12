@@ -63,8 +63,27 @@ public class ProductAvailabilityDAOImpl implements ProductAvailabilityDAO{
 		return ProductAvailability;
 	}
 
-	@Override
+	@Transactional
 	public ProductAvailability getProductAvailabilityById(int product_avail_id) {
 		return (ProductAvailability)sessionFactory.getCurrentSession().get(ProductAvailability.class, product_avail_id);
+	}
+	
+	@Transactional
+	public ProductAvailability getProductAvailabilityByFeature(String size, int prod_id) {
+		List<ProductAvailability> productAvailability = null;
+		
+		if (sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			
+			Query query = session.createQuery("from ProductAvailability where product_id =:product_id AND size =:size", ProductAvailability.class);
+			query.setParameter("product_id", prod_id);
+			query.setParameter("size", size);
+			
+			productAvailability = query.getResultList();
+		}
+		
+		if(productAvailability != null)
+			return productAvailability.get(0);
+		else return null;
 	}
 }

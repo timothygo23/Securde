@@ -36,6 +36,10 @@ public class Customer {
 	@Column(name="credit_card_num")
 	private String credit_card_num;
 	
+	//cart number
+	@Column(name="cart_num")
+	private int cart_num;
+	
 	public Customer() {}
 
 	public Customer(int account_id, String first_name, String last_name, String contact_number, String address1, String address2, String city,
@@ -144,6 +148,14 @@ public class Customer {
 
 	public void setContact_number(String contact_number) {
 		this.contact_number = contact_number;
+	}
+
+	public int getCart_num() {
+		return cart_num;
+	}
+
+	public void setCart_num(int cart_num) {
+		this.cart_num = cart_num;
 	}
 
 }
