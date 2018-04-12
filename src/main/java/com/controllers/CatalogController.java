@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.beans.BrandManufacturer;
 import com.beans.Catalog;
 import com.beans.Product;
+import com.beans.ProductAvailability;
 import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.CatalogDAOImpl;
 import com.dao.impl.ProductDAOImpl;
@@ -37,11 +40,13 @@ public class CatalogController {
 	@Autowired
 	private ModelAndViewService modelService;
 
+	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+	
 	@RequestMapping(value="/catalog", method=RequestMethod.GET)
 	public ModelAndView catalogPage(HttpServletRequest request) {
 		ModelAndView mv = modelService.createModelAndView(request);
 		mv.setViewName("catalog");
-		
+		logger.info("Redirecting to catalog page");
 		/*
 		 * cause we're reusing the catalog.jsp for search results,
 		 * it needs to know what products to get.
@@ -54,11 +59,16 @@ public class CatalogController {
 	@RequestMapping(value="/catalog/get_catalogs", method=RequestMethod.GET)
 	public void getCatalogs(HttpServletResponse response) throws IOException{
 		//gets data from the db
+		logger.info("Requesting catalogs");
 		List<Catalog> catalogs = catalogDAO.getAllCatalogs();
-		
+		for (Catalog catalog : catalogs) {
+			logger.info("{}", catalog);
+		}
+		logger.info("Parsing catalog list as JSON");
 		//converts the list into a json and sends it as a response
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(catalogs);
+		logger.info("Sending data to AJAX call");
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}
@@ -69,6 +79,7 @@ public class CatalogController {
 		Filter filter = null;
 		
 		if(requestParam.get("filter") != null){
+			logger.info("Requesting filtered catalogs");
 			//catalog with filter
 			catalog_id = Integer.parseInt(requestParam.get("value"));
 			
@@ -81,18 +92,24 @@ public class CatalogController {
 			catalog_id = Integer.parseInt(requestParam.get("catalog"));
 		}
 		
+		logger.info("Requesting catalog from [catalog_id = {}]", catalog_id);
 		//gets data from db
 		Catalog catalog = catalogDAO.getCatalog(catalog_id);
 		List<Product> products = productDAO.getProductsOfCatalog(catalog_id, filter);
-		
+		logger.info("{}", catalog);
+		for (Product product : products) {
+			logger.info("{}", product);
+		}
 		//puts data in a custom class
 		CatalogJSON cJson = new CatalogJSON();
 		cJson.setCatalogName(catalog.getCatalog_name());
 		cJson.setProducts(products);
 		
+		logger.info("Parsing catalog list as JSON");
 		//converts that class into a json and sends it as a response
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(cJson);
+		logger.info("Sending data to AJAX call");
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}
@@ -101,9 +118,11 @@ public class CatalogController {
 	public void getAllBrands(HttpServletResponse response, @RequestParam Map<String,String> requestParam) throws IOException{
 		List<BrandManufacturer> bm = accountDAO.getAllBrandManufacturers();
 		
+		logger.info("Parsing brand manufacturer list as JSON");
 		//converts the class into a json and sends it as a response
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(bm);
+		logger.info("Sending data to AJAX call");
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}
@@ -112,7 +131,7 @@ public class CatalogController {
 	public ModelAndView searchPage(HttpServletRequest request) {
 		ModelAndView mv = modelService.createModelAndView(request);
 		mv.setViewName("catalog");
-		
+		logger.info("Redirecting to catalog page");
 		/*
 		 * cause we're reusing the catalog.jsp for search results,
 		 * it needs to know what products to get.
@@ -128,23 +147,32 @@ public class CatalogController {
 		Filter filter = null;
 		
 		if(requestParam.get("filter") != null){
+			logger.info("Requesting search key");
 			//search with filter
 			searchKey = requestParam.get("value");
-			
+			logger.info("{}", searchKey);
+			logger.info("Setting filters");
 			//set filters
 			filter = new Filter();
 			filter.setBrands(requestParam.get("brands").split("/"));
 			filter.setSizes(requestParam.get("sizes").split("/"));
 			filter.setPriceRange(requestParam.get("priceRange").split("-"));
+			logger.info("{}", filter);
 		}else{
 			searchKey = requestParam.get("search_key");
 		}
 		
+		logger.info("Requesting products from [searchKey = {}, filter = {}]", searchKey, filter);
 		//get from db
 		List<Product> products = productDAO.getSearched(searchKey, filter);
+		for (Product product : products) {
+			logger.info("{}", product);
+		}
 		
+		logger.info("Parsing product list as JSON");
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(products);
+		logger.info("Sending data to AJAX call");
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}

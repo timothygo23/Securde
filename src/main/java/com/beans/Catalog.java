@@ -48,4 +48,9 @@ public class Catalog {
 	public void setTarget_gender(String target_gender) {
 		this.target_gender = target_gender;
 	}
+	
+	@Override
+	public String toString () {
+		return "Catalog [catalog_id=" + catalog_id + ", catalog_name=" + catalog_name + ", target_gender=" + target_gender + "]";
+	}
 }

@@ -1,5 +1,7 @@
 package com.json;
 
+import java.util.Arrays;
+
 public class Filter {
 	private String[] brands;
 	private String[] sizes;
@@ -23,5 +25,8 @@ public class Filter {
 	public void setPriceRange(String[] priceRange) {
 		this.priceRange = priceRange;
 	}
-	
+	@Override
+	public String toString () {
+		return "Filter [brands=" + Arrays.toString(brands) + ", sizes=" + Arrays.toString(sizes) + ", priceRange=" + Arrays.toString(priceRange) + "]";
+	}
 }
