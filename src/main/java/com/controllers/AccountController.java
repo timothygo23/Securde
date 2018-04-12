@@ -131,6 +131,13 @@ public class AccountController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/setup_payment_details", method=RequestMethod.POST)
+	public void setupPaymentDetails(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException {
+		logger.info("Updating database...");
+		logger.info("Redirecting to order page");
+		response.sendRedirect("order");
+	}
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView loginPage(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();

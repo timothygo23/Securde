@@ -1,10 +1,11 @@
 package com.controllers;
 
-import java.util.Calendar;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.beans.Account;
+import com.beans.Customer;
 import com.beans.Order;
+import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.OrderDAOImpl;
 import com.services.ModelAndViewService;
 
@@ -26,7 +30,35 @@ public class OrderController {
 	@Autowired
 	private OrderDAOImpl orderDAO;
 	@Autowired
+	private AccountDAOImpl accountDAO;
+	@Autowired
 	private ModelAndViewService modelService;
+	
+	@RequestMapping(value="/order", method=RequestMethod.GET)
+	public ModelAndView orderPage (HttpServletRequest request, HttpServletResponse response) throws IOException{
+		ModelAndView mv = modelService.createModelAndView(request);
+		mv.setViewName("order");
+		
+		//check if theres an account logged in
+		Account account = (Account) mv.getModel().get("account");
+		
+		//if cart is empty or account is null redirect to cart page
+		if(account == null){
+			response.sendRedirect("checkout"); //no account logged in
+		}else if(account.getAccount_type() != 3){
+			response.sendRedirect("home"); //not a customer
+		}else{
+			//check if there is already payment details for these account
+			Customer customer = accountDAO.getCustomer(account.getAccount_id());
+			
+			if(customer.getCredit_card_num() == null){
+				//go to set up payment details view
+				mv.setViewName("setup_payment");
+			}
+		}
+		
+		return mv;
+	}
 	
 	public RedirectView getOrder (HttpServletRequest request, RedirectAttributes redirectAttribute) {
 		//List<Product> products = productDAO.getAllProducts();
