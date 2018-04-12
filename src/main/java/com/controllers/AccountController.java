@@ -1,12 +1,9 @@
 package com.controllers;
 
 import java.io.IOException;
-
-
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,18 +24,13 @@ import com.beans.Customer;
 import com.beans.EmailToken;
 import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
-import com.dao.impl.AttemptLoginDAOImpl;
 import com.dao.impl.EmailTokenDAOImpl;
 import com.dao.impl.SecretQuestionDAOImpl;
-import com.services.AccountService;
 import com.services.EmailService;
 import com.services.SessionAttributes;
 import com.services.impl.AccountServiceImpl;
 import com.utility.Hash;
 import com.utility.SaltGenerator;
-
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.core.util.StatusPrinter;
 
 @Controller
 public class AccountController {
@@ -106,11 +98,13 @@ public class AccountController {
 		}*/
 		
 		//security part
+		logger.info("Generating salt...");
 		byte[] salt = SaltGenerator.getInstance().generate();
 		while(!accountDAO.isSaltUnique(salt)){
 			salt = SaltGenerator.getInstance().generate();
 		}
 		
+		logger.info("Creating account");
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.CUSTOMER, salt);
 		Customer customer = new Customer(fName, lName, phoneNum);
@@ -118,14 +112,20 @@ public class AccountController {
 		secretQuestion.setQuestion(question);
 		secretQuestion.setAnswer(Hash.hash(answer, salt));
 		
+		logger.info("Creating Customer {}", account);
+		logger.info("Updating database...");
+		
 		try{
 			int account_id = accountDAO.addCustomer(account, customer);
 			secretQuestion.setAccount_id(account_id);
 			secretQuestionDAO.add(secretQuestion);
 			mv.setViewName("successRegister");
+			logger.info("Registration success");
 		}catch(Exception e){
 			mv.setViewName("register");
 			mv.addObject("error", "Duplicate Email");
+			logger.error(e.getMessage());
+			logger.info("Registration failed, duplicate email");
 		}
 		
 		return mv;
@@ -135,6 +135,7 @@ public class AccountController {
 	public ModelAndView loginPage(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
+		logger.info("Redirecting to login page");
 		
 		//check if there's an error to be displayed.
 		HttpSession session = request.getSession();
@@ -148,6 +149,7 @@ public class AccountController {
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public RedirectView logOut(HttpServletRequest request){
+		logger.info("Logging out");
 		accountService.logOut(request);
 		return new RedirectView("login");
 	}
@@ -233,6 +235,7 @@ public class AccountController {
 		
 		if(email == null || answer == null || account == null ||email.trim().equals("") || answer.trim().equals("")){
 			mv.setViewName("login");
+			logger.info("Password recovery failed");
 			response.sendRedirect("login");
 		}else if(Hash.compare(secretQuestion.getAnswer(), answer, account.getSalt())){
 			//simple email body
@@ -260,8 +263,11 @@ public class AccountController {
 				emailTokenDAO.add(emailToken);
 			}
 			mv.setViewName("successSecretQuestion");
+			
+			logger.info("Password email recovery sent to {}" + email);
 		}else{
 			mv.setViewName("login");
+			logger.info("Password recovery failed");
 			response.sendRedirect("login");
 		}
 
@@ -272,22 +278,28 @@ public class AccountController {
 	public ModelAndView resetPasswordPage(@RequestParam Map<String, String> requestParams, HttpServletResponse response) throws IOException{
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("resetPassword");
+		logger.info("Redirecting to reset password page");
 		
 		/*
 		 * TODO: check if token is expired
 		 * check if there is a token
 		 */
+		logger.info("Requesting token");
 		String token = requestParams.get("token");
 		
 		if(token == null){
+			logger.info("Non-existent token, redirecting to home page");
 			//tried to access page without putting a token
 			response.sendRedirect("home");
 		}else{
+			logger.info("Validating token");
+			logger.info("Removing previously expired tokens");
 			emailTokenDAO.deleteExpired(); //check if there are expired rows
 			EmailToken emailToken = emailTokenDAO.get(token);
 			
 			if(emailToken == null){
 				//invalid/expired token
+				logger.info("Invalid/expired token");
 				response.sendRedirect("home");
 			}else{
 				mv.addObject("email", emailToken.getEmail());
@@ -305,22 +317,30 @@ public class AccountController {
 		String password = requestParams.get("newpassword");
 		Account account = null;
 		
-		if(email != null)
+		logger.info("Validating email '{}'", email);
+		if(email != null) {
 			account = accountDAO.getByEmail(email);
+		}
 		
+		logger.info("Validating account");
 		if(account != null){
+			logger.info("{}", account);
 			//update password
+			logger.info("Updating password");
 			account.setPassword(Hash.hash(password, account.getSalt()));
 			accountDAO.update(account);
 			
 			//delete token
+			logger.info("Deleting token");
 			emailTokenDAO.delete(email);
 			
 			//renew sessionid
+			logger.info("Renewing session id");
 			request.changeSessionId();
 			
 			mv.setViewName("successPasswordChange");
 		}else{
+			logger.info("Invalid account");
 			mv.setViewName("login");
 			response.sendRedirect("login");
 		}
@@ -332,6 +352,7 @@ public class AccountController {
 	public ModelAndView createBrandManufacturer() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("createBrandManufacturer");
+		logger.info("Redirecting to create brand manufacturer page");
 		
 		return mv;
 	}
@@ -344,22 +365,30 @@ public class AccountController {
 		String email = requestParams.get("email");
 		String password = requestParams.get("password");
 		
+		logger.info("Generating salt");
 		//security part
 		byte[] salt = SaltGenerator.getInstance().generate();
 		while(!accountDAO.isSaltUnique(salt)){
 			salt = SaltGenerator.getInstance().generate();
 		}
 		
+		logger.info("Creating account");
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.BRAND_MANUFACTURER, salt);
 		BrandManufacturer brandManufacturer = new BrandManufacturer(brand_name);
 		
+		logger.info("Creating Brand Manufacturer {}", account);
+		logger.info("Updating database...");
+		
 		try{
 			accountDAO.addBrandManufacturer(account, brandManufacturer);
 			mv.setViewName("successRegister");
+			logger.info("Registration success");
 		}catch(Exception e){
 			mv.setViewName("register");
 			mv.addObject("error", "Duplicate Email");
+			logger.error(e.getMessage());
+			logger.info("Registration failed, duplicate email");
 		}
 		
 		return mv;
@@ -369,6 +398,7 @@ public class AccountController {
 	public ModelAndView createAdmin() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("createAdmin");
+		logger.info("Redirecting to create brand manufacturer page");
 		
 		return mv;
 	}
@@ -380,21 +410,29 @@ public class AccountController {
 		String email = requestParams.get("email");
 		String password = requestParams.get("password");
 		
+		logger.info("Generating salt");
 		//security part
 		byte[] salt = SaltGenerator.getInstance().generate();
 		while(!accountDAO.isSaltUnique(salt)){
 			salt = SaltGenerator.getInstance().generate();
 		}
 		
+		logger.info("Creating account");
 		//add account to db
 		Account account = new Account(email, Hash.hash(password, salt), Account.ADMIN, salt);
+		
+		logger.info("{}", account);
+		logger.info("Updating database...");
 		
 		try{
 			accountDAO.addAdmin(account);
 			mv.setViewName("successRegister");
+			logger.info("Registration success");
 		}catch(Exception e){
 			mv.setViewName("register");
 			mv.addObject("error", "Duplicate Email");
+			logger.error(e.getMessage());
+			logger.info("Registration failed, duplicate email");
 		}
 		
 		return mv;
