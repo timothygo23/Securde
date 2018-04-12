@@ -61,4 +61,9 @@ public class ProductAvailability {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	@Override
+	public String toString () {
+		return "ProductAvailability [product_avail_id=" + product_avail_id + ", product_id=" + product_id + ", size=" + size + ", quantity=" + quantity + "]";
+	}
 }

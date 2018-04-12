@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.beans.BrandManufacturer;
 import com.beans.Catalog;
 import com.beans.Product;
+import com.beans.ProductAvailability;
 import com.dao.impl.AccountDAOImpl;
 import com.dao.impl.CatalogDAOImpl;
 import com.dao.impl.ProductDAOImpl;
@@ -58,8 +59,11 @@ public class CatalogController {
 	@RequestMapping(value="/catalog/get_catalogs", method=RequestMethod.GET)
 	public void getCatalogs(HttpServletResponse response) throws IOException{
 		//gets data from the db
-		List<Catalog> catalogs = catalogDAO.getAllCatalogs();
 		logger.info("Requesting catalogs");
+		List<Catalog> catalogs = catalogDAO.getAllCatalogs();
+		for (Catalog catalog : catalogs) {
+			logger.info("{}", catalog);
+		}
 		logger.info("Parsing catalog list as JSON");
 		//converts the list into a json and sends it as a response
 		Gson gson = new Gson();
@@ -92,7 +96,10 @@ public class CatalogController {
 		//gets data from db
 		Catalog catalog = catalogDAO.getCatalog(catalog_id);
 		List<Product> products = productDAO.getProductsOfCatalog(catalog_id, filter);
-		
+		logger.info("{}", catalog);
+		for (Product product : products) {
+			logger.info("{}", product);
+		}
 		//puts data in a custom class
 		CatalogJSON cJson = new CatalogJSON();
 		cJson.setCatalogName(catalog.getCatalog_name());
@@ -158,6 +165,9 @@ public class CatalogController {
 		logger.info("Requesting products from [searchKey = {}, filter = {}]", searchKey, filter);
 		//get from db
 		List<Product> products = productDAO.getSearched(searchKey, filter);
+		for (Product product : products) {
+			logger.info("{}", product);
+		}
 		
 		logger.info("Parsing product list as JSON");
 		Gson gson = new Gson();

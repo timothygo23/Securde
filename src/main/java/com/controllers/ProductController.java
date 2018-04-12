@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,10 +50,14 @@ public class ProductController {
 	@Autowired
 	private ModelAndViewService modelService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+	
 	@RequestMapping(value="/product", method=RequestMethod.GET)
 	public ModelAndView productPage(HttpServletRequest request) {
 		ModelAndView mv = modelService.createModelAndView(request);
 		mv.setViewName("product");
+
+		logger.info("Redirecting to new product page");
 		
 		return mv;
 	}
@@ -64,13 +70,21 @@ public class ProductController {
 		List<ProductAvailability> productAvailability = paDAO.getProductAvailability(product.getProduct_id()); 
 		Catalog catalog = catalogDAO.getCatalog(product.getCatalog_id());
 		
+		logger.info("{}", product);
+		for (ProductAvailability pa : productAvailability) {
+			logger.info("{}", pa);
+		}
+		logger.info("{}", catalog);
+		
 		ProductJSON pJson = new ProductJSON();
 		pJson.setProduct(product);
 		pJson.setProductAvailability(productAvailability);
 		pJson.setCatalog(catalog);
 		
+		logger.info("Parsing product as JSON");
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(pJson);
+		logger.info("Sending data to AJAX call");
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
 	}
@@ -79,12 +93,14 @@ public class ProductController {
 	public ModelAndView newProduct (HttpServletRequest request) {
 		ModelAndView mv = modelService.createModelAndView(request);
 		mv.setViewName("newProduct");
+		logger.info("Redirecting to new product page");
 		
 		return mv;
 	}
 	
 	@RequestMapping(value="/add_product", method=RequestMethod.POST)
 	public RedirectView addProduct(@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
+		logger.info("Creating Product");
 		
 		String product_name = requestParams.get("product_name");
 		String product_description = requestParams.get("product_description");
@@ -93,11 +109,17 @@ public class ProductController {
 		String brand_name = requestParams.get("brand_name");
 		
 		Product product = new Product (product_name, product_description, catalog_id, price, brand_name);
+		
+		logger.info("{}", product);
+		logger.info("Updating database");
+		
 		int product_id = productDAO.add(product);
 		
 		RedirectView rv = new RedirectView();
 		redirectAttribute.addFlashAttribute("product_id", product_id);
 		rv.setUrl("new_product_availability");
+		
+		logger.info("Redirecting to new product availability page");
 		
 		return rv;
 	}
@@ -105,6 +127,7 @@ public class ProductController {
 	public RedirectView getProduct (HttpServletRequest request, RedirectAttributes redirectAttribute) {
 		//List<Product> products = productDAO.getAllProducts();
 		Product product = productDAO.getProduct(Integer.parseInt(request.getParameter("product_id")));
+		logger.info("{}", product);
 		
 		/*ModelAndView mv = modelService.createModelAndView(request);
 		mv.addObject("product", product);
@@ -121,6 +144,7 @@ public class ProductController {
 	public RedirectView editProductRedirect (HttpServletRequest request, RedirectAttributes redirectAttribute) {
 		RedirectView rv = getProduct(request, redirectAttribute);
 		rv.setUrl("edit_product");
+		logger.info("Redirecting to edit product page");
 		
 		return rv;
 	}
@@ -139,6 +163,7 @@ public class ProductController {
 	
 	@RequestMapping(value="/update_product", method=RequestMethod.POST)
 	public RedirectView updateProduct (@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
+		logger.info("Updating product");
 		
 		int product_id = Integer.parseInt(requestParams.get("product_id"));
 		String product_name = requestParams.get("product_name");
@@ -150,11 +175,15 @@ public class ProductController {
 		Product product = new Product (product_name, product_description, catalog_id, price, brand_name);
 		product.setProduct_id(product_id);
 		
+		logger.info("{}", product);
+		
 		productDAO.edit(product);
 		
 		RedirectView rv = new RedirectView();
 		redirectAttribute.addFlashAttribute("product_id", product_id);
 		rv.setUrl("edit_product_availability");
+		
+		logger.info("Redirecting to edit product availability page");
 		
 		return rv;
 	}
@@ -163,6 +192,8 @@ public class ProductController {
 	public RedirectView deleteProductRedirect (HttpServletRequest request, RedirectAttributes redirectAttribute) {
 		RedirectView rv = getProduct(request, redirectAttribute);
 		rv.setUrl("delete_product");
+		
+		logger.info("Redirecting to delete product page");
 		
 		return rv;
 	}
@@ -181,10 +212,11 @@ public class ProductController {
 	
 	@RequestMapping(value="/remove_product", method=RequestMethod.POST)
 	public RedirectView removeProduct (@RequestParam Map<String, String> requestParams, RedirectAttributes redirectAttribute) {
-		
+		logger.info("Deleting product");
 		int product_id = Integer.parseInt(requestParams.get("product_id"));
 		
 		//productDAO.delete(product_id);
+		logger.info("{}", productDAO.getProduct(product_id));
 		
 		RedirectView rv = new RedirectView();
 		redirectAttribute.addFlashAttribute("product_id", product_id);
@@ -195,6 +227,8 @@ public class ProductController {
 	
 	@RequestMapping(value="/saveProductToCart", method=RequestMethod.POST)
 	public void saveProductToCart(@RequestParam Map<String, String> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		logger.info("Saving product to cart");
+		
 		String productId = requestParams.get("productId");
 		int qty = Integer.parseInt(requestParams.get("quantity"));
 		String size = requestParams.get("size");
@@ -205,13 +239,17 @@ public class ProductController {
 		
 		HttpSession session = request.getSession();
 		Product p = productDAO.getProduct(Integer.parseInt(productId));
+		logger.info("{}", p);
 		
+		logger.info("Validating cart session");
 		if(session.getAttribute(CartSession.CART_ITEM_LIST) == null) {
 			//for viewing in page
 			CartSession cs = new CartSession();
 			System.out.println("First time cartsession!");
 			cs.addProducts(p, qty, size);
 			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
+			
+			logger.info("Adding product to cart");
 			
 			for(CartItem test : cs.getCartItemList()) {
 				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
@@ -224,6 +262,9 @@ public class ProductController {
 			cs.setCartItemList((ArrayList<CartItem>) session.getAttribute(cs.CART_ITEM_LIST));
 			cs.addProducts(p, qty, size);
 			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
+			
+			logger.info("Adding product to cart");
+			
 			for(CartItem test : cs.getCartItemList()) {
 				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
 			}
@@ -235,8 +276,10 @@ public class ProductController {
 	
 	@RequestMapping(value="/removeAllProductsFromCart", method=RequestMethod.POST)
 	public void removeAllProductFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		logger.info("Removing all products from cart");
 		HttpSession session = request.getSession();
 		
+		logger.info("Validating cart session");
 		if(session.getAttribute(CartSession.CART_ITEM_LIST) != null) {
 			session.removeAttribute(CartSession.CART_ITEM_LIST);
 			System.out.println("Removed!");
@@ -253,6 +296,8 @@ public class ProductController {
 		HttpSession session = request.getSession();
 		ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
 		System.out.println("The ID: " + cartItemID);
+		
+		logger.info("Removing a product from cart");
 		
 		CartSession cs = new CartSession();
 		cs.setCartItemList(cartItemList);

@@ -84,4 +84,9 @@ public class Product {
 	public void setBrand_name(String brand_name) {
 		this.brand_name = brand_name;
 	}
+	
+	@Override
+	public String toString () {
+		return "Product [product_id=" + product_id + ", product_name=" + product_name + ", product_description=" + product_description + ", catalog_id=" + catalog_id + ", price=" + price + ", brand_name=" + brand_name + "]";
+	}
 }

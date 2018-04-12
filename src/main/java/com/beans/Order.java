@@ -79,5 +79,10 @@ public class Order {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return (String) dateFormat.format(this.arrival_date.getTime());
 	}
+	
+	@Override
+	public String toString () {
+		return "Order [order_id=" + order_id + ", cart_id=" + cart_id + ", purchase_date=" + getPurchaseDateAsString() + ", account_type=" + getArrivalDateAsString() + "]";
+	}
 
 }
