@@ -82,7 +82,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="container">
 				<h1>404</h1>
 				<em></em>
-				<h2><a href="index.html">Home</a><label>/</label>404</h2>
+				<h2><a href="home">Home</a><label>/</label>404</h2>
 			</div>
 		</div>
 		
@@ -91,7 +91,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="four">
 				<h3>404</h3>
 				<p>Sorry! Evidently the document you were looking for has either been moved or no longer exist.</p>
-				<a href="index.html" class="hvr-skew-backward">Back To Home</a>
+				<a href="home" class="hvr-skew-backward">Back To Home</a>
 			</div>
 		</div>
 		<!--//login-->

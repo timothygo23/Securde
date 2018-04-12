@@ -41,7 +41,11 @@ public class Restriction {
 									  "/delete_get_product"};
 	
 	//actions / pages only allowed for customer.
-	private final String[] CUSTOMER_LIST = {"/checkout", 
+	private final String[] CUSTOMER_LIST = {"/checkout",
+											"/order", 
+											"/confirm_order",
+											"/setup_payment_details",
+											"/checkSavedCart",
 										    "/saveProductToCart",
 										    "/removeAllProductsFromCart",
 										    "/removeOneProdCart"};
@@ -63,8 +67,6 @@ public class Restriction {
 	//general list, basically anyone can access these.
 	private final String[] GENERAL_LIST = {"/",
 			                               "/logout",
-	            						   "/order",
-	            						   "/setup_payment_details",
 			                               "/home",
 			                               "/catalog",
 		            					   "/catalog/get_catalogs",

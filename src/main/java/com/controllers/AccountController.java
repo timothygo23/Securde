@@ -2,6 +2,7 @@ package com.controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.beans.Account;
 import com.beans.BrandManufacturer;
+import com.beans.Cart;
+import com.beans.CartSession;
 import com.beans.Customer;
 import com.beans.EmailToken;
+import com.beans.Product;
+import com.beans.ProductAvailability;
 import com.beans.SecretQuestion;
 import com.dao.impl.AccountDAOImpl;
+import com.dao.impl.CartDAOImpl;
 import com.dao.impl.EmailTokenDAOImpl;
+import com.dao.impl.ProductAvailabilityDAOImpl;
+import com.dao.impl.ProductDAOImpl;
 import com.dao.impl.SecretQuestionDAOImpl;
+import com.mysql.fabric.Response;
 import com.services.EmailService;
 import com.services.SessionAttributes;
 import com.services.impl.AccountServiceImpl;
@@ -144,7 +154,7 @@ public class AccountController {
 			String zipCode = requestParams.get("zipCode");
 			String creditCard = requestParams.get("cardNumber");
 			
-			logger.info("Setting up customer info of '{}", customerInfo.getFirst_name());
+			logger.info("Setting up customer payment details of '{}'", customerInfo.getFirst_name());
 			customerInfo.setAddress1(address1);
 			customerInfo.setAddress2(address2);
 			customerInfo.setCity(city);
@@ -216,7 +226,9 @@ public class AccountController {
 					rv.setUrl("home");
 				}else if(account.getAccount_type() == Account.CUSTOMER){
 					session.setAttribute(SessionAttributes.CUSTOMER_INFO, accountDAO.getCustomer(account.getAccount_id()));
-					rv.setUrl("home");
+					//redirectAttribute.addFlashAttribute("accountID", account.getAccount_id());
+					rv.setUrl("checkSavedCart");
+					//rv.setUrl("home"); 					
 				}
 				
 				

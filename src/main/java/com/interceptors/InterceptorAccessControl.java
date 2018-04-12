@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.beans.Account;
+import com.dao.impl.CartDAOImpl;
 import com.services.SessionAttributes;
 import com.utility.Restriction;
 
@@ -31,6 +32,7 @@ public class InterceptorAccessControl implements HandlerInterceptor{
 		int rCode;
 		
 		account = identifyUser(session);
+
     	//System.out.println(path);
 		//if path is resources, don't do anything. just proceed
 		if(!path.matches(".*resources.*")) {

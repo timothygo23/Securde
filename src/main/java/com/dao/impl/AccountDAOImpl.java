@@ -60,11 +60,13 @@ public class AccountDAOImpl implements AccountDAO{
 	@Transactional
 	public int addCustomer(Account account, Customer customer) {
 		int account_id = 0;
+		int cartNum = 1; //always 1.
 		if(sessionFactory != null){
 			Session session = sessionFactory.getCurrentSession();
 			account_id = (int)session.save(account);
 			//sets the account id of customer to the generated id after saving account
 			customer.setAccount_id(account.getAccount_id());
+			customer.setCart_num(cartNum);
 			session.save(customer);
 		}
 		return account_id;
