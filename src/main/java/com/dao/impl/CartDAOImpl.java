@@ -2,6 +2,8 @@ package com.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,25 @@ public class CartDAOImpl implements CartDAO{
 			Session session = sessionFactory.getCurrentSession();
 			
 			cart = session.createQuery("from cart", Cart.class).getResultList();
+		}
+		
+		return cart;
+	}
+
+	@Transactional
+	public List<Cart> getUserCart(int acc_id) {
+		List<Cart> cart = null;
+		
+		if(sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			TypedQuery<Cart> query = session.createNativeQuery("select * from cart "
+														     + "WHERE account_id =:acc_id" , Cart.class);
+			query.setParameter("acc_id", acc_id);
+			cart = query.getResultList();
+		}
+		
+		for(Cart c : cart) {
+			System.out.println("Product: " + c.getProduct_id() + "| Account: " + c.getAccount_id() + "|QTY: " + c.getQuantity());
 		}
 		
 		return cart;

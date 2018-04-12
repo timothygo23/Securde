@@ -41,7 +41,8 @@ public class Restriction {
 									  "/delete_get_product"};
 	
 	//actions / pages only allowed for customer.
-	private final String[] CUSTOMER_LIST = {"/checkout", 
+	private final String[] CUSTOMER_LIST = {"/checkout",
+											"/checkSavedCart",
 										    "/saveProductToCart",
 										    "/removeAllProductsFromCart",
 										    "/removeOneProdCart"};
