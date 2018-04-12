@@ -1,5 +1,7 @@
 package com.beans;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,17 +9,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="cart")
-public class Cart {
+public class Cart implements Serializable{
 	
 	@Id
 	@Column(name="cart_id")
 	private int cart_id;
+	@Id
 	@Column(name="account_id")
 	private int account_id;
+	@Id
 	@Column(name="product_id")
 	private int product_id;
+	@Id
 	@Column(name="quantity")
 	private String quantity;
+	@Id
 	@Column(name="product_avail_id")
 	private int product_avail_id;
 	

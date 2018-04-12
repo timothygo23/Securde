@@ -53,22 +53,44 @@ public class CartDAOImpl implements CartDAO{
 	}
 
 	@Transactional
-	public List<Cart> getUserCart(int acc_id) {
+	public List<Cart> getUserCart(int acc_id, int cart_num) {
 		List<Cart> cart = null;
 		
 		if(sessionFactory != null) {
 			Session session = sessionFactory.getCurrentSession();
-			TypedQuery<Cart> query = session.createNativeQuery("select * from cart "
-														     + "WHERE account_id =:acc_id" , Cart.class);
+			TypedQuery<Cart> query = session.createNativeQuery("select * from cart " 
+														     + "WHERE account_id =:acc_id " 
+					                                         + "AND cart_id =:cart_num", Cart.class);
 			query.setParameter("acc_id", acc_id);
+			query.setParameter("cart_num", cart_num);
 			cart = query.getResultList();
 		}
 		
-		for(Cart c : cart) {
-			System.out.println("Product: " + c.getProduct_id() + "| Account: " + c.getAccount_id() + "|QTY: " + c.getQuantity());
+		return cart;
+	}
+	
+	@Transactional
+	public void deleteCart(Cart cart) {
+		
+		if(sessionFactory != null) {
+			Session session = sessionFactory.getCurrentSession();
+			TypedQuery<Cart> query = session.createNativeQuery("delete from cart " +
+																"WHERE cart_id =:cart_id AND " +
+																"account_id =:account_id AND " +
+																"product_id =:product_id AND " +
+																"quantity =:quantity AND " +
+																"product_avail_id =:pai ", 
+																Cart.class);
+			query.setParameter("cart_id", cart.getCart_id());
+			query.setParameter("account_id", cart.getAccount_id());
+			query.setParameter("product_id", cart.getProduct_id());
+			query.setParameter("quantity", cart.getQuantity());
+			query.setParameter("pai", cart.getProduct_avail_id());
+			
+			query.executeUpdate();
 		}
 		
-		return cart;
+
 	}
 
 }

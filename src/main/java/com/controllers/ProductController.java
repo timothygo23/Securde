@@ -252,7 +252,7 @@ public class ProductController {
 			logger.info("Adding product to cart");
 			
 			for(CartItem test : cs.getCartItemList()) {
-				System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
+				//System.out.println("Product: " + test.getProduct().getProduct_name() + " | ID: " + test.getId());
 			}
 			session.setAttribute(cs.CART_ITEM_LIST, cs.getCartItemList());
 		}
@@ -295,9 +295,32 @@ public class ProductController {
 		
 		logger.info("Validating cart session");
 		if(session.getAttribute(CartSession.CART_ITEM_LIST) != null) {
+			if(session.getAttribute(SessionAttributes.CUSTOMER_INFO) != null)
+				deleteAllProdFromCartFromDB(session);
+			
 			session.removeAttribute(CartSession.CART_ITEM_LIST);
 		}
 		response.getWriter().write("DONE");
+	}
+	
+	private void deleteAllProdFromCartFromDB(HttpSession session) {
+		ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
+		Cart cart = new Cart();
+		Customer customer = (Customer) session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+		ProductAvailability pa;
+		
+		for(CartItem ci : cartItemList) {
+
+			cart.setQuantity(ci.getQty()+"");
+			cart.setProduct_id(ci.getProduct().getProduct_id());
+			cart.setAccount_id(customer.getAccount_id());
+			pa = paDAO.getProductAvailabilityByFeature(ci.getSize(), ci.getProduct().getProduct_id());
+			cart.setProduct_avail_id(pa.getProduct_avail_id());
+			cart.setCart_id(customer.getCart_num());
+			
+			cartDAO.deleteCart(cart);
+
+		}
 	}
 
 	@RequestMapping(value="/removeOneProdCart", method=RequestMethod.POST)
@@ -310,7 +333,10 @@ public class ProductController {
 		
 		CartSession cs = new CartSession();
 		cs.setCartItemList(cartItemList);
-		cs.deleteCartItem(Integer.parseInt(cartItemID));
+		
+		deleteCertainProductFromCartFromDB(session, cartItemList, Integer.parseInt(cartItemID)); //db delete
+		cs.deleteCartItem(Integer.parseInt(cartItemID)); //session delete
+		
 		
 		if(cartItemList.size() != 0) {
 			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
@@ -323,6 +349,25 @@ public class ProductController {
 		response.getWriter().write("DONE");
 	}
 	
+	private void deleteCertainProductFromCartFromDB(HttpSession session, ArrayList<CartItem> cartItemList, int cartItemID) {
+		Cart cart = new Cart();
+		Customer customer = (Customer) session.getAttribute(SessionAttributes.CUSTOMER_INFO);
+		ProductAvailability pa;
+		
+		CartItem ci = cartItemList.get(cartItemID);
+		
+
+		cart.setQuantity(ci.getQty()+"");
+		cart.setProduct_id(ci.getProduct().getProduct_id());
+		cart.setAccount_id(customer.getAccount_id());
+		pa = paDAO.getProductAvailabilityByFeature(ci.getSize(), ci.getProduct().getProduct_id());
+		cart.setProduct_avail_id(pa.getProduct_avail_id());
+		cart.setCart_id(customer.getCart_num());
+	
+		
+		cartDAO.deleteCart(cart);
+	}
+	
 	@RequestMapping(value="/checkSavedCart", method=RequestMethod.GET)
 	public RedirectView checkSavedCart(HttpServletRequest request) {
 		RedirectView rv = new RedirectView();
@@ -330,28 +375,31 @@ public class ProductController {
 		Customer customer = (Customer) session.getAttribute(SessionAttributes.CUSTOMER_INFO);
 		int acc_id = customer.getAccount_id();
 		
-		//if user, give the saved cart.
-		List<Cart> cart = cartDAO.getUserCart(acc_id);
+		//if user, give the CURRENT saved cart.
+		List<Cart> cart = cartDAO.getUserCart(acc_id, customer.getCart_num());
 		
 		//check if there's anyting saved in this user's cart.
 		//if yes, replace the current cart.
+		
 		if(cart != null && cart.size() != 0) {
 			CartSession cs = new CartSession();
 			
 			Product p;
 			ProductAvailability pa;
-			
+			logger.info("Restoring saved cart from db..");
 			for(Cart c : cart) {
+				//System.out.println(c.getProduct_avail_id());
 				pa = paDAO.getProductAvailabilityById(c.getProduct_avail_id());
 				p = productDAO.getProduct(c.getProduct_id());
-				
-				cs.addProducts(p, pa.getQuantity(), pa.getSize());
+	
+				cs.addProducts(p, Integer.parseInt(c.getQuantity()), pa.getSize());
 			}
 			session.setAttribute(CartSession.CART_ITEM_LIST, cs.getCartItemList());
 		}
 		//if not, save current cart as user's cart.
 		else {
-			System.out.println("No cart..");
+			logger.info("Saving new cart to db..");
+			//System.out.println("No cart..");
 			ArrayList<CartItem> cartItemList = (ArrayList<CartItem>) session.getAttribute(CartSession.CART_ITEM_LIST);
 			
 			if(cartItemList != null && cartItemList.size() != 0)

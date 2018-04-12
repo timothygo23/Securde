@@ -9,6 +9,6 @@ public interface CartDAO {
 	public void edit(Cart cart);
 	public void delete(int cart_id);
 	public Cart getCart(int cart_id);
-	public List<Cart> getUserCart(int acc_id);
+	public List<Cart> getUserCart(int acc_id, int cart_num);
 	public List<Cart> getAllCarts();	
 }
