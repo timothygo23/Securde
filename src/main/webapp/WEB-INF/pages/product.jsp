@@ -139,58 +139,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							
 							<p id="productDescription" class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
 							
-							<div>
-								<span> Sizes: </span>
-								<select id="sizeSelect" onchange="loadProductAvailability()">
-									<option value="S">Small</option>
-									<option value="M">Medium</option>
-									<option value="L">Large</option>
-								</select>
-							</div>
-							
-							<div id="availability" style="margin-top: 10px; color:#FF4646">
-								<span>Only </span>
-								<span id="available">0</span>
-								<span>items in stock</span>
-							</div>
-							
-							<div id="outOfStock" style="display: none; margin-top: 20px; color: #FF4646; font-size: 25px">
-								<span>Item is currently out of stock</span>
-							</div>
-							
-							<div id="quantityCartContainer">
-								<div class="quantity"> 
-									<div class="quantity-select">                           
-										<div class="entry value-minus">&nbsp;</div>
-										<div class="entry value" id="prodQTY"><span>1</span></div>
-										<div class="entry value-plus active">&nbsp;</div>
-									</div>
+							<c:if test="${account.account_type == 3}">
+								<div>
+									<span> Sizes: </span>
+									<select id="sizeSelect" onchange="loadProductAvailability()">
+										<option value="S">Small</option>
+										<option value="M">Medium</option>
+										<option value="L">Large</option>
+									</select>
 								</div>
 								
-								<!--quantity-->
-								<script>
-									$('.value-plus').on('click', function(){
-										let availableQuantity = $("#available").html();
-										if(parseInt(availableQuantity) > 0){}
-										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
-										
-										if(newVal <= parseInt(availableQuantity))
-											divUpd.text(newVal);
-									});
-										
-									$('.value-minus').on('click', function(){
-										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
-										if(newVal>=1) {
-											divUpd.text(newVal);
-										}
-									});
-								</script>
-								<!--quantity-->
-									 
-								<a href="#" class="add-to item_add hvr-skew-backward" disabled>Add to cart</a>
+								<div id="availability" style="margin-top: 10px; color:#FF4646">
+									<span>Only </span>
+									<span id="available">0</span>
+									<span>items in stock</span>
+								</div>
 								
-							</div>
-							
+								<div id="outOfStock" style="display: none; margin-top: 20px; color: #FF4646; font-size: 25px">
+									<span>Item is currently out of stock</span>
+								</div>
+								
+								<div id="quantityCartContainer">
+									<div class="quantity"> 
+										<div class="quantity-select">                           
+											<div class="entry value-minus">&nbsp;</div>
+											<div class="entry value" id="prodQTY"><span>1</span></div>
+											<div class="entry value-plus active">&nbsp;</div>
+										</div>
+									</div>
+									
+									<!--quantity-->
+									<script>
+										$('.value-plus').on('click', function(){
+											let availableQuantity = $("#available").html();
+											if(parseInt(availableQuantity) > 0){}
+											var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+											
+											if(newVal <= parseInt(availableQuantity))
+												divUpd.text(newVal);
+										});
+											
+										$('.value-minus').on('click', function(){
+											var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+											if(newVal>=1) {
+												divUpd.text(newVal);
+											}
+										});
+									</script>
+									<!--quantity-->
+										 
+									<a href="#" class="add-to item_add hvr-skew-backward" disabled>Add to cart</a>
+									
+								</div>
+							</c:if>
 							<div class="clearfix"> </div>
 						</div>
 					</div>
