@@ -109,7 +109,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<input type="hidden" name="product_id" value="${product.product_id}"/>
 						
 						<div class="login-mail">
-							<input type="text" name="product_name" placeholder="Product Name" value="${product.product_name}" required="">
+							<input type="text" name="product_name" placeholder="Product Name" value="${product.product_name}" required="" pattern="[a-zA-Z0-9\s]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<div class="login-mail">
@@ -117,15 +117,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="catalog_id" placeholder="Catalog ID" value="${product.catalog_id}" required="">
+							<input type="text" name="catalog_id" placeholder="Catalog ID" value="${product.catalog_id}" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="price" placeholder="Price" value="${product.price}" required="">
+							<input type="text" name="price" placeholder="Price" value="${product.price}" required="" pattern="[0-9]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<div class="login-mail">
-							<input type="text" name="brand_name" placeholder="Brand Name"value="${product.brand_name}"  required="">
+							<input type="text" name="brand_name" placeholder="Brand Name"value="${product.brand_name}"  required="" pattern="[a-zA-Z0-9\s]+" oninvalid="SpecialCharInvalidMsg(this)">
 						</div>
 						
 						<label class="hvr-skew-backward">
@@ -161,6 +161,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<script src="${pageContext.request.contextPath}/resources/js/simpleCart.min.js"> </script>
 		<!-- slide -->
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+		<script>
+			function NameInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Numbers and special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+	
+			function SpecialCharInvalidMsg(textbox) {
+	
+			    if(textbox.validity.patternMismatch){
+			       textbox.setCustomValidity('Special characters are not allowed.');
+			   }    
+			   else {
+			       textbox.setCustomValidity('');
+			   }
+			   return true;
+			}
+		</script>
 	 
 	</body>
 	
