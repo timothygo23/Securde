@@ -139,7 +139,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							
 							<p id="productDescription" class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
 							
-							<c:if test="${account.account_type == 3}">
+							<c:if test="${empty account || account.account_type == 3}">
 								<div>
 									<span> Sizes: </span>
 									<select id="sizeSelect" onchange="loadProductAvailability()">
